@@ -50,15 +50,26 @@
   $PlanCost=$plan['plan_cost'];
  }
  ?>
+  <?php
+                  $BgColor="#2B9B8E";
+                  $holographic="holographic-card";
+                  $Style='    cursor: pointer;';
+
+                  $disable=0;
+                  if($FreeCountUsed>0 && $plan['plan_id']==1){
+                    $disable=1;
+ $BgColor="gray";
+ $holographic="";
+  $Style='';
+                  } ?>
                <div class="col-md-6 col-lg-4 mb-3" 
-               style="
-    cursor: pointer;
-"
+               style="<?php echo $Style ?>"
    
-     onclick="fnchoose(<?php echo $plan['plan_id']; ?>)">
+     <?php if($disable==0) { ?> onclick="fnchoose(<?php echo $plan['plan_id']; ?>)" <?php } ?>>
                   <!--background: linear-gradient(135deg, #2B9B8E, #3B6EA5);-->
-                  <div    id="Plan<?php echo $i; ?>"  class="card h-100 holographic-card" 
-                  style='background-color: #2B9B8E;'>
+                 
+                  <div    id="Plan<?php  if($disable==0) { echo $i; } else {"-1"; } ?>"  class="card h-100 <?php echo $holographic; ?>" 
+                  style='background-color: <?php echo $BgColor ?>;'>
                     <div class="card-body">
                       <h5 class="card-title" style="
     font-size: 30px;
@@ -74,7 +85,7 @@
     color: #fff;
     font-weight: bold;
     text-align: center;
-"><?= "&#8377; ". esc($PlanCost)." / ".esc($plan['valid_days'])." days"; ?></h3>
+"><?php if($disable==1) { echo "Invalid"; }else { echo "&#8377; ". esc($PlanCost)." / ".esc($plan['valid_days'])." days"; }?></h3>
 <div style="
     font-size: 11px;
     color: #ffffffe8;
@@ -164,7 +175,7 @@ var myModal = new bootstrap.Modal(document.getElementById('exLargeModal'));
 		});
 }
 function fnchoose(Planid){
-  document.getElementById('Plan1').style.backgroundColor="#2B9B8E";
+if(document.getElementById('Plan1')) {  document.getElementById('Plan1').style.backgroundColor="#2B9B8E"; }
   document.getElementById('Plan2').style.backgroundColor="#2B9B8E";
   document.getElementById('Plan3').style.backgroundColor="#2B9B8E";
   document.getElementById('Plan'+Planid).style.backgroundColor = '#0A2540';
@@ -175,7 +186,7 @@ function fnchoose(Planid){
 }
 function fnProceed(){
     Planid=document.getElementById('plan_id').value;
-    if(Planid==1){
+    if(Planid==1 || true){
       fnSubmit()
     }
 }

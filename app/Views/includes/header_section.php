@@ -2,6 +2,8 @@
 <?php
        $session = session();
           $username = $session->get('user_name');
+           $PlanName = $session->get('PlanName');
+            $PlanExpDate = $session->get('PlanExpDate');
 ?>
           <nav
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
@@ -63,6 +65,16 @@
                             <small class="text-muted">User</small>
                           </div>
                         </div>
+                      </a>
+                    </li>
+                     <li>
+                      <div class="dropdown-divider"></div>
+                    </li>
+                     <li>
+                      <a class="dropdown-item" href="#">
+                        <i class="bx bx-box me-2"></i>
+                        <span class="align-middle"><?php echo $PlanName; ?></span><br>
+                        <?php if($PlanExpDate>0) { ?><small class="text-muted">Expire on <?php echo $PlanExpDate; ?></small> <?php } ?>
                       </a>
                     </li>
                     <!--li>
