@@ -20,3 +20,4 @@ $routes->get('/dashboard', 'Dashboard::index');
 //Scan
 $routes->get('/scan', 'Scan::index');
 $routes->post('/scan/checkplan', 'Scan::checkplan');
+$routes->post('/scan/updateplan', 'Scan::updateplan');

@@ -1,4 +1,5 @@
- <!-- Extra Large Modal -->
+<form name='PlanForm' id='PlanForm' method='post'>
+<!-- Extra Large Modal -->
                       <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                           <div class="modal-content">
@@ -120,11 +121,12 @@ foreach ($plan as $item) {
                                 Close
                               </button>
                               <input type='hidden' name='plan_id' id='plan_id'>
-                               <button type="button" style='display:none' id='Buybutton' class="btn btn-primary">Proceed</button>
+                               <button type="button" onclick='fnProceed()' style='display:none' id='Buybutton' class="btn btn-primary">Proceed</button>
                             </div>
                           </div>
                         </div>
                       </div>
+</form>
                       <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -141,8 +143,11 @@ function checkplan(){
 				success:function(result){
          // alert(result);
          // $('#exLargeModal').modal({show:true});
-         var myModal = new bootstrap.Modal(document.getElementById('exLargeModal'));
+         if(result==0){
+var myModal = new bootstrap.Modal(document.getElementById('exLargeModal'));
         myModal.show();
+         }
+         
                     /*document.getElementById('loader').style.display="none";
                     Res=result.split("~");
                     document.getElementById('txtId').value=Txid;
@@ -167,6 +172,17 @@ function fnchoose(Planid){
   document.getElementById('Buybutton').style.display="";
   document.getElementById('plan_id').value=Planid;
   
+}
+function fnProceed(){
+    Planid=document.getElementById('plan_id').value;
+    if(Planid==1){
+      fnSubmit()
+    }
+}
+function fnSubmit(){
+   Planid=document.getElementById('plan_id').value;
+     PlanForm.action="<?php echo base_url(); ?>scan/updateplan";
+    PlanForm.submit();
 }
 
    </script>
