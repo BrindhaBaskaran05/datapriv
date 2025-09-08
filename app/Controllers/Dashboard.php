@@ -12,7 +12,8 @@ class Dashboard extends BaseController
         	public function index()
 		{
              $session = session();
-			return view('dashboard/home');
+             $data['Page_title']='Dashboard';
+			return view('dashboard/home',$data);
 		}
 
 		    public function why_privacy()

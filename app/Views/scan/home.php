@@ -291,7 +291,7 @@
     </div>
   </div>
 </div>
-  
+   <?= $this->include('includes/spinner') ?>
    <?= $this->include('includes/plans') ?>
 <?= $this->include('includes/footer_section') ?>
 

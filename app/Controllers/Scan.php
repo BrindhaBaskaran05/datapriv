@@ -22,7 +22,7 @@ class Scan extends BaseController
              ->where('plan_end_dt < CURDATE()', null, false) // disable escaping
             ->countAllResults();
              $data['FreeCountUsed']=$FreeCountUsed;
-
+ $data['Page_title']='Scan';
 			return view('scan/home',$data);
 		}
         public function checkplan(){

@@ -6,6 +6,8 @@
                             <div class="modal-header">
                               <h5 class="modal-title" id="exampleModalLabel4">Simple pricing for Peace of Mind
 </h5>
+
+
                               <button
                                 type="button"
                                 class="btn-close"
@@ -13,6 +15,9 @@
                                 aria-label="Close"
                               ></button>
                             </div>
+                            <span style='display:none;background: -webkit-linear-gradient(#eee, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;'>sdfsdf</span>
                             <div class="modal-body">
                               <div class="row mb-5">
               
@@ -44,6 +49,23 @@
  foreach($plans as $plan): ?>
 
  <?php 
+ $Best="";
+if ($i == 1) { 
+    $pland = $Plan1; 
+    $Head="Primary Features";
+    $Title=' Simple and Fast';
+}
+if ($i == 2) { 
+    $pland = $Plan2; 
+     $Head="Enhanced Features";
+     $Best="Best";
+     $Title='Total Security';
+}
+if ($i == 3) { 
+    $pland = $Plan3; 
+     $Head="Trademark Features";
+     $Title=' Luxury Service';
+}
  if($plan['plan_cost']==0){
   $PlanCost="Free";
  }else{
@@ -62,6 +84,7 @@
  $holographic="";
   $Style='';
                   } ?>
+                  <?php echo ""; ?>
                <div class="col-md-6 col-lg-4 mb-3" 
                style="<?php echo $Style ?>"
    
@@ -70,13 +93,22 @@
                  
                   <div    id="Plan<?php  if($disable==0) { echo $i; } else {"-1"; } ?>"  class="card h-100 <?php echo $holographic; ?>" 
                   style='background-color: <?php echo $BgColor ?>;'>
-                    <div class="card-body">
+                  
+
+                    <div class="card-body" style="
+    min-height: 550px;
+">
+  <?php echo "<span style='
+    color: #fff;
+    font-size: 11px;
+'>".$Title."</span>"; ?>
                       <h5 class="card-title" style="
     font-size: 30px;
         color: #fff;
             font-weight: bold;
    
 "><?= esc($plan['plan']) ?></h5>
+
                       <h6 class="card-subtitle text-muted" style="
    color: #ffffffb0 !important;
 "><?= esc($plan['description']) ?></h6>
@@ -86,25 +118,23 @@
     font-weight: bold;
     text-align: center;
 "><?php if($disable==1) { echo "Invalid"; }else { echo "&#8377; ". esc($PlanCost)." / ".esc($plan['valid_days'])." days"; }?></h3>
+<?php 
+
+echo "<span style='font-style: italic;color: #fff;font-size: 18px;font-weight: bold;'>".$Head."</span><hr>";
+
+?>
+
 <div style="
     font-size: 11px;
     color: #ffffffe8;
+    text-align: justify;
 ">
 <?php
-if ($i == 1) { 
-    $plan = $Plan1; 
-}
-if ($i == 2) { 
-    $plan = $Plan2; 
-}
-if ($i == 3) { 
-    $plan = $Plan3; 
-}
 
 $i++;
 
 // Foreach loop
-foreach ($plan as $item) {
+foreach ($pland as $item) {
     echo "<img src='".base_url().'web_assets/img/tick_new.png'."' style='
     height: 22px !important;
     width: auto;
@@ -192,6 +222,8 @@ function fnProceed(){
 }
 function fnSubmit(){
    Planid=document.getElementById('plan_id').value;
+     document.getElementById('Buybutton').disabled=true;
+     showspinner();
      PlanForm.action="<?php echo base_url(); ?>scan/updateplan";
     PlanForm.submit();
 }
