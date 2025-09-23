@@ -73,7 +73,7 @@
 
         <div class="mb-4">
           <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" name="password" id='password' placeholder="••••••••" />
+          <input type="password" class="form-control" name="password" id='password' placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" />
          <span class='ErrorMsg' id='Pass_Error'></span>
         </div>
 

@@ -10,7 +10,7 @@ use CodeIgniter\HTTP\RequestInterface;
 
     public function __construct()
     {
-        $this->db = \Config\Database::connect(); // ?? FIX HERE
+        $this->db = \Config\Database::connect(); // 🔧 FIX HERE
     }
 	
 		// Log in User
@@ -44,6 +44,9 @@ use CodeIgniter\HTTP\RequestInterface;
         $email = $this->request->getVar('username');
         $password = $this->request->getVar('password');
         $data = $model->where('email', $email)->first();
+
+		 
+		
        
         if($data){
             $pass = $data['password'];

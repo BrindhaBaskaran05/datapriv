@@ -45,8 +45,8 @@
             <!-- Layouts -->
 
             <!-- User interface -->
-            <li class="menu-item">
-              <a href="javascript:void(0)" class="menu-link menu-toggle">
+            <li class="menu-item <?php if($check=="profile") { echo "active"; } ?>">
+              <a href="<?php echo base_url()."profile"; ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user me-2"></i>
                 <div data-i18n="User interface">Profile</div>
               </a>
