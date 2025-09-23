@@ -2,10 +2,16 @@
 namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\UserPlanModel;
-
+use CodeIgniter\Database\ConnectionInterface;
 use CodeIgniter\HTTP\RequestInterface;
 	class Users extends BaseController
 	{
+		 protected $db;
+
+    public function __construct()
+    {
+        $this->db = \Config\Database::connect(); // ?? FIX HERE
+    }
 	
 		// Log in User
 
@@ -13,6 +19,17 @@ use CodeIgniter\HTTP\RequestInterface;
 			$data['title'] = 'Sign In';
 			//$this->load->view('users/login', $data);
 			return view('users/login');
+		}
+		public function signupform(){
+			$data['title'] = 'Sign In';
+			//$this->load->view('users/login', $data);
+			 $builder = $this->db->table('dp_countries');
+			$builder->select('country_id, country_name');       
+        $data['countries'] =  $builder->get()->getResultArray();
+			/* print_r($data);
+			die; */
+			
+			return view('users/signup', $data);
 		}
 		public function phpinfo(){
 		    
@@ -38,7 +55,17 @@ use CodeIgniter\HTTP\RequestInterface;
                 $ses_data = [
                     'user_id'       => $data['user_id'],
                     'user_name'     => $data['name'],
-                    'user_email'    => $data['email'],
+                    'middle_name'    => $data['middle_name'],
+						  'last_name'    => $data['last_name'],
+						  'user_email'    => $data['email'],
+						  'dob'    => $data['dob'],
+						  'address1'    => $data['address'],
+						  'address2'    => $data['address2'],
+						  'city'    => $data['city'],
+						  'state'    => $data['state'],
+						  'postal_code'    => $data['postal_code'],
+						  'country'    => $data['country'],
+						  
 				
                     'logged_in'     => TRUE
                 ];
@@ -87,6 +114,12 @@ if($data==0){
    $user_data = [
                 'name' => $this->request->getPost('name'),
                 'email'    => $this->request->getPost('email'),
+					 'middle_name'    => $this->request->getPost('middle_name'),
+					 'last_name'    => $this->request->getPost('last_name'),
+					 'dob'    => $this->request->getPost('dob'),
+					 'city'    => $this->request->getPost('city'),
+					 'state'    => $this->request->getPost('state'),
+					 'postal_code'    => $this->request->getPost('postal_code'),					
                 'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
                 // Add other fields as needed
             ];
