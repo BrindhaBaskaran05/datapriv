@@ -15,6 +15,8 @@ $routes->post('/users/loginprocess', 'Users::loginprocess');
 $routes->post('/users/signup', 'Users::signup');
 $routes->get('/users/phpinfo', 'Users::phpinfo');
 $routes->get('/users/logout', 'Users::logout');
+$routes->get('/users/upgrade_plans', 'Users::plans');
+
 
 //Dashboard
 $routes->get('/dashboard', 'Dashboard::index');

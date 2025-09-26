@@ -37,7 +37,7 @@
             </li>
                <li class="menu-item <?php if($check=="scan") { echo "active"; } ?>">
               <a href="<?php echo base_url()."scan"; ?>" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
                 <div data-i18n="Analytics">Start Scan</div>
               </a>
             </li>
@@ -51,6 +51,24 @@
                 <div data-i18n="User interface">Profile</div>
               </a>
              
+            </li>
+            <li class="menu-item <?php if($check=="risk_exposure") { echo "active"; } ?>">
+              <a href="<?php echo base_url()."risk_exposure"; ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-copy"></i>
+                <div data-i18n="User interface">My Risk Exposure</div>
+              </a>             
+            </li>
+             <li class="menu-item <?php if($check=="users/upgrade_plans") { echo "active"; } ?>">
+              <a href="<?php echo base_url()."users/upgrade_plans"; ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-crown"></i>
+                <div data-i18n="User interface">Upgrade Plans</div>
+              </a>             
+            </li>
+               <li class="menu-item <?php if($check=="privacy") { echo "active"; } ?>">
+              <a href="<?php echo base_url()."privacy"; ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-box"></i>
+                <div data-i18n="User interface">Take Care of your privacy</div>
+              </a>             
             </li>
 
           
