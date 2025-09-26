@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 <?= $this->include('includes/header') ?>
-
 <body>
    <!-- Layout wrapper -->
    <div class="layout-wrapper layout-content-navbar">
