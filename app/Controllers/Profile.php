@@ -8,6 +8,7 @@ class Profile extends BaseController
 
     public function index()
     {
+        
         $session = session();
         //$data['Page_title']='Dashboard';
         $username = $session->get('user_name');   

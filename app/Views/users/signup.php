@@ -41,6 +41,7 @@
       height: 38px;
     }
 
+    
     .select2-container--default .select2-selection--single .select2-selection__rendered {
       line-height: 36px;
       padding-left: 12px;

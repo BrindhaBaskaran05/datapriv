@@ -154,6 +154,7 @@
 
     function checkplan() {
       //alert("ok");
+      
       base_url = "<?php echo base_url(); ?>";
       $.ajax({
         type: "POST",

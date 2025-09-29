@@ -29,6 +29,7 @@
       text-align: center;
     }
 
+    
     .form-label {
       font-weight: 500;
     }

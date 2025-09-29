@@ -8,7 +8,8 @@ class Scan extends BaseController
 		
         public function index()
 		{
-             $session = session();
+           
+      $session = session();
                $user_id = $session->get('user_id');
              $planModel = new PlanModel();
              $plans = $planModel->findAll();

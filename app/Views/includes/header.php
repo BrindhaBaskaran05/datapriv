@@ -28,6 +28,7 @@
       rel="stylesheet"
     />
 
+    
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>web_assets/vendor/fonts/boxicons.css" />
 
