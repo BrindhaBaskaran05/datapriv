@@ -20,6 +20,7 @@ $routes->get('/users/upgrade_plans', 'Users::plans');
 
 //Dashboard
 $routes->get('/dashboard', 'Dashboard::index');
+$routes->post('/scanresult', 'Dashboard::getscanresult');
 
 //Scan
 $routes->get('/scan', 'Scan::index');

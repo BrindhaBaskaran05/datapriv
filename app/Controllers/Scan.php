@@ -111,4 +111,8 @@ if ($data === null) {
 return redirect()->to('/scan');
         }
 
+        function userscan(){
+          
+        }
+
 }
