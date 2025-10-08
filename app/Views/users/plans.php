@@ -29,7 +29,7 @@
                                  <div class="row mb-5">
 
                                     <?php
-                                    $Plan1 = array(
+                                   /*  $Plan1 = array(
                                        "Removal from 966+ data brokers and people search sites",
                                        "Mostly automated removals, backed by human support",
                                        "Comprehensive removal of emails, phones, addresses, and alternative names",
@@ -53,18 +53,33 @@
                                        "Cost-Effective: Lower costs for non-urgent removals",
 
                                        "Monthly Progress Reports: Receive detailed email summaries of your removal progress"
-                                    );
+                                    ); */
 
 
                                     $i = 1;
+                                     
                                     foreach ($plans as $plan): ?>
 
                                        <?php
+                                      
+
                                        if ($plan['plan_cost'] == 0) {
                                           $PlanCost = "Free";
                                        } else {
                                           $PlanCost = $plan['plan_cost'];
                                        }
+                                       
+
+                                       $array = explode('@',  $plan['des']);
+
+                                       // Optional: Trim spaces around each value
+                                       //$array = array_map('trim', $array);
+
+                                      /*  echo '<pre>';
+                                       print_r($des);
+                                       die; */
+                                      
+                                       
                                        ?>
                                        <div class="col-md-6 col-lg-4 mb-3"
                                           style="cursor: pointer;"
@@ -93,7 +108,7 @@
                               color: #ffffffe8;
                            ">
                                                    <?php
-                                                   if ($i == 1) {
+                                                  /*  if ($i == 1) {
                                                       $plan = $Plan1;
                                                    }
                                                    if ($i == 2) {
@@ -102,11 +117,11 @@
                                                    if ($i == 3) {
                                                       $plan = $Plan3;
                                                    }
-
+ */
                                                    $i++;
 
                                                    // Foreach loop
-                                                   foreach ($plan as $item) {
+                                                   foreach ($array as $item) {
                                                       echo "<img src='" . base_url() . 'web_assets/img/tick_new.png' . "' style='
                                     height: 22px !important;
                                     width: auto;

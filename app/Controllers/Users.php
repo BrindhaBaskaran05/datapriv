@@ -171,9 +171,23 @@ class Users extends BaseController
 		$data['title'] = 'User Plans';
 		 $session = session();
                $user_id = $session->get('user_id');
-             $planModel = new PlanModel();
+            /*  $planModel = new PlanModel();
              $plans = $planModel->findAll();
-             $data['plans']=$plans;		
-		return view('users/plans',$data);
+             $data['plans']=$plans;	 */
+		
+
+				$builder = $this->db->table('dp_plan');
+			
+				$builder->select('dp_plan.*, dp_plan_details.description as des');
+				$builder->join('dp_plan_details', 'dp_plan_details.plan_id = dp_plan.plan_id');
+				$query = $builder->get();
+
+				$result = $query->getResultArray();
+				/* print_r($result);
+				die; */
+
+				$data['plans']=$result;	
+
+				return view('users/plans',$data);
 	}
 }
