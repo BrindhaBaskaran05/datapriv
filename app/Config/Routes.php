@@ -26,6 +26,10 @@ $routes->post('/scanresult', 'Dashboard::getscanresult');
 $routes->get('/scan', 'Scan::index');
 $routes->post('/scan/checkplan', 'Scan::checkplan');
 $routes->post('/scan/updateplan', 'Scan::updateplan');
+$routes->get('/risk_exposure', 'Scan::Myriskexploser');
+
+
+
 
 // Profile
 $routes->get('/profile', 'Profile::index');
