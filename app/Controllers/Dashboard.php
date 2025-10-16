@@ -79,7 +79,7 @@ class Dashboard extends BaseController
                 <td><span class="badge bg-label-danger me-1">'.$randomLimit.'</span></td>                
             </tr>'; 
             }
- $session->set('companies', $dat);
+            $session->set('companies', $dat);
             $data['companies']=$dat;
             $data['per']=$percent;
             return  json_encode($data);

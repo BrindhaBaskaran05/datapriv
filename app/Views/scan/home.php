@@ -175,11 +175,18 @@
 </svg>
   
 <body>
+
+
+
 <div class="layout-wrapper layout-content-navbar">
   <div class="layout-container">
     <?= $this->include('includes/leftsidebar') ?>
-    <div class="layout-page">
-      <?= $this->include('includes/header_section') ?>
+     <!-- Layout container -->
+      <div class="layout-page">
+        <?= $this->include('includes/header_section') ?>
+
+
+
       <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
 
@@ -292,7 +299,7 @@
   </div>
 </div>
    <?= $this->include('includes/spinner') ?>
-   <?= $this->include('includes/plans') ?>
+   <?php  $this->include('includes/plans') ?>
 <?= $this->include('includes/footer_section') ?>
 
 

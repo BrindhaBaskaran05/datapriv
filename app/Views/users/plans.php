@@ -209,7 +209,7 @@
 
     }
   </script>
-  <?= $this->include('includes/footer') ?>
+  <?php  $this->include('includes/footer') ?>
 
 </body>
 
