@@ -27,6 +27,10 @@ $routes->get('/scan', 'Scan::index');
 $routes->post('/scan/checkplan', 'Scan::checkplan');
 $routes->post('/scan/updateplan', 'Scan::updateplan');
 $routes->get('/risk_exposure', 'Scan::Myriskexploser');
+$routes->get('/scan/scan_schedule', 'Scan::scan_schedule');
+$routes->post('/scan/scan_schedulesave', 'Scan::save_schedule_time');
+
+
 
 
 

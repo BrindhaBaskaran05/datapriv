@@ -169,4 +169,35 @@ countAllResults() → returns number of rows.
 
     return view('scan/myrisk_exploser', $data);
   }
+  public function scan_schedule()
+  {  
+    $data['title'] = 'scan schedule';
+    return view('scan/scan_schedule', $data);
+  }
+
+  public function save_schedule_time(){
+      $session = session();
+      $user_id = $session->get('user_id');
+      $schedule = [
+          'user_id' => $user_id,
+          'schedule'    => $this->request->getPost('scan_schedule')		
+        ];
+
+      $builder = $this->db->table('dp_scan_schedule'); 
+      $data = $builder->where('user_id', $user_id)->get()->getRowArray();
+
+    if ($data === null) {
+     
+      $builder = $this->db->table('dp_scan_schedule');
+      $builder->insert($schedule);
+    }else{
+
+      $builder = $this->db->table('dp_scan_schedule'); 
+      $builder->where('user_id', $user_id);
+      $builder->update($schedule);
+    }
+
+			
+       return redirect()->back()->with('success', 'Scan Schedule Added successfully.');
+  }
 }
