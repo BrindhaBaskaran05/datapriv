@@ -62,8 +62,6 @@ class Profile extends BaseController
         $userId = $session->get('user_id');
 
         $data = $this->request->getPost();
-
-      
         //$userModel = new UserModel();
 
          $currentPassword = $this->request->getVar('current_password');

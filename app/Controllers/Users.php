@@ -77,8 +77,6 @@ class Users extends BaseController
 					'state'    => $data['state'],
 					'postal_code'    => $data['postal_code'],
 					'country'    => $data['country'],
-
-
 					'logged_in'     => TRUE
 				];
 
@@ -99,9 +97,6 @@ class Users extends BaseController
 					$ses_data['PlanExpDate'] = "-";
 				}
 				$session->set($ses_data);
-
-
-
 
 				return redirect()->to('/dashboard');
 			} else {
@@ -143,7 +138,6 @@ class Users extends BaseController
 		} else {
 			$session->setFlashdata('msg', 'Email Id Already exist');
 			//echo $session->getFlashdata('msg');
-
 			return redirect()->to('/');
 		}
 	}

@@ -32,11 +32,12 @@ $routes->post('/scan/scan_schedulesave', 'Scan::save_schedule_time');
 
 
 
-
-
-
 // Profile
 $routes->get('/profile', 'Profile::index');
 $routes->post('/profile/update', 'Profile::update');
 $routes->post('/profile/changepassword', 'Profile::changepassword');
+
+
+$routes->get('/plans/plan_expair', 'Plans::plan_expair');
+
 

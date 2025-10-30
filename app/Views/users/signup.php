@@ -139,7 +139,7 @@
         </div>
 
         <!-- Country -->
-        <div class="mb-4">
+      <div class="mb-4">
         <label for="country" class="form-label">Country</label>
         <select class="form-select" id="country" name="country">
           <option value="">Select a country</option>
