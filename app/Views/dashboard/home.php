@@ -312,7 +312,7 @@
                           <div class="text-center">
                             <!-- Center Button -->
                             <div>
-                              <a href="javascript:;" class="btn btn-lg  btn-outline-primary"
+                              <a href="<?php echo base_url(); ?>scan/scan_schedule" class="btn btn-lg  btn-outline-primary"
                                 style="background-color: #3b6ea5; color: #fff; border-color: #3b6ea5;">
                                 Scan Schedule
                               </a>
@@ -320,7 +320,7 @@
 
                             </div>
                             <div><br>
-                             Your Next scan 10 october 2025
+                             Your Next scan <?php echo date('Y-m-d', strtotime($schedules['next_date']));  ?>
                               
                             </div>
                             <!-- <span class="fw-semibold d-block mb-1">Exposure Sources</span> -->
@@ -485,6 +485,7 @@
 
   circle.style.strokeDashoffset = offset;
   label.textContent = `${percentage}%`;
+ 
     //end code
   function startScan() {
 
@@ -524,6 +525,12 @@
         progressBar.html('100%');
         console.log("Scan complete:", response);
 
+        if(res.redirectplans==1)
+        { window.location.href = base_url + "users/upgrade_plans";
+          return false;
+        }else{
+        
+
            $("#companyid").html(res.companies);
             
            
@@ -540,6 +547,7 @@
   circle.style.strokeDashoffset = offset;
   label.textContent = `${percentage}%`;
     //end code
+        }
       },
       error: function(error) {
         alert('error');

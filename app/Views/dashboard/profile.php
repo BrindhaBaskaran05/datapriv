@@ -76,6 +76,7 @@
                                          <input
                                             type="date"
                                               name="dob" 
+                                               value="<?php echo $dob;?>"
                                             class="form-control"
                                             id="basic-default-company"
                                              />

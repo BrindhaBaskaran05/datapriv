@@ -5,11 +5,9 @@
             <a href="<?php echo base_url() . "/dashboard"; ?>" class="app-brand-link">
               <img
                 src="<?php echo base_url(); ?>web_assets/img/logo.jpg"
-                style="
-    width: 126px;
-    height: auto;
-    margin-left: 35%;
-" />
+                style="width: 126px;
+                        height: auto;
+                        margin-left: 35%;" />
             </a>
 
 
@@ -74,14 +72,14 @@
                 <div data-i18n="User interface">Upgrade Plans</div>
               </a>
             </li>
-            <li class="menu-item <?php if ($check == "privacy") {
+            <!-- <li class="menu-item <?php if ($check == "privacy") {
                                     echo "active";
                                   } ?>">
               <a href="<?php echo base_url() . "privacy"; ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-box"></i>
                 <div data-i18n="User interface">Take Care of your privacy</div>
               </a>
-            </li>
+            </li> -->
             <li class="menu-item <?php if ($check == "scan/scan_schedule") {
                                     echo "active";
                                   } ?>">
