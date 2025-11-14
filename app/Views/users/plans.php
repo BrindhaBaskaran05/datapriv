@@ -17,6 +17,7 @@
 
                   <div class="card-header d-flex align-items-center justify-content-between">
                      <!-- Content -->
+                      <form name='PlanForm' id='PlanForm' method='post'>
                      <div tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                            <div class="modal-content">
@@ -116,8 +117,7 @@
                                                    }
                                                    if ($i == 3) {
                                                       $plan = $Plan3;
-                                                   }
- */
+                                                   } */
                                                    $i++;
 
                                                    // Foreach loop
@@ -147,11 +147,15 @@
                               <div class="modal-footer">
 
                                  <input type='hidden' name='plan_id' id='plan_id'>
-                                 <button type="button" style='display:none' id='Buybutton' class="btn btn-primary">Proceed</button>
+                                 <?php  if($expired==0){?>
+                               <button type="button" onclick='fnProceed()' style='display:none' id='Buybutton' class="btn btn-primary">Proceed</button>
+                              <?php } ?>
                               </div>
                            </div>
                         </div>
                      </div>
+
+                     </form>
                   </div>
                </div>
             </div>
@@ -208,6 +212,20 @@
       document.getElementById('plan_id').value = Planid;
 
     }
+
+    function fnProceed(){
+    Planid=document.getElementById('plan_id').value;
+    if(Planid==1 || true){
+      fnSubmit()
+    }
+}
+function fnSubmit(){
+   Planid=document.getElementById('plan_id').value;
+     document.getElementById('Buybutton').disabled=true;
+     //showspinner();
+     PlanForm.action="<?php echo base_url(); ?>scan/updateplan";
+    PlanForm.submit();
+}
   </script>
   <?php  $this->include('includes/footer') ?>
 

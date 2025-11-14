@@ -33,6 +33,66 @@ class Scan extends BaseController
       ->countAllResults();
     $data['FreeCountUsed'] = $FreeCountUsed;
     $data['Page_title'] = 'Scan';
+
+/* Scan Results start */
+$subQuery = $this->db->table('dp_scan')
+    ->select('user_id, MAX(scan_date) AS last_scan_date')
+    ->where('user_id', 15)
+    ->getCompiledSelect();
+
+$builder = $this->db->table('dp_scan s');
+$builder->select('s.id AS scan_id, s.user_id, s.scan_date,company');
+$builder->join("($subQuery) latest", 's.user_id = latest.user_id AND s.scan_date = latest.last_scan_date');
+$query = $builder->get();
+
+$latestScan = $query->getResultArray();
+
+ 
+$randomLimit=2;
+$dat='';
+    foreach ($latestScan as $k => $company) {
+
+                $dat .= '<tr>
+                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' . $latestScan[$k]['company'] . '</strong></td>
+                <td><span class="badge bg-label-danger me-1">' . $randomLimit . '</span></td>                
+            </tr>';
+    }
+        $data['companieslist']=$dat;
+        $scan_id = ''; 
+        if ($latestScan) {
+            foreach ($latestScan as $key => $value) {
+                $scan_id .= $value['scan_id'].',';
+            }    
+        }
+        $scanIds = explode(',', rtrim($scan_id, ','));
+
+
+        $builder = $this->db->table('dp_scan_detail');
+
+        $builder->select("
+            scan_id,
+            SUM(CASE WHEN exposed_data = 'Email' AND status = 'exposed' THEN 1 ELSE 0 END) AS email_count,
+            SUM(CASE WHEN exposed_data = 'phone Number' AND status = 'exposed' THEN 1 ELSE 0 END) AS phone_count,
+            SUM(CASE WHEN exposed_data = 'Physical Address' AND status = 'exposed' THEN 1 ELSE 0 END) AS address_count,
+            SUM(CASE WHEN exposed_data = 'Date of Birth' AND status = 'exposed' THEN 1 ELSE 0 END) AS dob_count,
+            SUM(CASE WHEN exposed_data = 'Full Name' AND status = 'exposed' THEN 1 ELSE 0 END) AS name_count
+
+        ");
+        $builder->whereIn('scan_id', $scanIds);
+        $builder->groupBy('scan_id');
+        $query = $builder->get();
+
+        $result = $query->getResultArray();
+
+
+
+
+        $data['email_count']= array_sum(array_column($result, 'email_count'));
+        $data['phone_count']= array_sum(array_column($result, 'phone_count'));
+        $data['address_count']= array_sum(array_column($result, 'address_count'));
+        $data['dob_count']= array_sum(array_column($result, 'dob_count'));
+        $data['name_count']= array_sum(array_column($result, 'name_count'));
+
     return view('scan/home', $data);
   }
   public function checkplan()
@@ -172,6 +232,15 @@ countAllResults() → returns number of rows.
   public function scan_schedule()
   {  
     $data['title'] = 'scan schedule';
+      $session = session();
+      $user_id = $session->get('user_id');
+    $builder = $this->db->table('dp_scan_schedule'); 
+     $builder->select('schedule');
+    $data = $builder->where('user_id', $user_id)->get()->getRowArray();
+
+    /* print_r($data['schedule']);
+    die; */
+
     return view('scan/scan_schedule', $data);
   }
 

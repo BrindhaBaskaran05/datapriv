@@ -182,6 +182,19 @@ class Users extends BaseController
 
 				$data['plans']=$result;	
 
+				
+			
+			$UserPlanModel = new UserPlanModel();
+			$PlandataCount = $UserPlanModel
+				->where('user_id', $user_id)
+				->where('plan_status', 1)
+				->where('plan_end_dt >= CURDATE()', null, false) // disable escaping
+				->countAllResults();
+
+			// $query = $UserPlanModel->getLastQuery();
+			//echo $query;
+			$data['expired']= $PlandataCount;
+
 				return view('users/plans',$data);
 	}
 }

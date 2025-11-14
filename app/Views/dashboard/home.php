@@ -77,7 +77,7 @@
         $PlanExpDate = $session->get('PlanExpDate');
 
         if($session->get('percent')) $p= $session->get('percent'); else $p='0';
-         if($session->get('companies')) $companieslist= $session->get('companies'); else $companieslist='';
+         if($session->get('companies')) $companieslist= $session->get('companies'); else $companieslist;
 
         ?>
         <!-- Content wrapper -->
@@ -118,7 +118,7 @@
                               style="background-color: #3b6ea5; color: #fff; border-color: #3b6ea5;">
                               Start Scan 
                             </a>
-                            <div><small style="color: #fff;">Last scan 15 June 2025</small> </div>
+                            <div><small style="color: #fff;" id="last_scan_date">Last scan <?php  if(isset($last_scan_date)) echo $last_scan_date;?></small> </div>
                           </div>
 
                         </div>
@@ -320,7 +320,7 @@
 
                             </div>
                             <div><br>
-                             Your Next scan <?php echo date('Y-m-d', strtotime($schedules['next_date']));  ?>
+                             Your Next scan <?php echo $d = (!empty($schedules['next_date'])) ? date('Y-m-d', strtotime($schedules['next_date'])) : ''; ?>
                               
                             </div>
                             <!-- <span class="fw-semibold d-block mb-1">Exposure Sources</span> -->
@@ -364,31 +364,31 @@
                           
                           <div class="card icon-card cursor-pointer text-center mb-4 mx-4">
                             <div class="card-body">
-                              0 <span class="badge bg-label-success me-1" style="float: right;">Safe</span>
+                              <span id="email_count"><?= $email_count?></span> <span class="badge bg-label-success me-1" style="float: right;">Safe</span>
                               <p class="icon-name text-capitalize text-truncate mb-0">Emails Addresses</p>
                             </div>
                           </div>
                           <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
                             <div class="card-body">
-                              5 <span class="badge bg-label-danger me-1 "  style="float: right;">%fix</span>
-                              <p class="icon-name text-capitalize text-truncate mb-0">Addresses</p>
+                              <span id="address_count"><?= $address_count?></span> <span class="badge bg-label-danger me-1 "  style="float: right;">%fix</span>
+                              <p class="icon-name text-capitalize text-truncate mb-0">Physical Addresses</p>
                             </div>
                           </div>
                           <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
                             <div class="card-body">
-                             15 <span class="badge bg-label-danger me-1"  style="float: right;">%fix</span>
-                              <p class="icon-name text-capitalize text-truncate mb-0">Data Broker</p>
+                             <span id="name_count"><?= $name_count?></span> <span class="badge bg-label-danger me-1"  style="float: right;">%fix</span>
+                              <p class="icon-name text-capitalize text-truncate mb-0">Full Name</p>
                             </div>
                           </div>
                           <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
                             <div class="card-body">
-                             3 <span class="badge bg-label-danger me-1"  style="float: right;">%fix</span>
-                              <p class="icon-name text-capitalize text-truncate mb-0">Social Medias</p>
+                             <span id="dob_count"><?= $dob_count?></span> <span class="badge bg-label-danger me-1"  style="float: right;">%fix</span>
+                              <p class="icon-name text-capitalize text-truncate mb-0">Date of Birth</p>
                             </div>
                           </div>
                           <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
                             <div class="card-body">
-                             1 <span class="badge bg-label-danger me-1"  style="float: right;">%fix</span>
+                             <span id="phone_count"><?= $phone_count?></span> <span class="badge bg-label-danger me-1"  style="float: right;">%fix</span>
                               <p class="icon-name text-capitalize text-truncate mb-0">Phone Number</p>
                             </div>
                           </div>
@@ -475,7 +475,8 @@
 <script>
 
   // Pecentage circle start code
-     const percentage = <?php echo $p;?>; // Change this from 0 to 100
+    const storedUserId = localStorage.getItem('scanpercent');
+     const percentage = storedUserId; // Change this from 0 to 100
 
   const circle = document.querySelector('.progress');
   const label = document.getElementById('percentLabel');
@@ -485,7 +486,10 @@
 
   circle.style.strokeDashoffset = offset;
   label.textContent = `${percentage}%`;
- 
+
+   localStorage.setItem('last_scan_date', "<?php echo $last_scan_date; ?>");
+    var last_scan_date =localStorage.getItem('last_scan_date');
+    $('last_scan_date').text(last_scan_date);
     //end code
   function startScan() {
 
@@ -532,23 +536,33 @@
         
 
            $("#companyid").html(res.companies);
+
+           $("#email_count").html(res.email_count);
+           $("#phone_count").html(res.phone_count);
+           $("#address_count").html(res.address_count);
+           $("#dob_count").html(res.dob_count);
+           $("#name_count").html(res.name_count);
             
            
 
            // Pecentage circle start code
      const percentage = res.per; // Change this from 0 to 100
 
-  const circle = document.querySelector('.progress');
-  const label = document.getElementById('percentLabel');
+     const scanpercent = res.per;
+    localStorage.setItem('scanpercent', scanpercent);
+   
 
-  const totalLength = 283; // semi-circle path length
-  const offset = totalLength - (percentage / 100 * totalLength);
+      const circle = document.querySelector('.progress');
+      const label = document.getElementById('percentLabel');
 
-  circle.style.strokeDashoffset = offset;
-  label.textContent = `${percentage}%`;
-    //end code
-        }
-      },
+      const totalLength = 283; // semi-circle path length
+      const offset = totalLength - (percentage / 100 * totalLength);
+
+      circle.style.strokeDashoffset = offset;
+      label.textContent = `${percentage}%`;
+        //end code
+            }
+          },
       error: function(error) {
         alert('error');
         clearInterval(interval);

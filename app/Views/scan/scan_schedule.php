@@ -26,14 +26,15 @@
                               <div class="card-body">
                                  <form action="<?= base_url('/scan/scan_schedulesave') ?>" method="post">
                                    <?= csrf_field() ?>
-                                    <div class="mb-4">
+                                    <div class="mb-4"> 
+                                       <?php  ?>
                                       <label for="scan_schedule" class="form-label">Scan Time</label>
                                        <select class="form-select" id="scan_schedule" name="scan_schedule">
                                          <option value="">Select a Scan Time</option>
-                                         <option value="1">Daily</option>
-                                         <option value="2">Weekly</option> 
-                                         <option value="3">Monthly</option>
-                                         <option value="4">Yearly</option>                                          
+                                         <option value="1" <?php echo  ($schedule==1) ? 'selected' : ''; ?>>Daily</option>
+                                         <option value="2" <?php echo  ($schedule==2) ? 'selected' : ''; ?>>Weekly</option> 
+                                         <option value="3" <?php echo  ($schedule==3) ? 'selected' : ''; ?>>Monthly</option>
+                                         <option value="4" <?php echo  ($schedule==4) ? 'selected' : ''; ?>>Yearly</option>                                          
                                        </select>
                                     </div>
 
