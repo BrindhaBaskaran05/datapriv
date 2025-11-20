@@ -306,7 +306,7 @@ $errorId = uniqid('error', true);
                 <?php endif; ?>
 
                 <?php $headers = $request->headers(); ?>
-                <?php if (! empty($headers)) : ?>
+                <?php if (! ($headers)) : ?>
 
                     <h3>Headers</h3>
 

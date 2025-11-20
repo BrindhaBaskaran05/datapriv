@@ -268,7 +268,7 @@
             <!-- Header -->
             <div class="text-center mb-4">
               <h3 class="fw-bold">Your Security in One Glance</h3>
-              <p class="text-muted">Last Scan <b id="last_scan_date"> </b></p>
+              <p class="text-muted" id="ltxt">Last Scan <b id="last_scan_date"> </b></p>
               <a href="javascript:;" class="btn btn-scan" onclick="startScan();">Start Scan</a>
             </div>
 
@@ -280,14 +280,18 @@
 
             <!-- Top Row -->
             <div class="row g-4 mb-4">
+               <!-- Map -->
+            <div class="col-lg-6">
+              <div class="card map-card"></div>
+            </div>
              
               <!-- Score + Breaches + Resolved -->
-              <div class="col-lg-4">
+              <div class="col-lg-6">
                 <!--<div class="card p-4 text-center mb-3">
                 <div class="score-circle">85</div>
                 <p class="mt-2 fw-semibold">Security Score</p>
               </div>-->
-                <div class="card p-4 text-center mb-3">
+                <div class="card h-100 p-4 text-center mb-3">
                   <div class="progress-wrapper">
                               <svg width="200" height="100" viewBox="0 0 200 100">
                                 <defs>
@@ -335,7 +339,7 @@
             <div class="row g-4">
               <!-- Exposure Sources Table -->
               <div class="col-lg-4">
-                <div class="card p-3">
+                <div class="card h-100 p-3">
                   <h6 class="fw-bold mb-3">Exposure Sources</h6>
                   <table class="table mb-0">
                     <tbody>
@@ -361,7 +365,7 @@
               </div>
               <!-- Export Card -->
               <div class="col-lg-4">
-                  <div class="card">
+                  <div class="card h-100">
                           <h5 class="card-header">Exposure Sources</h5>
                           <div class="table-responsive text-nowrap">
                             <table class="table">
@@ -383,7 +387,7 @@
               </div>
               <!-- Exposure Sources Summary -->
               <div class="col-lg-4">
-                <div class="card p-3">
+                <div class="card h-100 p-3">
                   <h6 class="fw-bold mb-3">Exposure Sources</h6>
                   <table class="table mb-0">
                     <tbody>
@@ -443,6 +447,15 @@
 
     var last_scan_date =localStorage.getItem('last_scan_date');
     $('#last_scan_date').html(last_scan_date);
+
+    if (last_scan_date) {
+        $('#ltxt').show();
+    } else {
+        $('#ltxt').hide();
+    }
+
+
+    
 
    function startScan() {
 

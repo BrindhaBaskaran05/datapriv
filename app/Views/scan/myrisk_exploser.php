@@ -160,42 +160,42 @@
                     <div>&nbsp; </div>
 
                     <div class="col-md-12 col-lg-12 order-2 mb-4">
-
+                    
                       <div class="card h-100">
-
+                         
                         <div class="d-flex flex-wrap" id="icons-container">
-
+                          
                           <div class="card icon-card cursor-pointer text-center mb-4 mx-4">
                             <div class="card-body">
-                              0 <span class="badge bg-label-success me-1" style="float: right;">Safe</span>
+                              <span id="email_count"><?= $email_count?></span> <span class="badge bg-label-success me-1" style="float: right;">Safe</span>
                               <p class="icon-name text-capitalize text-truncate mb-0">Emails Addresses</p>
                             </div>
                           </div>
                           <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
                             <div class="card-body">
-                              5 <span class="badge bg-label-danger me-1 " style="float: right;">%fix</span>
-                              <p class="icon-name text-capitalize text-truncate mb-0">Addresses</p>
+                              <span id="address_count"><?= $address_count?></span> <span class="badge bg-label-danger me-1 "  style="float: right;">%fix</span>
+                              <p class="icon-name text-capitalize text-truncate mb-0">Physical Addresses</p>
                             </div>
                           </div>
                           <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
                             <div class="card-body">
-                              15 <span class="badge bg-label-danger me-1" style="float: right;">%fix</span>
-                              <p class="icon-name text-capitalize text-truncate mb-0">Data Broker</p>
+                             <span id="name_count"><?= $name_count?></span> <span class="badge bg-label-danger me-1"  style="float: right;">%fix</span>
+                              <p class="icon-name text-capitalize text-truncate mb-0">Full Name</p>
                             </div>
                           </div>
                           <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
                             <div class="card-body">
-                              3 <span class="badge bg-label-danger me-1" style="float: right;">%fix</span>
-                              <p class="icon-name text-capitalize text-truncate mb-0">Social Medias</p>
+                             <span id="dob_count"><?= $dob_count?></span> <span class="badge bg-label-danger me-1"  style="float: right;">%fix</span>
+                              <p class="icon-name text-capitalize text-truncate mb-0">Date of Birth</p>
                             </div>
                           </div>
                           <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
                             <div class="card-body">
-                              1 <span class="badge bg-label-danger me-1" style="float: right;">%fix</span>
+                             <span id="phone_count"><?= $phone_count?></span> <span class="badge bg-label-danger me-1"  style="float: right;">%fix</span>
                               <p class="icon-name text-capitalize text-truncate mb-0">Phone Number</p>
                             </div>
                           </div>
-
+                         
                         </div>
                       </div>
                     </div>
@@ -205,66 +205,14 @@
                       <div class="card h-100">
                         <div class="row" id="icons-container">
                            <?php echo $companieslist; ?>
-                          <div class="col-md-6 mb-4">
-                            <div class="card icon-card cursor-pointer text-start">
-                              <div class="card-body">
-                                0 <span class="badge bg-label-success me-1" style="float: right;">Safe</span>
-                                <p class="icon-name text-capitalize text-truncate mb-0">Emails Addresses</p>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-md-6 mb-4">
-                            <div class="card icon-card cursor-pointer text-start">
-                              <div class="card-body">
-                                5 <span class="badge bg-label-danger me-1" style="float: right;">%fix</span>
-                                <p class="icon-name text-capitalize text-truncate mb-0">Addresses</p>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-md-6 mb-4">
-                            <div class="card icon-card cursor-pointer text-start">
-                              <div class="card-body">
-                                15 <span class="badge bg-label-danger me-1" style="float: right;">%fix</span>
-                                <p class="icon-name text-capitalize text-truncate mb-0">Data Broker</p>
-                              </div>
-                            </div>
-                          </div>
+                          
 
                         </div>
                       </div>
                     </div>
 
 
-                    <!-- Transactions -->
-                    <div class="col-md-12 col-lg-12 order-2 mb-4">
-                      <div class="card h-100">
-
-                        <!-- Basic Bootstrap Table -->
-                        <div class="card">
-                          <h5 class="card-header">Exposure Sources</h5>
-                          <div class="table-responsive text-nowrap">
-                            <table class="table">
-                              <thead>
-                                <tr>
-                                  <th>Company name</th>
-                                  <th>Data</th>
-
-                                </tr>
-                              </thead>
-                              <tbody class="table-border-bottom-0" id="companyid">
-                               
-
-
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                        <!--/ Basic Bootstrap Table -->
-                      </div>
-                    </div>
-                    <!--/ Transactions -->
+                    
                   </div>
                 </div>
               </div>
@@ -313,7 +261,9 @@
 
 <script>
   // Pecentage circle start code
-  const percentage = <?php echo $p; ?>; // Change this from 0 to 100
+   // Pecentage circle start code
+    const storedUserId = localStorage.getItem('scanpercent');
+     const percentage = storedUserId; // Change this from 0 to 100
 
   const circle = document.querySelector('.progress');
   const label = document.getElementById('percentLabel');
@@ -368,6 +318,8 @@
 
         // Pecentage circle start code
         const percentage = res.per; // Change this from 0 to 100
+        const scanpercent = res.per;
+        localStorage.setItem('scanpercent', scanpercent);
 
         const circle = document.querySelector('.progress');
         const label = document.getElementById('percentLabel');

@@ -127,6 +127,9 @@ class Users extends BaseController
 				'dob'    => $this->request->getPost('dob'),
 				'city'    => $this->request->getPost('city'),
 				'state'    => $this->request->getPost('state'),
+				'country'    => $this->request->getPost('country'),
+				'address'    => $this->request->getPost('address'),
+				'address2'    => $this->request->getPost('address2'),
 				'postal_code'    => $this->request->getPost('postal_code'),
 				'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
 				// Add other fields as needed

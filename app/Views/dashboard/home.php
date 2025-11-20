@@ -490,6 +490,12 @@
    localStorage.setItem('last_scan_date', "<?php echo $last_scan_date; ?>");
     var last_scan_date =localStorage.getItem('last_scan_date');
     $('last_scan_date').text(last_scan_date);
+
+    if (last_scan_date) {
+        $('#last_scan_date').show();
+    } else {
+        $('#last_scan_date').hide();
+    }
     //end code
   function startScan() {
 
@@ -514,10 +520,6 @@
     $.ajax({
       url: base_url + "scanresult",
       method: "POST",
-      
-      data: {
-        //Bankid,Txid
-      },
       success: function(response) {
       let res = JSON.parse(response);
         console.log(response);

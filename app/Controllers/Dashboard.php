@@ -24,6 +24,8 @@ class Dashboard extends BaseController
         $data['Page_title']='Dashboard';  
         $user_id = $session->get('user_id');
 
+        
+
         $builder1 = $this->db->table('dp_scan');
         $builder1->select('user_id, MAX(scan_date) as last_scan_date');
         $builder1->where('user_id', $user_id);
@@ -38,7 +40,9 @@ class Dashboard extends BaseController
          $builder = $this->db->table('dp_scan_schedule'); 
       $dat = $builder->where('user_id', $user_id)->get()->getRowArray();
         // $data['schedules'] = array();
-    if ($dat === null) {
+       /*  echo $this->db->getLastQuery();
+        die; */
+    if ($dat != null) {
         $builder = $this->db->table('dp_scan_schedule');
         $builder->select("
                     id, 
@@ -58,9 +62,11 @@ class Dashboard extends BaseController
                 ");
         $builder->where('user_id', $user_id);
         $data['schedules'] = $builder->get()->getRowArray();
-
+ 
         
     }
+
+    
 
     $subQuery = $this->db->table('dp_scan')
     ->select('user_id, MAX(scan_date) AS last_scan_date')
@@ -113,7 +119,7 @@ $dat='';
         $query = $builder->get();
 
         $result = $query->getResultArray();
-      //  echo $this->db->getLastQuery();
+      //  
 
 
 
@@ -124,10 +130,9 @@ $dat='';
         $data['dob_count']= array_sum(array_column($result, 'dob_count'));
         $data['name_count']= array_sum(array_column($result, 'name_count'));
 
-            /* echo '<pre>';
-            print_r($result);
+          /*  echo '<pre>';
+            print_r($data);
             die; */
-
 
            return view('dashboard/home', $data);
     }
@@ -179,6 +184,8 @@ $dat='';
             ->where('dp_user_plan.plan_status', 1)
             ->where('dp_user_plan.plan_end_dt >= CURDATE()', null, false)
             ->first();
+
+            
         if ($Plandata != NULL) {
             $percent = rand(30, 100);
             $session->set('percent', $percent);
@@ -235,15 +242,10 @@ $dat='';
             $data['companies'] = $dat;
             $data['per'] = $percent;
             $data['redirectplans'] = 0;
-        } else {
-            $data['redirectplans'] = 1;
-        }
 
 
 
-
-
-         $builder = $this->db->table('dp_scan_detail');
+             $builder = $this->db->table('dp_scan_detail');
         $builder->select("
             scan_id,
             SUM(CASE WHEN exposed_data = 'Email' AND status = 'exposed' THEN 1 ELSE 0 END) AS email_count,
@@ -268,6 +270,12 @@ die; */
         $data['address_count']= array_sum(array_column($result, 'address_count'));
         $data['dob_count']= array_sum(array_column($result, 'dob_count'));
         $data['name_count']= array_sum(array_column($result, 'name_count'));
+        } else {
+            $data['redirectplans'] = 1;
+        }
+
+
+        
 
 
         return  json_encode($data);

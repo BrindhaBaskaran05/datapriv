@@ -191,28 +191,41 @@ countAllResults() → returns number of rows.
     $session = session();
     $percent = rand(30, 100);
     $session->set('percent', $percent);
+     $user_id = $session->get('user_id');
+
 
     $randomLimit = rand(3, 10);
 
-    $builder = $this->db->table('dp_data_brokers_list');
-    $builder->select('id, Company');
-    $builder->orderBy('RAND()'); // For MySQL
-    $builder->limit($randomLimit); // Use the random number as limit
-    $Companies = $builder->get()->getResultArray();
+   
+    $data['per'] = $percent;
 
-    /*  echo '<pre>';
-            print_r($Companies);
-              echo $Companies[0]['Company'];
-            die; */
-    $dat = '';
-    foreach ($Companies as $k => $company) {
 
-      $dat .= ' <div class="col-md-6 mb-4">
+    //count start
+     $subQuery = $this->db->table('dp_scan')
+    ->select('user_id, MAX(scan_date) AS last_scan_date')
+    ->where('user_id', $user_id)
+    ->getCompiledSelect();
+
+$builder = $this->db->table('dp_scan s');
+$builder->select('s.id AS scan_id, s.user_id, s.scan_date,company');
+$builder->join("($subQuery) latest", 's.user_id = latest.user_id AND s.scan_date = latest.last_scan_date');
+$query = $builder->get();
+
+$latestScan = $query->getResultArray();
+
+ 
+
+    $randomLimit=2;
+    $dat='';
+        $scan_id = ''; 
+        if ($latestScan) {
+            foreach ($latestScan as $key => $value) {
+               $dat .= ' <div class="col-md-6 mb-4">
                   <div class="card icon-card cursor-pointer text-start">
                       <div class="card-body">
                                  <span class="badge bg-label-danger me-1" style="float: right;">fix</span>
-                                <p class="icon-name text-capitalize text-truncate mb-0">' . $Companies[$k]['Company'] . '</p>
-                                <p class="small">' . $Companies[$k]['Company'] . '.com</p>
+                                <p class="icon-name text-capitalize text-truncate mb-0">' . $latestScan[$key]['company'] . '</p>
+                                <p class="small">' . $latestScan[$key]['company'] . '.com</p>
                             <div class="demo-inline-spacing">
                                 <button type="button" class="btn btn-sm rounded-pill btn-outline-primary">Kept</button>
                                 <button type="button" class="btn btn-sm rounded-pill btn-outline-secondary">Delete</button>
@@ -222,24 +235,65 @@ countAllResults() → returns number of rows.
                   </div>
                   
                 </div>';
-    }
-    $session->set('companies', $dat);
-    $data['companies'] = $dat;
-    $data['per'] = $percent;
+
+
+
+
+
+                $scan_id .= $value['scan_id'].',';
+            }    
+        }
+        $scanIds = explode(',', rtrim($scan_id, ','));
+
+       // print_r($scanIds);
+       // die;
+
+
+        $builder = $this->db->table('dp_scan_detail');
+
+        $builder->select("
+            scan_id,
+            SUM(CASE WHEN exposed_data = 'Email' AND status = 'exposed' THEN 1 ELSE 0 END) AS email_count,
+            SUM(CASE WHEN exposed_data = 'Phone Number' AND status = 'exposed' THEN 1 ELSE 0 END) AS phone_count,
+            SUM(CASE WHEN exposed_data = 'Physical Address' AND status = 'exposed' THEN 1 ELSE 0 END) AS address_count,
+            SUM(CASE WHEN exposed_data = 'Date of Birth' AND status = 'exposed' THEN 1 ELSE 0 END) AS dob_count,
+            SUM(CASE WHEN exposed_data = 'Full Name' AND status = 'exposed' THEN 1 ELSE 0 END) AS name_count
+
+        ");
+        $builder->whereIn('scan_id', $scanIds);
+        $builder->groupBy('scan_id');
+        $query = $builder->get();
+
+        $result = $query->getResultArray();
+      
+        $data['email_count']= array_sum(array_column($result, 'email_count'));
+        $data['phone_count']= array_sum(array_column($result, 'phone_count'));
+        $data['address_count']= array_sum(array_column($result, 'address_count'));
+        $data['dob_count']= array_sum(array_column($result, 'dob_count'));
+        $data['name_count']= array_sum(array_column($result, 'name_count'));
 
     return view('scan/myrisk_exploser', $data);
   }
   public function scan_schedule()
   {  
-    $data['title'] = 'scan schedule';
-      $session = session();
-      $user_id = $session->get('user_id');
-    $builder = $this->db->table('dp_scan_schedule'); 
-     $builder->select('schedule');
-    $data = $builder->where('user_id', $user_id)->get()->getRowArray();
 
-    /* print_r($data['schedule']);
-    die; */
+
+      $data['title'] = 'scan schedule';
+$session = session();
+$user_id = $session->get('user_id');
+
+$builder = $this->db->table('dp_scan_schedule');
+$builder->select('schedule');
+$builder->where('user_id', $user_id);
+
+$query = $builder->get();
+$data['schedule'] = $query->getRowArray();   // keep title + schedule
+
+/* echo $last_query = $this->db->getLastQuery();  // get last executed query
+  die; */
+    /*  echo '<pre>';
+    print_r($data);
+    die;  */
 
     return view('scan/scan_schedule', $data);
   }
