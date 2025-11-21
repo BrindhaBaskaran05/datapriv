@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\UserPlanModel;
+use App\Models\UserModel;
 use App\Models\PlanModel;
 use CodeIgniter\Database\ConnectionInterface;
 use CodeIgniter\HTTP\RequestInterface;
@@ -106,8 +107,8 @@ class Users extends BaseController
 			}
 		} else {
 			$session->setFlashdata('msg', 'Invalid EmailId/Password');
-			//echo $session->getFlashdata('msg');
-			//exit();
+			echo $session->getFlashdata('msg');
+			exit();
 			return redirect()->to('/');
 		}
 	}
@@ -140,18 +141,35 @@ class Users extends BaseController
 			return redirect()->to('/')->with('success', 'Registration successful!');
 		} else {
 			$session->setFlashdata('msg', 'Email Id Already exist');
+			exit();
 			//echo $session->getFlashdata('msg');
 			return redirect()->to('/');
 		}
 	}
 
 
-	public function checkemail()
-	{
-		$Email = $this->input->post('Email');
-		$result = $this->User_Model->checkemail($Email);
-		echo $result;
-	}
+	public function checkEmail()
+{
+    try {
+        $email = $this->request->getPost('Email');
+
+        if (!$email) {
+            return $this->response->setJSON(['error' => 'Email not received']);
+        }
+
+        $db = \Config\Database::connect();
+        $builder = $db->table('dp_user');
+
+        $builder->where('email', $email);
+        $count = $builder->countAllResults();
+
+        return $this->response->setJSON($count);
+
+    } catch (\Exception $e) {
+        return $this->response->setJSON(['exception' => $e->getMessage()]);
+    }
+}
+
 	// log user out
 	public function logout()
 	{

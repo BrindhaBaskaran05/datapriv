@@ -31,8 +31,10 @@ class Dashboard extends BaseController
         $builder1->where('user_id', $user_id);
         $query = $builder1->get();
 
-        $result = $query->getRowArray(); 
-         $data['last_scan_date']=$result['last_scan_date'];
+        $result = $query->getRowArray();
+
+          $formatted= date('d M Y h:i A', strtotime($result['last_scan_date'])); 
+         $data['last_scan_date']=$formatted;
         
         
 
@@ -208,12 +210,15 @@ $dat='';
                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' . $Companies[$k]['Company'] . '</strong></td>
                 <td><span class="badge bg-label-danger me-1">' . $randomLimit . '</span></td>                
             </tr>';
-
+            date_default_timezone_set('Asia/Kolkata');
+            $now = date('Y-m-d H:i:s');
                 $scan = [
                     'user_id' => $user_id,
                     'company'    => $Companies[$k]['Company'],
                     'scan_url'    => $Companies[$k]['Opt_out_url'],
-                    'status'    => 'exposed'
+                    'status'    => 'exposed',
+                    'scan_date' =>$now
+
                 ];
                 $builder = $this->db->table('dp_scan');
                 $builder->insert($scan);
@@ -270,11 +275,12 @@ die; */
         $data['address_count']= array_sum(array_column($result, 'address_count'));
         $data['dob_count']= array_sum(array_column($result, 'dob_count'));
         $data['name_count']= array_sum(array_column($result, 'name_count'));
+        
         } else {
             $data['redirectplans'] = 1;
         }
 
-
+        $data['last_scan_date']= date('d M Y h:i A', strtotime($now));
         
 
 

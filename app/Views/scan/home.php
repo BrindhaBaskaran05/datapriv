@@ -508,8 +508,9 @@
            $("#address_count").html(res.address_count);
            $("#dob_count").html(res.dob_count);
            $("#name_count").html(res.name_count);
+          localStorage.setItem('last_scan_date', res.last_scan_date);
             
-           
+            $('#last_scan_date').text(res.last_scan_date);
 
            // Pecentage circle start code
      const percentage = res.per; // Change this from 0 to 100

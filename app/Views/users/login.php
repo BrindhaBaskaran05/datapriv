@@ -61,7 +61,12 @@
   </style>
 </head>
 <body>
-
+      <?php  $session = session();
+          if (session()->getFlashdata('msg')): ?>
+          <div class="alert alert-danger">
+            <?= session()->getFlashdata('msg') ?>
+          </div>
+      <?php endif; ?>
   <div class="container">
     <div class="login-container">
       <div class="login-title">Login</div>

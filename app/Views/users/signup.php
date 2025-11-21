@@ -12,6 +12,9 @@
       background-color: #E2EBE6;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+    .ErrorMsg{
+      color:red;
+    }
 
     .form-container {
       background-color: #fff;
@@ -63,6 +66,13 @@
   </style>
 </head>
 <body>
+
+ <?php  $session = session();
+          if (session()->getFlashdata('msg')): ?>
+          <div class="alert alert-danger">
+            <?= session()->getFlashdata('msg') ?>
+          </div>
+      <?php die; endif; ?>
 
   <div class="container">
     <div class="form-container">
@@ -185,23 +195,20 @@
   function fncheckEmail(obj) {
     document.getElementById("txt_email_Error").innerHTML = "";
     Email = obj.value;
+
     $.ajax({
-      url: '<?php echo base_url(); ?>users/checkemail',
-      type: 'POST',
-      data: {
-        Email
-      },
-      success: function(msg) {
-        // alert('Email Sent');
-        if (msg > 0) {
-          document.getElementById("txt_email_Error").innerHTML = "Email ID Already Registered";
-          document.getElementById("txt_email").value = "";
+        url: '<?php echo base_url(); ?>/users/checkemail', // add slash
+        type: 'POST',
+        data: { Email },
+        success: function(msg) {
+            if (msg > 0) {
+                document.getElementById("txt_email_Error").innerHTML = "Email ID Already Registered";
+                document.getElementById("txt_email").value = "";
+            }
         }
-      }
     });
+}
 
-
-  }
 
   function valid(email) {
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

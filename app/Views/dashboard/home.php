@@ -489,7 +489,7 @@
 
    localStorage.setItem('last_scan_date', "<?php echo $last_scan_date; ?>");
     var last_scan_date =localStorage.getItem('last_scan_date');
-    $('last_scan_date').text(last_scan_date);
+    $('#last_scan_date').text(last_scan_date);
 
     if (last_scan_date) {
         $('#last_scan_date').show();
@@ -544,6 +544,8 @@
            $("#address_count").html(res.address_count);
            $("#dob_count").html(res.dob_count);
            $("#name_count").html(res.name_count);
+
+           $('#last_scan_date').text(res.last_scan_date);
             
            
 
