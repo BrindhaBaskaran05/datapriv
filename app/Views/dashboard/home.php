@@ -532,7 +532,9 @@
         console.log("Scan complete:", response);
 
         if(res.redirectplans==1)
-        { window.location.href = base_url + "users/upgrade_plans";
+        { 
+          //alert('hi');
+          window.location.href = base_url + "users/upgrade_plans";
           return false;
         }else{
         

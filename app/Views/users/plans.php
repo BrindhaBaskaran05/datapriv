@@ -171,9 +171,9 @@
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
    <script>
-      checkplan();
+      
 
-      function checkplan() {
+      function checkplan(Planid) {
          //alert("ok");
 
          base_url = "<?php echo base_url(); ?>";
@@ -181,12 +181,20 @@
             type: "POST",
             url: base_url + "scan/checkplan",
             data: {
-               //Bankid,Txid
+               Planid
             },
             success: function(result) {
-               //alert(result);
-
+                let res = JSON.parse(result);
+                var Planid = document.getElementById('plan_id').value;
+               //alert(res.Planid);
+               if(res.activeplan !=0)
                document.getElementById('Plan' + Planid).style.backgroundColor = '#0A2540';
+              if(res.expiredbasic >=1 && res.Planid==1)
+                 document.getElementById('Buybutton').disabled = true;
+               else{
+                   document.getElementById('Buybutton').disabled = false;
+               }
+
                // $('#exLargeModal').modal({show:true});
                var myModal = new bootstrap.Modal(document.getElementById('exLargeModal'));
                myModal.show();
@@ -207,6 +215,7 @@
       }
 
       function fnchoose(Planid) {
+         checkplan(Planid);
          document.getElementById('Plan1').style.backgroundColor = "#2B9B8E";
          document.getElementById('Plan2').style.backgroundColor = "#2B9B8E";
          document.getElementById('Plan3').style.backgroundColor = "#2B9B8E";

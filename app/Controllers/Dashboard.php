@@ -187,7 +187,8 @@ $dat='';
             ->where('dp_user_plan.plan_end_dt >= CURDATE()', null, false)
             ->first();
 
-            
+           
+
         if ($Plandata != NULL) {
             $percent = rand(30, 100);
             $session->set('percent', $percent);
@@ -220,6 +221,7 @@ $dat='';
                     'scan_date' =>$now
 
                 ];
+                $data['last_scan_date']= date('d M Y h:i A', strtotime($now));
                 $builder = $this->db->table('dp_scan');
                 $builder->insert($scan);
 
@@ -265,7 +267,7 @@ $dat='';
         $query = $builder->get();
         $result = $query->getResultArray();
 
-//echo $this->db->getLastQuery();
+
 
 /* print_r($scanIds);
 die; */
@@ -277,10 +279,12 @@ die; */
         $data['name_count']= array_sum(array_column($result, 'name_count'));
         
         } else {
+             /* echo $this->db->getLastQuery();
+             die; */
             $data['redirectplans'] = 1;
         }
 
-        $data['last_scan_date']= date('d M Y h:i A', strtotime($now));
+        
         
 
 

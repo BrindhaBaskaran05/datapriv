@@ -97,6 +97,8 @@ $dat='';
   }
   public function checkplan()
   {
+
+     $Planid = $this->request->getPost('Planid');
     //echo "ok";
     /*first() → returns row.
 
@@ -115,7 +117,18 @@ countAllResults() → returns number of rows.
 
     // $query = $UserPlanModel->getLastQuery();
     //echo $query;
-    echo $PlandataCount;
+    $data['activeplan']= $PlandataCount;
+
+     $Planbasic = $UserPlanModel
+      ->where('user_id', $user_id)
+      ->where('plan_id', 1)
+      ->where('plan_end_dt <= CURDATE()', null, false) // disable escaping
+      ->countAllResults();
+$data['expiredbasic']= $Planbasic;
+$data['Planid']=$Planid;
+
+return  json_encode($data);
+       
   }
   public function updateplan()
   {
