@@ -1,13 +1,18 @@
         <!-- Menu -->
 
-        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style="
+    background-color: #0a2540 !important;
+">
           <div class="app-brand demo">
             <a href="<?php echo base_url() . "/dashboard"; ?>" class="app-brand-link">
               <img
                 src="<?php echo base_url(); ?>web_assets/img/logo.jpg"
-                style="width: 126px;
+                style="
+                        width: 131px;
                         height: auto;
-                        margin-left: 35%;" />
+                        margin-left: 15%;
+                        border-radius: 10px;
+                        " />
             </a>
 
 
