@@ -166,7 +166,7 @@
 
         <!-- Submit Button -->
         <div class="text-end">
-          <button type="submit" class="btn btn-primary" onclick='fnSignUp()'>Submit Form</button>
+          <button type="button" class="btn btn-primary" onclick='fnSignUp()'>Submit Form</button>
         </div>
       </form>
     </div>
@@ -216,6 +216,7 @@
   }
 
   function fnSignUp() {
+    var action=0;
     document.getElementById("txt_name_Error").innerHTML = "";
     document.getElementById("txt_email_Error").innerHTML = "";
     document.getElementById("txt_password_Error").innerHTML = "";
@@ -223,32 +224,37 @@
 
     if (document.getElementById("txt_name").value == "") {
       document.getElementById("txt_name_Error").innerHTML = "Please enter name";
-      return false;
+       action=1;
     }
     if (document.getElementById("txt_email").value == "") {
       document.getElementById("txt_email_Error").innerHTML = "Please enter email";
-      return false;
+      action=1;
     }
     //lert(valid(document.getElementById("txt_email").value))
     if (!valid(document.getElementById("txt_email").value)) {
       document.getElementById("txt_email_Error").innerHTML = "Invalid Email ID";
-      return false;
+      action=1;
     }
 
     if (document.getElementById("txt_password").value == "") {
       document.getElementById("txt_password_Error").innerHTML = "Please enter password";
-      return false;
+      action=1;
     }
     if (document.getElementById("txt_confirm_password").value == "") {
       document.getElementById("txt_confirm_Error").innerHTML = "Please enter confirm password";
-      return false;
+      action=1;
     }
     if (document.getElementById("txt_password").value != document.getElementById("txt_confirm_password").value) {
       document.getElementById("txt_confirm_Error").innerHTML = "Password and Confirm Password mismatching";
-      return false;
+       action=1;
     }
-    form2.action = "<?php echo base_url(); ?>users/signup";
-    form2.submit();
+    if(action==1){
+      return false;
+    }else{
+      form2.action = "<?php echo base_url(); ?>users/signup";
+      form2.submit();
+    }
+    
   }
 
   
