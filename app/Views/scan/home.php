@@ -422,7 +422,7 @@
 
 
   <script>
-    checkplan();
+    //checkplan();
 
     /* scan score */
     
@@ -433,16 +433,23 @@
 
   // Pecentage circle start code
     const storedUserId = localStorage.getItem('scanpercent');
-     const percentage = storedUserId; // Change this from 0 to 100
+     var percentage = storedUserId; // Change this from 0 to 100
 
   const circle = document.querySelector('.progress');
   const label = document.getElementById('percentLabel');
+
+    if (percentage == null)
+      percentage = 0;
+
+    //alert(percentage);
 
   const totalLength = 283; // semi-circle path length
   const offset = totalLength - (percentage / 100 * totalLength);
 
   circle.style.strokeDashoffset = offset;
   label.textContent = `${percentage}%`;
+
+
 
 
     var last_scan_date =localStorage.getItem('last_scan_date');

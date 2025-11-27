@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign Up</title>
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
- <style>
-      body {
+  <style>
+    body {
       background-color: #E2EBE6;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .ErrorMsg{
-      color:red;
+
+    .ErrorMsg {
+      color: red;
     }
 
     .form-container {
@@ -44,7 +46,7 @@
       height: 38px;
     }
 
-    
+
     .select2-container--default .select2-selection--single .select2-selection__rendered {
       line-height: 36px;
       padding-left: 12px;
@@ -65,26 +67,28 @@
     }
   </style>
 </head>
+
 <body>
 
- <?php  $session = session();
-          if (session()->getFlashdata('msg')): ?>
-          <div class="alert alert-danger">
-            <?= session()->getFlashdata('msg') ?>
-          </div>
-      <?php die; endif; ?>
+  <?php $session = session();
+  if (session()->getFlashdata('msg')): ?>
+    <div class="alert alert-danger">
+      <?= session()->getFlashdata('msg') ?>
+    </div>
+  <?php die;
+  endif; ?>
 
   <div class="container">
     <div class="form-container">
-      <div class="form-title">Signup Form  <span style="float: right;font-size:14px;"> <a href="<?= base_url('/') ?>">Login</a></span></div>
-      
+      <div class="form-title">Signup Form <span style="float: right;font-size:14px;"> <a href="<?= base_url('/') ?>">Login</a></span></div>
+
       <form name='form2' id='form2' method='post'>
         <!-- Row 1: Firstname, Middle Name, Last Name, DOB -->
         <div class="row mb-4">
           <div class="col-md-3">
-            <label for="firstname" class="form-label">First Name</label>
+            <label for="firstname" class="form-label">First Name*</label>
             <input type="text" class="form-control" id="txt_name" name="name" placeholder="John" />
-           <span class='ErrorMsg' id='txt_name_Error'></span>
+            <span class='ErrorMsg' id='txt_name_Error'></span>
           </div>
           <div class="col-md-3">
             <label for="middle_name" class="form-label">Middle Name</label>
@@ -104,19 +108,19 @@
         <!-- Email & Password -->
         <div class="row mb-4">
           <div class="col-md-4">
-            <label for="email" class="form-label">Email</label>
+            <label for="email" class="form-label">Email*</label>
             <input type="email" class="form-control" id="txt_email" name="email" onchange='fncheckEmail(this)' placeholder="you@example.com" />
             <span class='ErrorMsg' id='txt_email_Error'></span>
           </div>
           <div class="col-md-4">
-            <label for="password" class="form-label">Password</label>
+            <label for="password" class="form-label">Password*</label>
             <input type="password" class="form-control" id="txt_password" name="password" placeholder="••••••••" />
             <span class='ErrorMsg' id='txt_password_Error'></span>
           </div>
           <div class="col-md-4">
-            <label for="password" class="form-label">Confirm Password</label>
+            <label for="password" class="form-label">Confirm Password*</label>
             <input type="password" class="form-control" name="txt_confirm_password" id='txt_confirm_password' placeholder="••••••••" />
-          <span class='ErrorMsg' id='txt_confirm_Error'></span>
+            <span class='ErrorMsg' id='txt_confirm_Error'></span>
           </div>
         </div>
 
@@ -144,25 +148,37 @@
           </div>
           <div class="col-md-4">
             <label for="postal_code" class="form-label">Postal Code</label>
-            <input type="text" class="form-control" id="txt_postal_code" name="postal_code" />
+            <input type="number" class="form-control" id="txt_postal_code" name="postal_code" />
           </div>
         </div>
 
         <!-- Country -->
-      <div class="mb-4">
-        <label for="country" class="form-label">Country</label>
-        <select class="form-select" id="country" name="country">
-          <option value="">Select a country</option>
-         
-           <?php
-            foreach ($countries as $country) { ?>
-            <option value="<?=$country['country_id']?>"><?=$country['country_name']?></option>
-           <?php
-            }
-            ?>
-          <!-- Add more countries as needed -->
-        </select>
-      </div>
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <label for="country" class="form-label">Country</label>
+            <select class="form-select" id="country" name="country">
+              <option value="">Select a country</option>
+
+              <?php
+              foreach ($countries as $country) { ?>
+                <option value="<?= $country['country_id'] ?>"><?= $country['country_name'] ?></option>
+              <?php
+              }
+              ?>
+              <!-- Add more countries as needed -->
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="contact_number1" class="form-label">Contact 1*</label>
+            <input type="text" class="form-control" id="txt_contact_number1" name="contact_number1" />
+              <span class='ErrorMsg' id='txt_contact_number1_Error'></span>
+          </div>
+          <div class="col-md-4">
+            <label for="contact_number2" class="form-label">Contact 2</label>
+            <input type="text" class="form-control" id="txt_contact_number2" name="contact_number2" />
+             
+          </div>
+        </div>
 
         <!-- Submit Button -->
         <div class="text-end">
@@ -183,7 +199,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-  $(document).ready(function () {
+  $(document).ready(function() {
     $('#country').select2({
       placeholder: "Select a country",
       allowClear: true
@@ -197,17 +213,19 @@
     Email = obj.value;
 
     $.ajax({
-        url: '<?php echo base_url(); ?>/users/checkemail', // add slash
-        type: 'POST',
-        data: { Email },
-        success: function(msg) {
-            if (msg > 0) {
-                document.getElementById("txt_email_Error").innerHTML = "Email ID Already Registered";
-                document.getElementById("txt_email").value = "";
-            }
+      url: '<?php echo base_url(); ?>/users/checkemail', // add slash
+      type: 'POST',
+      data: {
+        Email
+      },
+      success: function(msg) {
+        if (msg > 0) {
+          document.getElementById("txt_email_Error").innerHTML = "Email ID Already Registered";
+          document.getElementById("txt_email").value = "";
         }
+      }
     });
-}
+  }
 
 
   function valid(email) {
@@ -216,7 +234,8 @@
   }
 
   function fnSignUp() {
-    var action=0;
+    var action = 0;
+
     document.getElementById("txt_name_Error").innerHTML = "";
     document.getElementById("txt_email_Error").innerHTML = "";
     document.getElementById("txt_password_Error").innerHTML = "";
@@ -224,46 +243,48 @@
 
     if (document.getElementById("txt_name").value == "") {
       document.getElementById("txt_name_Error").innerHTML = "Please enter name";
-       action=1;
+      action = 1;
     }
     if (document.getElementById("txt_email").value == "") {
       document.getElementById("txt_email_Error").innerHTML = "Please enter email";
-      action=1;
+      action = 1;
     }
     //lert(valid(document.getElementById("txt_email").value))
     if (!valid(document.getElementById("txt_email").value)) {
       document.getElementById("txt_email_Error").innerHTML = "Invalid Email ID";
-      action=1;
+      action = 1;
     }
 
     if (document.getElementById("txt_password").value == "") {
       document.getElementById("txt_password_Error").innerHTML = "Please enter password";
-      action=1;
+      action = 1;
     }
     if (document.getElementById("txt_confirm_password").value == "") {
       document.getElementById("txt_confirm_Error").innerHTML = "Please enter confirm password";
-      action=1;
+      action = 1;
     }
     if (document.getElementById("txt_password").value != document.getElementById("txt_confirm_password").value) {
       document.getElementById("txt_confirm_Error").innerHTML = "Password and Confirm Password mismatching";
-       action=1;
+      action = 1;
     }
-    if(action==1){
+     if (document.getElementById("txt_contact_number1").value =='') {
+      document.getElementById("txt_contact_number1_Error").innerHTML = "Please enter contact1";
+      action = 1;
+    }
+        
+    if (action == 1) {
       return false;
-    }else{
+    } else {
       form2.action = "<?php echo base_url(); ?>users/signup";
       form2.submit();
     }
-    
+
   }
 
-  
+
   document.querySelector('.img-btn').addEventListener('click', function() {
     document.querySelector('.cont').classList.toggle('s-signup')
   });
-
-
-
- 
 </script>
+
 </html>

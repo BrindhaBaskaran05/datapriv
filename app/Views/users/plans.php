@@ -25,7 +25,7 @@
                                  <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel4">Simple pricing for Peace of Mind
                                     </h5>
-                                     <span style="float: right;"><?php if($PlanExpDate>0) { ?><small class="text-muted">Expire on <?php echo $PlanExpDate; ?></small> <?php  } ?></span>
+                                     <span style="float: right;"><?php if($PlanExpDate>0) { ?><small class="text-muted" style="color: #0A2540 !important;font-weight: bold;font-style: italic;">Expire on <?php echo date('d M Y', strtotime($PlanExpDate)); ?></small> <?php  } ?></span>
 
 
                                  </div>

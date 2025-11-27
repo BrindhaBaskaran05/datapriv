@@ -58,15 +58,13 @@
       text-align: center;
       margin-top: 15px;
     }
+    .ErrorMsg {
+      color: red;
+    }
   </style>
 </head>
 <body>
-      <?php  $session = session();
-          if (session()->getFlashdata('msg')): ?>
-          <div class="alert alert-danger">
-            <?= session()->getFlashdata('msg') ?>
-          </div>
-      <?php endif; ?>
+     
   <div class="container">
     <div class="login-container">
       <div class="login-title">Login</div>
@@ -81,10 +79,17 @@
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" name="password" id='password' placeholder="••••••••" />
          <span class='ErrorMsg' id='Pass_Error'></span>
+
+          <?php  $session = session();
+              if (session()->getFlashdata('msg')): ?>
+              <span class='ErrorMsg' id='Pass_Error'>
+                <?= session()->getFlashdata('msg') ?>
+              </span>
+          <?php endif; ?>
         </div>
 
         <div class="d-grid">
-          <button type="submit" class="btn btn-primary" onclick='fnLogin()'>Log In</button>
+          <button type="button" class="btn btn-primary" onclick='fnLogin()'>Log In</button>
         </div>
 
         <div class="form-text">
@@ -100,19 +105,24 @@
 <script>  
 
   function fnLogin() {
+  var action = 0;
     document.getElementById("User_Error").innerHTML = "";
     document.getElementById("Pass_Error").innerHTML = "";
 
     if (document.getElementById("username").value == "") {
       document.getElementById("User_Error").innerHTML = "Please enter emailid";
-      return false;
+       action = 1;
     }
     if (document.getElementById("password").value == "") {
       document.getElementById("Pass_Error").innerHTML = "Please enter password";
-      return false;
+      action = 1;
     }
+     if (action == 1) {
+      return false;
+    } else {
     form1.action = "<?php echo base_url(); ?>users/loginprocess";
     form1.submit();
+    }
   }
   document.querySelector('.img-btn').addEventListener('click', function() {
     document.querySelector('.cont').classList.toggle('s-signup')

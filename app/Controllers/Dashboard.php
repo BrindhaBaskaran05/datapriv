@@ -23,7 +23,7 @@ class Dashboard extends BaseController
         $session = session();
         $data['Page_title']='Dashboard';  
         $user_id = $session->get('user_id');
-
+        $data['last_scan_date']='';
         
 
         $builder1 = $this->db->table('dp_scan');
@@ -32,15 +32,17 @@ class Dashboard extends BaseController
         $query = $builder1->get();
 
         $result = $query->getRowArray();
-
+            
+        if($result['last_scan_date']){
           $formatted= date('d M Y h:i A', strtotime($result['last_scan_date'])); 
-         $data['last_scan_date']=$formatted;
+          $data['last_scan_date']=$formatted;
+        }
         
         
 
 
          $builder = $this->db->table('dp_scan_schedule'); 
-      $dat = $builder->where('user_id', $user_id)->get()->getRowArray();
+         $dat = $builder->where('user_id', $user_id)->get()->getRowArray();
         // $data['schedules'] = array();
        /*  echo $this->db->getLastQuery();
         die; */
@@ -131,11 +133,11 @@ $dat='';
         $data['address_count']= array_sum(array_column($result, 'address_count'));
         $data['dob_count']= array_sum(array_column($result, 'dob_count'));
         $data['name_count']= array_sum(array_column($result, 'name_count'));
-
-          /*  echo '<pre>';
+/* echo '<pre>';
             print_r($data);
             die; */
 
+           
            return view('dashboard/home', $data);
     }
 

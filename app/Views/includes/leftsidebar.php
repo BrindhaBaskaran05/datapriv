@@ -31,7 +31,7 @@
             $check = $Expurl[1];
             //echo $check;
             ?>
-            <li class="menu-item <?php if ($check == "dashboard") {
+            <li class="menu-item <?php if ($check == "dashboard" || $check =="index.php/dashboard") {
                                     echo "active";
                                   } ?>">
 

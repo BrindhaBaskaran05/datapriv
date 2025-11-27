@@ -45,7 +45,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="<?php echo base_url().'profile';?>">
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
@@ -63,7 +63,8 @@
                       <div class="dropdown-divider"></div>
                     </li>
                      <li>
-                      <a class="dropdown-item" href="#">
+                      <?php $ln=($PlanName=='Guest') ? base_url().'users/upgrade_plans':'#';?>
+                      <a class="dropdown-item" href="<?php echo $ln; ?>">
                         <i class="bx bx-box me-2"></i>
                         <span class="align-middle"><?php echo $PlanName; ?></span><br>
                         <?php if($PlanExpDate>0) { ?><small class="text-muted">Expire on <?php echo $PlanExpDate; ?></small> <?php } ?>

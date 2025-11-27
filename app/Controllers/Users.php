@@ -107,8 +107,8 @@ class Users extends BaseController
 			}
 		} else {
 			$session->setFlashdata('msg', 'Invalid EmailId/Password');
-			echo $session->getFlashdata('msg');
-			exit();
+			//echo $session->getFlashdata('msg');
+			
 			return redirect()->to('/');
 		}
 	}
@@ -132,6 +132,8 @@ class Users extends BaseController
 				'address'    => $this->request->getPost('address'),
 				'address2'    => $this->request->getPost('address2'),
 				'postal_code'    => $this->request->getPost('postal_code'),
+				'contact_number1' => $this->request->getPost('contact_number1'),
+				'contact_number2' => $this->request->getPost('contact_number2'),
 				'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
 				// Add other fields as needed
 			];
