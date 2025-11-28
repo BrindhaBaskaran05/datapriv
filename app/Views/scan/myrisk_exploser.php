@@ -150,6 +150,72 @@
 
                     </div>
 
+                    <!-- map start -->
+                     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+ -->
+
+ <div class="col-md-8">
+                      <!-- <div class="card" style="
+                            margin-top: 25px;
+                            width: 90%;
+                            margin-left:5%
+                        ">
+                        <div class="card-body">
+                          <div class="text-center"> -->
+<div class="container my-4">
+    <div class="card p-4 shadow-sm">
+        
+        <!-- Top row: Title + Erase button -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold">
+                <span class="text-danger">⚠</span> Your Exposed Personal Info
+            </h5>
+
+            <button class="btn btn-primary btn-sm">Erase It</button>
+        </div>
+
+        <div class="row">
+            <!-- LEFT: Details List -->
+            <div class="col-md-6">
+                <ul class="list-unstyled">
+                    <li>• First & Last Name</li>
+                    <li>• Email Addresses</li>
+                    <li>• Phone Numbers</li>
+                    <li>• Physical Address</li>
+                    <li>• Friends & Family Members</li>
+                    <li>• Social Security Number</li>
+                    <li>• Credit Score</li>
+                    <li>• GPS Location</li>
+                </ul>
+            </div>
+
+            <!-- RIGHT: Map + Location -->
+            <div class="col-md-6 text-center">
+                <p class="mb-1 text-muted">Comcast: 129.4.87.105</p>
+                <h6 class="fw-bold mb-3">Atlanta, Georgia US</h6>
+
+                <!-- Map Image -->
+                    <iframe 
+                        width="100%" 
+                        height="250" 
+                        style="border:0"
+                        loading="lazy"
+                        allowfullscreen
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3316.227036478987!2d-84.389977!3d33.749099!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f50359d1f2e7d1%3A0x6a1ef0ad5d1c0b17!2sAtlanta%2C%20GA!5e0!3m2!1sen!2sus!4v1700000000000">
+                    </iframe>
+            </div>
+        </div>
+
+    </div>
+</div>
+      <!-- </div>
+    </div>
+  </div> -->
+ </div>
+
+                     <!-- map end -->
+
 
 
 

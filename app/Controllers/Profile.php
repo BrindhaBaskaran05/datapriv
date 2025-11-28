@@ -5,7 +5,11 @@ use App\Models\UserModel;
 
 class Profile extends BaseController
 {
-
+     protected $db;
+    public function __construct()
+    {
+        $this->db = \Config\Database::connect(); // 🔧 FIX HERE
+    }
     public function index()
     {
         
@@ -18,14 +22,20 @@ class Profile extends BaseController
         $data['last_name']    = $session->get('last_name');
         $data['user_email']   = $session->get('user_email');
         $data['dob']    = $session->get('dob');
-        $data['address1']    = $session->get('address1');
+        $data['address1']    = $session->get('address');
         $data['address2']    = $session->get('address2');
         $data['city']  = $session->get('city');
         $data['state']    = $session->get('state');
         $data['postal_code']    = $session->get('postal_code');
         $data['country']   = $session->get('country');
+        $data['contact_number1']   = $session->get('contact_number1');
+        $data['contact_number2']   = $session->get('contact_number2');
+        
 
         $data['title'] = 'Profile';
+        $builder = $this->db->table('dp_countries');
+		$builder->select('country_id, country_name');
+		$data['countries'] =  $builder->get()->getResultArray();
 
        /*  print_r($data);
         die; */

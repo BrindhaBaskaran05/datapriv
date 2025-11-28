@@ -37,7 +37,7 @@ class Scan extends BaseController
 /* Scan Results start */
 $subQuery = $this->db->table('dp_scan')
     ->select('user_id, MAX(scan_date) AS last_scan_date')
-    ->where('user_id', 15)
+    ->where('user_id', $user_id)
     ->getCompiledSelect();
 
 $builder = $this->db->table('dp_scan s');
@@ -92,6 +92,10 @@ $dat='';
         $data['address_count']= array_sum(array_column($result, 'address_count'));
         $data['dob_count']= array_sum(array_column($result, 'dob_count'));
         $data['name_count']= array_sum(array_column($result, 'name_count'));
+
+       /*  echo '<pre>';
+        print_r($scanIds);
+        die; */
 
     return view('scan/home', $data);
   }
@@ -229,7 +233,7 @@ $latestScan = $query->getResultArray();
  
 
     $randomLimit=2;
-    $dat='';
+        $dat='';
         $scan_id = ''; 
         if ($latestScan) {
             foreach ($latestScan as $key => $value) {

@@ -1,5 +1,10 @@
   <?= $this->include('includes/header') ?>
-
+<style>
+   label {
+      text-transform: capitalize !important;
+   }
+</style>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <body>
      <!-- Layout wrapper -->
      <div class="layout-wrapper layout-content-navbar">
@@ -27,7 +32,7 @@
                                
                              </div>
                              <div class="card-body">
-                                                                  <?php if (session()->getFlashdata('error')): ?>
+                                       <?php if (session()->getFlashdata('error')): ?>
                                        <div class="alert alert-danger">
                                           <?= session()->getFlashdata('error') ?>
                                        </div>
@@ -41,14 +46,14 @@
                                 <form action="<?= base_url('/profile/update') ?>" method="post" >
                                   <?= csrf_field() ?>
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-default-name">First Name</label>
-                                      <div class="col-sm-10">
-                                         <input type="text" name="name" class="form-control" id="basic-default-name" placeholder="John Doe" value="<?php echo isset($_POST['name']) && $_POST['name'] !== '' ? htmlspecialchars($_POST['name']) : $user_name; ?>" />
+                                      <label class="col-sm-4 col-form-label" for="basic-default-name">First Name*</label>
+                                      <div class="col-sm-8">
+                                         <input type="text" required name="name" class="form-control" id="basic-default-name" placeholder="John Doe" value="<?php echo isset($_POST['name']) && $_POST['name'] !== '' ? htmlspecialchars($_POST['name']) : $name; ?>" />
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-default-company">Middle Name</label>
-                                      <div class="col-sm-10">
+                                      <label class="col-sm-4 col-form-label" for="basic-default-company">Middle Name</label>
+                                      <div class="col-sm-8">
                                          <input
                                             type="text"
                                             name="middle_name" 
@@ -59,8 +64,8 @@
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-default-company">Last Name</label>
-                                      <div class="col-sm-10">
+                                      <label class="col-sm-4 col-form-label" for="basic-default-company">Last Name</label>
+                                      <div class="col-sm-8">
                                          <input
                                             type="text"
                                              name="last_name" 
@@ -71,8 +76,8 @@
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-default-company">Birthday</label>
-                                      <div class="col-sm-10">
+                                      <label class="col-sm-4 col-form-label" for="basic-default-company">Birthday</label>
+                                      <div class="col-sm-8">
                                          <input
                                             type="date"
                                               name="dob" 
@@ -83,8 +88,8 @@
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-default-email">Email</label>
-                                      <div class="col-sm-10">
+                                      <label class="col-sm-4 col-form-label" for="basic-default-email">Email*</label>
+                                      <div class="col-sm-8">
                                          <div class="input-group input-group-merge">
                                             <input
                                                type="text"
@@ -93,7 +98,7 @@
                                                class="form-control"
                                                value="<?php echo $user_email;?>"
                                                placeholder="john.doe@gmail.com"
-                                               aria-label="john.doe"
+                                               aria-label="john.doe" disabled
                                                aria-describedby="basic-default-email2" />
                                            
                                          </div>
@@ -101,8 +106,8 @@
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-default-phone">City</label>
-                                      <div class="col-sm-10">
+                                      <label class="col-sm-4 col-form-label" for="basic-default-phone">City</label>
+                                      <div class="col-sm-8">
                                          <input
                                             type="text"
                                              name="city"
@@ -114,8 +119,8 @@
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-default-phone">State</label>
-                                      <div class="col-sm-10">
+                                      <label class="col-sm-4 col-form-label" for="basic-default-phone">State</label>
+                                      <div class="col-sm-8">
                                          <input
                                             type="text"
                                              name="state"
@@ -127,10 +132,10 @@
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-default-phone">Postelcode</label>
-                                      <div class="col-sm-10">
+                                      <label class="col-sm-4 col-form-label" for="basic-default-phone">Postelcode</label>
+                                      <div class="col-sm-8">
                                          <input
-                                            type="text"
+                                            type="number"
                                             name="postal_code"
                                             id="basic-default-phone"
                                             class="form-control phone-mask"
@@ -139,20 +144,23 @@
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-default-phone">Country</label>
-                                      <div class="col-sm-10">
-                                         <input
-                                            type="text"
-                                             name="country"
-                                            id="basic-default-phone"
-                                            class="form-control phone-mask"
-                                            value="<?php echo $country;?>"
-                                            placeholder="India" />
+                                      <label class="col-sm-4 col-form-label" for="basic-default-phone">Country</label>
+                                      <div class="col-sm-8">
+                                       <select class="form-select" id="ctry_id" name="country">
+                                                   <!-- <option value="">Select a country</option> -->
+                                       <?php foreach ($countries as $ctry): ?>
+                                          <option value="<?= $ctry['country_id'] ?>" 
+                                             <?= ($ctry['country_id'] == $country) ? 'selected' : '' ?>>
+                                             <?= $ctry['country_name'] ?>
+                                          </option>
+                                          <?php endforeach; ?>
+                                       </select>
+                                        
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-default-message">Address1</label>
-                                      <div class="col-sm-10">
+                                      <label class="col-sm-4 col-form-label" for="basic-default-message">Address1</label>
+                                      <div class="col-sm-8">
                                          <textarea
                                             name="address"
                                             id="basic-default-message"
@@ -161,8 +169,8 @@
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-default-message">Address2</label>
-                                      <div class="col-sm-10">
+                                      <label class="col-sm-4 col-form-label" for="basic-default-message">Address2</label>
+                                      <div class="col-sm-8">
                                          <textarea
                                            name="address2"
                                             id="basic-default-message"
@@ -170,8 +178,34 @@
                                             ><?php echo $address2;?></textarea>
                                       </div>
                                    </div>
+                                   <div class="row mb-3">
+                                      <label class="col-sm-4 col-form-label" for="contact_number1">Contact 1*</label>
+                                      <div class="col-sm-8">
+                                         <input
+                                            type="text" required
+                                             name="contact_number1"
+                                            id="contact_number1"
+                                            class="form-control phone-mask"
+                                            placeholder="9377454333"
+                                             value="<?php echo $contact_number1;?>"
+                                             />
+                                      </div>
+                                   </div>
+                                   <div class="row mb-3">
+                                      <label class="col-sm-4 col-form-label" for="contact_number2">Contact 2</label>
+                                      <div class="col-sm-8">
+                                         <input
+                                            type="text"
+                                             name="contact_number2"
+                                            id="contact_number2"
+                                            class="form-control phone-mask"
+                                            placeholder="9377454444"
+                                             value="<?php echo $contact_number2;?>"
+                                             />
+                                      </div>
+                                   </div>
                                    <div class="row justify-content-end">
-                                      <div class="col-sm-10">
+                                      <div class="col-sm-8">
                                          <button type="submit" class="btn btn-primary">Update</button>
                                       </div>
                                    </div>
@@ -192,8 +226,8 @@
 
 
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">New Password</label>
-                                      <div class="col-sm-10">
+                                      <label class="col-sm-4 col-form-label" for="basic-icon-default-fullname">New Password</label>
+                                      <div class="col-sm-8">
                                          <div class="input-group input-group-merge">
                                             
                                             <input
@@ -207,8 +241,8 @@
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-icon-default-company">Confirm Password</label>
-                                      <div class="col-sm-10">
+                                      <label class="col-sm-4 col-form-label" for="basic-icon-default-company">Confirm Password</label>
+                                      <div class="col-sm-8">
                                          <div class="input-group input-group-merge">
                                           
                                             <input
@@ -222,8 +256,8 @@
                                    </div>
                                   
                                     <div class="row mb-3">
-                                      <label class="col-sm-2 col-form-label" for="basic-icon-default-company">Current Password</label>
-                                      <div class="col-sm-10">
+                                      <label class="col-sm-4 col-form-label" for="basic-icon-default-company">Current Password</label>
+                                      <div class="col-sm-8">
                                          <div class="input-group input-group-merge">
                                             
                                             <input
@@ -237,7 +271,7 @@
                                    </div>
                                    
                                    <div class="row justify-content-end">
-                                      <div class="col-sm-10">
+                                      <div class="col-sm-8">
                                          <button type="submit" class="btn btn-primary">Save</button>
                                       </div>
                                    </div>
@@ -267,5 +301,16 @@
      <?= $this->include('includes/footer') ?>
 
   </body>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#ctry_id').select2({
+      placeholder: "Select a country",
+      allowClear: true
+    });
+  });
+</script>
 
   </html>

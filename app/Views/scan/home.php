@@ -377,7 +377,9 @@
                                 </tr>
                               </thead>
                               <tbody class="table-border-bottom-0" id ="companyid">
-                                <?php echo $companieslist; ?>
+                               
+                                <?php echo $data = ($companieslist) ? $companieslist : '<tr><td>No scan data found</tr></td>'; ?>
+
 
 
                               </tbody>
