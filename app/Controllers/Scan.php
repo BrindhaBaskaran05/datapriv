@@ -230,13 +230,15 @@ $query = $builder->get();
 
 $latestScan = $query->getResultArray();
 
+
  
 
     $randomLimit=2;
         $dat='';
         $scan_id = ''; 
+        $data['companieslist']='';
         if ($latestScan) {
-            foreach ($latestScan as $key => $value) {
+           /*  foreach ($latestScan as $key => $value) {
                $dat .= ' <div class="col-md-6 mb-4">
                   <div class="card icon-card cursor-pointer text-start">
                       <div class="card-body">
@@ -258,12 +260,23 @@ $latestScan = $query->getResultArray();
 
 
                 $scan_id .= $value['scan_id'].',';
-            }    
-        }
+            }  */   
+        
+        foreach ($latestScan as $k => $company) {
+
+                $dat .= '<tr>
+                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' . $latestScan[$k]['company'] . '</strong></td>
+                <td><span class="badge bg-label-danger me-1">' . $randomLimit . '</span></td>                
+            </tr>';
+    }
+        $data['companieslist']=$dat;
+              }
+
+        
         $scanIds = explode(',', rtrim($scan_id, ','));
 
-       // print_r($scanIds);
-       // die;
+        /* print_r($data);
+        die; */
 
 
         $builder = $this->db->table('dp_scan_detail');

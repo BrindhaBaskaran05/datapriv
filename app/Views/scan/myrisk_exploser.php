@@ -10,6 +10,7 @@
 
 =========================================================-->
 <!-- beautify ignore:start -->
+  
 <?= $this->include('includes/header') ?>
 <style>
   .custom-progress {
@@ -70,6 +71,8 @@
       <div class="layout-page">
         <?= $this->include('includes/header_section') ?>
 
+        
+
         <?php
         $session = session();
         $username = $session->get('user_name');
@@ -78,14 +81,17 @@
 
         if ($session->get('percent')) $p = $session->get('percent');
         else $p = '0';
-        if ($session->get('companies')) $companieslist = $session->get('companies');
-        else $companieslist = '';
+        //if ($session->get('companies')) $companieslist = $session->get('companies');
+       // else $companieslist = '';
 
         ?>
+        
         <!-- Content wrapper -->
         <div class="content-wrapper">
 
           <!-- Content -->
+
+          
 
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
@@ -149,6 +155,7 @@
 
 
                     </div>
+                    
 
                     <!-- map start -->
                      <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -267,16 +274,35 @@
                     </div>
                     <!-- swapna end -->
 
+                    
+                    <!-- companieslist start -->
                     <div class="col-md-12 col-lg-12 order-2 mb-4">
                       <div class="card h-100">
-                        <div class="row" id="icons-container">
-                           <?php echo $companieslist; ?>
-                          
 
+                        <!-- Basic Bootstrap Table -->
+                        <div class="card">
+                          <h5 class="card-header">Exposure Sources</h5>
+                          <div class="table-responsive text-nowrap">
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th>Company name</th>
+                                  <th>Data</th>
+
+                                </tr>
+                              </thead>
+                              <tbody class="table-border-bottom-0" id="companyid">
+                                <?php echo $data = ($companieslist) ? $companieslist : '<tr><td>No scan data found</tr></td>'; ?>
+
+
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
+                        <!--/ Basic Bootstrap Table -->
                       </div>
                     </div>
-
+                    <!--/ companieslist end -->
 
                     
                   </div>
