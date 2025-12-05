@@ -63,7 +63,7 @@
                       <div class="dropdown-divider"></div>
                     </li>
                      <li>
-                      <?php $ln=($PlanName=='Guest') ? base_url().'users/upgrade_plans':'#';?>
+                      <?php $ln=($PlanName=='Guest') ? base_url().'users/upgrade_plans': base_url().'users/upgrade_plans';?>
                       <a class="dropdown-item" href="<?php echo $ln; ?>">
                         <i class="bx bx-box me-2"></i>
                         <span class="align-middle"><?php echo $PlanName; ?></span><br>

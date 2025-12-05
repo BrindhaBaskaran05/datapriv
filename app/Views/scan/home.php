@@ -190,7 +190,7 @@
 </style>
 
 <!-- scan css -->
- <style>
+<style>
   .custom-progress {
     height: 25px;
     background-color: #e9ecef;
@@ -273,18 +273,18 @@
             </div>
 
             <div class="custom-progress" style="display:none;" id="Bar">
-                          <div class="progress-bar custom-progress-bar" id="myProgressBar" role="progressbar" style="width:0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                           0%
-                          </div>
-                        </div>
+              <div class="progress-bar custom-progress-bar" id="myProgressBar" role="progressbar" style="width:0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                0%
+              </div>
+            </div>
 
             <!-- Top Row -->
             <div class="row g-4 mb-4">
-               <!-- Map -->
-            <div class="col-lg-6">
-              <div class="card map-card"></div>
-            </div>
-             
+              <!-- Map -->
+              <div class="col-lg-6">
+                <div class="card map-card"></div>
+              </div>
+
               <!-- Score + Breaches + Resolved -->
               <div class="col-lg-6">
                 <!--<div class="card p-4 text-center mb-3">
@@ -293,36 +293,36 @@
               </div>-->
                 <div class="card h-100 p-4 text-center mb-3">
                   <div class="progress-wrapper">
-                              <svg width="200" height="100" viewBox="0 0 200 100">
-                                <defs>
-                                  <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="red" />
-                                    <stop offset="16.6%" stop-color="orange" />
-                                    <stop offset="33.3%" stop-color="yellow" />
-                                    <stop offset="50%" stop-color="green" />
-                                    <stop offset="66.6%" stop-color="blue" />
-                                    <stop offset="83.3%" stop-color="indigo" />
-                                    <stop offset="100%" stop-color="violet" />
-                                  </linearGradient>
-                                </defs>
+                    <svg width="200" height="100" viewBox="0 0 200 100">
+                      <defs>
+                        <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stop-color="red" />
+                          <stop offset="16.6%" stop-color="orange" />
+                          <stop offset="33.3%" stop-color="yellow" />
+                          <stop offset="50%" stop-color="green" />
+                          <stop offset="66.6%" stop-color="blue" />
+                          <stop offset="83.3%" stop-color="indigo" />
+                          <stop offset="100%" stop-color="violet" />
+                        </linearGradient>
+                      </defs>
 
-                                <!-- Cap-shaped semi-circle background -->
-                                <path class="track" d="M10,100 A90,90 0 0 1 190,100"
-                                  fill="none"
-                                  stroke-width="15" />
+                      <!-- Cap-shaped semi-circle background -->
+                      <path class="track" d="M10,100 A90,90 0 0 1 190,100"
+                        fill="none"
+                        stroke-width="15" />
 
-                                <!-- Rainbow progress arc -->
-                                <path class="progress" d="M10,100 A90,90 0 0 1 190,100"
-                                  fill="none"
-                                  stroke-width="15"
-                                  stroke-dasharray="283"
-                                  stroke-dashoffset="283" />
-                              </svg>
+                      <!-- Rainbow progress arc -->
+                      <path class="progress" d="M10,100 A90,90 0 0 1 190,100"
+                        fill="none"
+                        stroke-width="15"
+                        stroke-dasharray="283"
+                        stroke-dashoffset="283" />
+                    </svg>
 
-                              <div class="percentage" id="percentLabel">50%</div>
-                            </div>
+                    <div class="percentage" id="percentLabel">50%</div>
+                  </div>
                 </div>
-               <!--  <div class="d-flex gap-3">
+                <!--  <div class="d-flex gap-3">
                   <div class="card flex-fill p-3 text-center">
                     <h6 class="fw-semibold">Breaches</h6>
                     <h3>0</h3>
@@ -349,15 +349,19 @@
                       </tr>
                       <tr>
                         <td><span class="status-dot dot-warning"></span>Full Name</td>
-                        <td><span class="status-dot dot-warning"></span><span id="name_count"><?= $name_count?></span> </td>
+                        <td><span class="status-dot dot-warning"></span><span id="name_count"><?= $name_count ?></span> </td>
                       </tr>
                       <tr>
                         <td><span class="status-dot dot-safe"></span>Date of Birth</td>
-                        <td><span class="status-dot dot-safe"></span><span id="dob_count"><?= $dob_count?></span></td>
+                        <td><span class="status-dot dot-safe"></span><span id="dob_count"><?= $dob_count ?></span></td>
                       </tr>
                       <tr>
-                        <td><span class="status-dot dot-exposed"></span>Phone Number</td>
-                        <td><span class="status-dot dot-exposed"></span><span id="name_count"><?= $phone_count?></span></td>
+                        <td><span class="status-dot dot-exposed"></span>Contact No 1</td>
+                        <td><span class="status-dot dot-exposed"></span><span id="name_count"><?= $phone_count ?></span></td>
+                      </tr>
+                      <tr>
+                        <td><span class="status-dot dot-exposed"></span>Contact No 2</td>
+                        <td><span class="status-dot dot-exposed"></span><span id="contact2_count"><?= $contact2_count ?></span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -365,27 +369,27 @@
               </div>
               <!-- Export Card -->
               <div class="col-lg-4">
-                  <div class="card h-100">
-                          <h5 class="card-header">Exposure Sources</h5>
-                          <div class="table-responsive text-nowrap">
-                            <table class="table">
-                              <thead>
-                                <tr>
-                                  <th>Company name</th>
-                                  <th>Data</th>
-                                  
-                                </tr>
-                              </thead>
-                              <tbody class="table-border-bottom-0" id ="companyid">
-                               
-                                <?php echo $data = ($companieslist) ? $companieslist : '<tr><td>No scan data found</tr></td>'; ?>
+                <div class="card h-100">
+                  <h5 class="card-header">Exposure Sources</h5>
+                  <div class="table-responsive text-nowrap">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Company name</th>
+                          <th>Data</th>
+
+                        </tr>
+                      </thead>
+                      <tbody class="table-border-bottom-0" id="companyid">
+
+                        <?php echo $data = ($companieslist) ? $companieslist : '<tr><td>No scan data found</tr></td>'; ?>
 
 
 
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
               <!-- Exposure Sources Summary -->
               <div class="col-lg-4">
@@ -398,12 +402,20 @@
                         <td><strong>Status</strong></td>
                       </tr>
                       <tr>
-                        <td><span class="status-dot dot-warning"></span>Emails Addresses</td>
-                        <td><span class="status-dot dot-warning"></span><span id="email_count"><?= $email_count?></span></td>
+                        <td><span class="status-dot dot-warning"></span>Emails ID</td>
+                        <td><span class="status-dot dot-warning"></span><span id="email_count"><?= $email_count ?></span></td>
                       </tr>
                       <tr>
-                        <td><span class="status-dot dot-safe"></span>Physical Addresses</td>
-                        <td><span class="status-dot dot-safe"></span><span id="phone_count"><?= $address_count?></span></td>
+                        <td><span class="status-dot dot-safe"></span>Addresses</td>
+                        <td><span class="status-dot dot-safe"></span><span id="phone_count"><?= $address_count ?></span></td>
+                      </tr>
+                      <tr>
+                        <td><span class="status-dot dot-safe"></span>Username</td>
+                        <td><span class="status-dot dot-safe"></span><span id="username_count"><?= $username_count ?></span></td>
+                      </tr>
+                      <tr>
+                        <td><span class="status-dot dot-safe"></span>Password</td>
+                        <td><span class="status-dot dot-safe"></span><span id="password_count"><?= $password_count ?></span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -427,23 +439,21 @@
     //checkplan();
 
     /* scan score */
-    
   </script>
   <?= $this->include('includes/footer') ?>
 </body>
 <script>
-
   // Pecentage circle start code
-    const storedUserId = localStorage.getItem('scanpercent');
-     var percentage = storedUserId; // Change this from 0 to 100
+  const storedUserId = localStorage.getItem('scanpercent');
+  var percentage = storedUserId; // Change this from 0 to 100
 
   const circle = document.querySelector('.progress');
   const label = document.getElementById('percentLabel');
 
-    if (percentage == null)
-      percentage = 0;
+  if (percentage == null)
+    percentage = 0;
 
-    //alert(percentage);
+  //alert(percentage);
 
   const totalLength = 283; // semi-circle path length
   const offset = totalLength - (percentage / 100 * totalLength);
@@ -454,21 +464,21 @@
 
 
 
-    var last_scan_date =localStorage.getItem('last_scan_date');
-    $('#last_scan_date').html(last_scan_date);
+  var last_scan_date = localStorage.getItem('last_scan_date');
+  $('#last_scan_date').html(last_scan_date);
 
-    if (last_scan_date) {
-        $('#ltxt').show();
-    } else {
-        $('#ltxt').hide();
-    }
+  if (last_scan_date) {
+    $('#ltxt').show();
+  } else {
+    $('#ltxt').hide();
+  }
 
 
-    
 
-   function startScan() {
 
-    
+  function startScan() {
+
+
 
     const progressBar = $("#myProgressBar");
     let width = 0;
@@ -489,55 +499,58 @@
     $.ajax({
       url: base_url + "scanresult",
       method: "POST",
-      
+
       data: {
         //Bankid,Txid
       },
       success: function(response) {
-      let res = JSON.parse(response);
+        let res = JSON.parse(response);
         console.log(response);
         clearInterval(interval);
-         $("#Bar").hide();
+        $("#Bar").hide();
         width = 100;
         progressBar.css("width", "100%");
         progressBar.attr("aria-valuenow", 100);
         progressBar.html('100%');
         console.log("Scan complete:", response);
 
-        if(res.redirectplans==1)
-        { window.location.href = base_url + "users/upgrade_plans";
+        if (res.redirectplans == 1) {
+          window.location.href = base_url + "users/upgrade_plans";
           return false;
-        }else{
-        
+        } else {
 
-           $("#companyid").html(res.companies);
 
-           $("#email_count").html(res.email_count);
-           $("#phone_count").html(res.phone_count);
-           $("#address_count").html(res.address_count);
-           $("#dob_count").html(res.dob_count);
-           $("#name_count").html(res.name_count);
+          $("#companyid").html(res.companies);
+
+          $("#email_count").html(res.email_count);
+          $("#phone_count").html(res.phone_count);
+          $("#address_count").html(res.address_count);
+          $("#dob_count").html(res.dob_count);
+          $("#name_count").html(res.name_count);
+          $("#username_count").html(res.username_count);
+          $("#password_count").html(res.password_count);
+          $("#contact2_count").html(res.contact2_count);
           localStorage.setItem('last_scan_date', res.last_scan_date);
-            
-            $('#last_scan_date').text(res.last_scan_date);
 
-           // Pecentage circle start code
-     const percentage = res.per; // Change this from 0 to 100
+          $('#last_scan_date').text(res.last_scan_date);
 
-     const scanpercent = res.per;
-    localStorage.setItem('scanpercent', scanpercent);
+          // Pecentage circle start code
+          const percentage = res.per; // Change this from 0 to 100
 
-      const circle = document.querySelector('.progress');
-      const label = document.getElementById('percentLabel');
+          const scanpercent = res.per;
+          localStorage.setItem('scanpercent', scanpercent);
 
-      const totalLength = 283; // semi-circle path length
-      const offset = totalLength - (percentage / 100 * totalLength);
+          const circle = document.querySelector('.progress');
+          const label = document.getElementById('percentLabel');
 
-      circle.style.strokeDashoffset = offset;
-      label.textContent = `${percentage}%`;
-        //end code
-            }
-          },
+          const totalLength = 283; // semi-circle path length
+          const offset = totalLength - (percentage / 100 * totalLength);
+
+          circle.style.strokeDashoffset = offset;
+          label.textContent = `${percentage}%`;
+          //end code
+        }
+      },
       error: function(error) {
         alert('error');
         clearInterval(interval);
@@ -549,4 +562,5 @@
     });
   }
 </script>
+
 </html>

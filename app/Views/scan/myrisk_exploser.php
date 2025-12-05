@@ -10,7 +10,7 @@
 
 =========================================================-->
 <!-- beautify ignore:start -->
-  
+
 <?= $this->include('includes/header') ?>
 <style>
   .custom-progress {
@@ -71,7 +71,7 @@
       <div class="layout-page">
         <?= $this->include('includes/header_section') ?>
 
-        
+
 
         <?php
         $session = session();
@@ -82,16 +82,16 @@
         if ($session->get('percent')) $p = $session->get('percent');
         else $p = '0';
         //if ($session->get('companies')) $companieslist = $session->get('companies');
-       // else $companieslist = '';
+        // else $companieslist = '';
 
         ?>
-        
+
         <!-- Content wrapper -->
         <div class="content-wrapper">
 
           <!-- Content -->
 
-          
+
 
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
@@ -155,13 +155,12 @@
 
 
                     </div>
-                    
+
 
                     <!-- map start -->
-                     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
- -->
+                    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 
- <div class="col-md-8">
+                    <div class="col-md-8">
                       <!-- <div class="card" style="
                             margin-top: 25px;
                             width: 90%;
@@ -169,59 +168,55 @@
                         ">
                         <div class="card-body">
                           <div class="text-center"> -->
-<div class="container my-4">
-    <div class="card p-4 shadow-sm">
-        
-        <!-- Top row: Title + Erase button -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold">
-                <span class="text-danger">⚠</span> Your Exposed Personal Info
-            </h5>
+                      <div class="container my-4">
+                        <div class="card p-4 shadow-sm">
 
-            <button class="btn btn-primary btn-sm">Erase It</button>
-        </div>
+                          <!-- Top row: Title + Erase button -->
+                          <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold">
+                              <span class="text-danger">⚠</span> Your Exposed Personal Info
+                            </h5>
 
-        <div class="row">
-            <!-- LEFT: Details List -->
-            <div class="col-md-6">
-                <ul class="list-unstyled">
-                    <li>• First & Last Name</li>
-                    <li>• Email Addresses</li>
-                    <li>• Phone Numbers</li>
-                    <li>• Physical Address</li>
-                    <li>• Friends & Family Members</li>
-                    <li>• Social Security Number</li>
-                    <li>• Credit Score</li>
-                    <li>• GPS Location</li>
-                </ul>
-            </div>
+                            <button class="btn btn-primary btn-sm">Erase It</button>
+                          </div>
 
-            <!-- RIGHT: Map + Location -->
-            <div class="col-md-6 text-center">
-                <p class="mb-1 text-muted">Comcast: 129.4.87.105</p>
-                <h6 class="fw-bold mb-3">Atlanta, Georgia US</h6>
+                          <div class="row">
+                            <!-- LEFT: Details List -->
+                            <div class="col-md-6">
+                              <ul class="list-unstyled">
+                                <?php foreach ($personal_info as $key => $value) {?>
+                                  <li>• <?=  $value ?></li>
+                                <?php } ?>
+                               
+                              </ul>
+                            </div>
 
-                <!-- Map Image -->
-                    <iframe 
-                        width="100%" 
-                        height="250" 
-                        style="border:0"
-                        loading="lazy"
-                        allowfullscreen
-                        referrerpolicy="no-referrer-when-downgrade"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3316.227036478987!2d-84.389977!3d33.749099!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f50359d1f2e7d1%3A0x6a1ef0ad5d1c0b17!2sAtlanta%2C%20GA!5e0!3m2!1sen!2sus!4v1700000000000">
-                    </iframe>
-            </div>
-        </div>
+                            <!-- RIGHT: Map + Location -->
+                            <div class="col-md-6 text-center">
+                              <p class="mb-1 text-muted">Comcast: 129.4.87.105</p>
+                              <h6 class="fw-bold mb-3">Atlanta, Georgia US</h6>
 
-    </div>
-</div>
-      <!-- </div>
-    </div>
-  </div> -->
- </div>
+                              <!-- Map Image -->
+                              <iframe
+                                width="100%"
+                                height="250"
+                                style="border:0"
+                                loading="lazy"
+                                allowfullscreen
+                                referrerpolicy="no-referrer-when-downgrade"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3316.227036478987!2d-84.389977!3d33.749099!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f50359d1f2e7d1%3A0x6a1ef0ad5d1c0b17!2sAtlanta%2C%20GA!5e0!3m2!1sen!2sus!4v1700000000000">
+                              </iframe>
+                            </div>
+                          </div>
 
-                     <!-- map end -->
+                        </div>
+                      </div>
+                      <!-- </div>
+                      </div>
+                    </div> -->
+                    </div>
+
+                    <!-- map end -->
 
 
 
@@ -233,48 +228,92 @@
                     <div>&nbsp; </div>
 
                     <div class="col-md-12 col-lg-12 order-2 mb-4">
-                    
+
                       <div class="card h-100">
-                         
+
                         <div class="d-flex flex-wrap" id="icons-container">
-                          
-                          <div class="card icon-card cursor-pointer text-center mb-4 mx-4">
-                            <div class="card-body">
-                              <span id="email_count"><?= $email_count?></span> <span class="badge bg-label-success me-1" style="float: right;">Safe</span>
-                              <p class="icon-name text-capitalize text-truncate mb-0">Emails Addresses</p>
+
+                          <div class="col-md-3 col-lg-3">
+                            <div class="card icon-card cursor-pointer text-left mb-4 mx-4">
+                              <div class="card-body">
+                                <p><span id="email_count"><?= $email_count ?></span> <span class="badge <?=($email_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($email_count==0)?'Safe':'Fix';?></span></p>
+                                <p class="icon-name text-capitalize text-truncate mb-0">Emails ID</p>
+                              </div>
                             </div>
                           </div>
-                          <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
-                            <div class="card-body">
-                              <span id="address_count"><?= $address_count?></span> <span class="badge bg-label-danger me-1 "  style="float: right;">%fix</span>
-                              <p class="icon-name text-capitalize text-truncate mb-0">Physical Addresses</p>
+
+                          <div class="col-md-3 col-lg-3">
+                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
+                              <div class="card-body">
+                                <p><span id="username_count"><?= $username_count ?></span> <span class="badge <?=($username_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($username_count==0)?'Safe':'Fix';?></span></p>
+                                <p class="icon-name text-capitalize text-truncate mb-0">Username</p>
+                              </div>
                             </div>
                           </div>
-                          <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
-                            <div class="card-body">
-                             <span id="name_count"><?= $name_count?></span> <span class="badge bg-label-danger me-1"  style="float: right;">%fix</span>
-                              <p class="icon-name text-capitalize text-truncate mb-0">Full Name</p>
+                          <div class="col-md-3 col-lg-3">
+                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
+                              <div class="card-body">
+                                <p><span id="password_count"><?= $password_count ?></span> <span class="badge <?=($password_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($password_count==0)?'Safe':'Fix';?></span></p>
+                                <p class="icon-name text-capitalize text-truncate mb-0">Password</p>
+                              </div>
                             </div>
                           </div>
-                          <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
-                            <div class="card-body">
-                             <span id="dob_count"><?= $dob_count?></span> <span class="badge bg-label-danger me-1"  style="float: right;">%fix</span>
-                              <p class="icon-name text-capitalize text-truncate mb-0">Date of Birth</p>
+                          <div class="col-md-3 col-lg-3">
+                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
+                              <div class="card-body">
+                                <p><span id="phone_count"><?= $phone_count ?></span> <span class="badge <?=($phone_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($phone_count==0)?'Safe':'Fix';?></span></p>
+                                <p class="icon-name text-capitalize text-truncate mb-0">Contact No 1</p>
+                              </div>
                             </div>
                           </div>
-                          <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
-                            <div class="card-body">
-                             <span id="phone_count"><?= $phone_count?></span> <span class="badge bg-label-danger me-1"  style="float: right;">%fix</span>
-                              <p class="icon-name text-capitalize text-truncate mb-0">Phone Number</p>
+
+                        </div>
+
+
+                        <div class="d-flex flex-wrap" id="icons-container">
+
+                          <div class="col-md-3 col-lg-3">
+                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
+                              <div class="card-body">
+                                <p><span id="address_count"><?= $address_count ?></span> <span class="badge <?=($address_count==0)?'bg-label-success':'bg-label-danger';?> me-1 " style="float: right;"><?=($address_count==0)?'Safe':'Fix';?></span></p>
+                                <p class="icon-name text-capitalize text-truncate mb-0">Addresses</p>
+                              </div>
                             </div>
                           </div>
-                         
+                          <div class="col-md-3 col-lg-3">
+                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
+                              <div class="card-body">
+                                <p><span id="name_count"><?= $name_count ?></span> <span class="badge <?=($name_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($name_count==0)?'Safe':'Fix';?></span></p>
+                                <p class="icon-name text-capitalize text-truncate mb-0">Full Name</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3 col-lg-3">
+                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
+                              <div class="card-body">
+                                <p><span id="dob_count"><?= $dob_count ?></span> <span class="badge <?=($dob_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($dob_count==0)?'Safe':'Fix';?></span></p>
+                                <p class="icon-name text-capitalize text-truncate mb-0">Date of Birth</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3 col-lg-3">
+                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
+                              <div class="card-body">
+                                <p><span id="contact2_count"><?= $contact2_count ?></span> <span class="badge <?=($contact2_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($contact2_count==0)?'Safe':'Fix';?></span></p>
+                                <p class="icon-name text-capitalize text-truncate mb-0">Contact No 2</p>
+                              </div>
+                            </div>
+                          </div>
+
                         </div>
                       </div>
                     </div>
+
+
+
                     <!-- swapna end -->
 
-                    
+
                     <!-- companieslist start -->
                     <div class="col-md-12 col-lg-12 order-2 mb-4">
                       <div class="card h-100">
@@ -282,29 +321,19 @@
                         <!-- Basic Bootstrap Table -->
                         <div class="card">
                           <h5 class="card-header">Exposure Sources</h5>
-                          <div class="table-responsive text-nowrap">
-                            <table class="table">
-                              <thead>
-                                <tr>
-                                  <th>Company name</th>
-                                  <th>Data</th>
+                         
 
-                                </tr>
-                              </thead>
-                              <tbody class="table-border-bottom-0" id="companyid">
-                                <?php echo $data = ($companieslist) ? $companieslist : '<tr><td>No scan data found</tr></td>'; ?>
+                          <?php echo $data = ($companieslist) ? $companieslist : '<tr><td>No scan data found</tr></td>'; ?>
 
-
-                              </tbody>
-                            </table>
-                          </div>
+                            
+                          
                         </div>
                         <!--/ Basic Bootstrap Table -->
                       </div>
                     </div>
                     <!--/ companieslist end -->
 
-                    
+
                   </div>
                 </div>
               </div>
@@ -353,14 +382,14 @@
 
 <script>
   // Pecentage circle start code
-   // Pecentage circle start code
-    const storedUserId = localStorage.getItem('scanpercent');
-     var percentage = storedUserId; // Change this from 0 to 100
+  // Pecentage circle start code
+  const storedUserId = localStorage.getItem('scanpercent');
+  var percentage = storedUserId; // Change this from 0 to 100
 
   const circle = document.querySelector('.progress');
   const label = document.getElementById('percentLabel');
 
-   if (percentage == null)
+  if (percentage == null)
     percentage = 0;
 
   const totalLength = 283; // semi-circle path length

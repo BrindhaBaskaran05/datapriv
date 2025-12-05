@@ -21,10 +21,10 @@ class Dashboard extends BaseController
     public function index()
     {
         $session = session();
-        $data['Page_title']='Dashboard';  
+        $data['Page_title'] = 'Dashboard';
         $user_id = $session->get('user_id');
-        $data['last_scan_date']='';
-        
+        $data['last_scan_date'] = '';
+
 
         $builder1 = $this->db->table('dp_scan');
         $builder1->select('user_id, MAX(scan_date) as last_scan_date');
@@ -32,23 +32,23 @@ class Dashboard extends BaseController
         $query = $builder1->get();
 
         $result = $query->getRowArray();
-            
-        if($result['last_scan_date']){
-          $formatted= date('d M Y h:i A', strtotime($result['last_scan_date'])); 
-          $data['last_scan_date']=$formatted;
+
+        if ($result['last_scan_date']) {
+            $formatted = date('d M Y h:i A', strtotime($result['last_scan_date']));
+            $data['last_scan_date'] = $formatted;
         }
-        
-        
 
 
-         $builder = $this->db->table('dp_scan_schedule'); 
-         $dat = $builder->where('user_id', $user_id)->get()->getRowArray();
-        // $data['schedules'] = array();
-       /*  echo $this->db->getLastQuery();
-        die; */
-    if ($dat != null) {
+
+
         $builder = $this->db->table('dp_scan_schedule');
-        $builder->select("
+        $dat = $builder->where('user_id', $user_id)->get()->getRowArray();
+        // $data['schedules'] = array();
+        /*  echo $this->db->getLastQuery();
+        die; */
+        if ($dat != null) {
+            $builder = $this->db->table('dp_scan_schedule');
+            $builder->select("
                     id, 
                     schedule, 
                     ins_dt,
@@ -64,47 +64,49 @@ class Dashboard extends BaseController
         WHEN schedule = 4 THEN DATE_ADD(ins_dt, INTERVAL (YEAR(CURDATE()) - YEAR(ins_dt) + 1) YEAR)
     END AS next_date
                 ");
-        $builder->where('user_id', $user_id);
-        $data['schedules'] = $builder->get()->getRowArray();
- 
+            $builder->where('user_id', $user_id);
+            $data['schedules'] = $builder->get()->getRowArray();
+        }
+
+
+
+        $subQuery = $this->db->table('dp_scan')
+            ->select('user_id, MAX(scan_date) AS last_scan_date')
+            ->where('user_id', $user_id)
+            ->getCompiledSelect();
+
+        $builder = $this->db->table('dp_scan s');
+        $builder->select('s.id AS scan_id, s.user_id, s.scan_date,company');
+        $builder->join("($subQuery) latest", 's.user_id = latest.user_id AND s.scan_date = latest.last_scan_date');
+        $query = $builder->get();
+
+        $latestScan = $query->getResultArray();
+
+
+       
+        $dat = '';
+        foreach ($latestScan as $k => $company) {
+        $randlist = rand(0, 10);
+        if($randlist==0){ $cls='bg-success'; $lbl='Safe'; }
+        if($randlist>0){ $cls='bg-danger'; $lbl='Exposed'; }
         
-    }
-
-    
-
-    $subQuery = $this->db->table('dp_scan')
-    ->select('user_id, MAX(scan_date) AS last_scan_date')
-    ->where('user_id', $user_id)
-    ->getCompiledSelect();
-
-$builder = $this->db->table('dp_scan s');
-$builder->select('s.id AS scan_id, s.user_id, s.scan_date,company');
-$builder->join("($subQuery) latest", 's.user_id = latest.user_id AND s.scan_date = latest.last_scan_date');
-$query = $builder->get();
-
-$latestScan = $query->getResultArray();
-
- 
-$randomLimit=2;
-$dat='';
-    foreach ($latestScan as $k => $company) {
-
-                $dat .= '<tr>
+            $dat .= '<tr>
                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' . $latestScan[$k]['company'] . '</strong></td>
-                <td><span class="badge bg-label-danger me-1">' . $randomLimit . '</span></td>                
+                <td><span class="badge rounded-pill '.$cls.'" style="text-transform: capitalize;">'.$lbl.'</span></td> 
+                <td><span class="badge rounded-pill bg-label-secondary" style="text-transform: capitalize;">Review</span></td>                
             </tr>';
-    }
-        $data['companieslist']=$dat;
-        $scan_id = ''; 
+        }
+        $data['companieslist'] = $dat;
+        $scan_id = '';
         if ($latestScan) {
             foreach ($latestScan as $key => $value) {
-                $scan_id .= $value['scan_id'].',';
-            }    
+                $scan_id .= $value['scan_id'] . ',';
+            }
         }
         $scanIds = explode(',', rtrim($scan_id, ','));
 
-       // print_r($scanIds);
-       // die;
+        // print_r($scanIds);
+        // die;
 
 
         $builder = $this->db->table('dp_scan_detail');
@@ -112,9 +114,12 @@ $dat='';
         $builder->select("
             scan_id,
             SUM(CASE WHEN exposed_data = 'Email' AND status = 'exposed' THEN 1 ELSE 0 END) AS email_count,
-            SUM(CASE WHEN exposed_data = 'Phone Number' AND status = 'exposed' THEN 1 ELSE 0 END) AS phone_count,
-            SUM(CASE WHEN exposed_data = 'Physical Address' AND status = 'exposed' THEN 1 ELSE 0 END) AS address_count,
+            SUM(CASE WHEN exposed_data = 'Contact No1' AND status = 'exposed' THEN 1 ELSE 0 END) AS phone_count,
+            SUM(CASE WHEN exposed_data = 'Address' AND status = 'exposed' THEN 1 ELSE 0 END) AS address_count,
             SUM(CASE WHEN exposed_data = 'Date of Birth' AND status = 'exposed' THEN 1 ELSE 0 END) AS dob_count,
+            SUM(CASE WHEN exposed_data = 'Username' AND status = 'exposed' THEN 1 ELSE 0 END) AS username_count,
+            SUM(CASE WHEN exposed_data = 'Password' AND status = 'exposed' THEN 1 ELSE 0 END) AS password_count,
+            SUM(CASE WHEN exposed_data = 'Contact No2' AND status = 'exposed' THEN 1 ELSE 0 END) AS contact2_count,
             SUM(CASE WHEN exposed_data = 'Full Name' AND status = 'exposed' THEN 1 ELSE 0 END) AS name_count
 
         ");
@@ -123,22 +128,25 @@ $dat='';
         $query = $builder->get();
 
         $result = $query->getResultArray();
-      //  
+        //  
 
 
 
 
-        $data['email_count']= array_sum(array_column($result, 'email_count'));
-        $data['phone_count']= array_sum(array_column($result, 'phone_count'));
-        $data['address_count']= array_sum(array_column($result, 'address_count'));
-        $data['dob_count']= array_sum(array_column($result, 'dob_count'));
-        $data['name_count']= array_sum(array_column($result, 'name_count'));
-/* echo '<pre>';
+        $data['email_count'] = array_sum(array_column($result, 'email_count'));
+        $data['phone_count'] = array_sum(array_column($result, 'phone_count'));
+        $data['address_count'] = array_sum(array_column($result, 'address_count'));
+        $data['dob_count'] = array_sum(array_column($result, 'dob_count'));
+        $data['name_count'] = array_sum(array_column($result, 'name_count'));
+        $data['username_count'] = array_sum(array_column($result, 'username_count'));
+        $data['password_count'] = array_sum(array_column($result, 'password_count'));
+        $data['contact2_count'] = array_sum(array_column($result, 'contact2_count'));
+        /* echo '<pre>';
             print_r($data);
             die; */
 
-           
-           return view('dashboard/home', $data);
+
+        return view('dashboard/home', $data);
     }
 
     public function why_privacy()
@@ -189,7 +197,7 @@ $dat='';
             ->where('dp_user_plan.plan_end_dt >= CURDATE()', null, false)
             ->first();
 
-           
+
 
         if ($Plandata != NULL) {
             $percent = rand(30, 100);
@@ -208,35 +216,36 @@ $dat='';
             die;*/
             $dat = '';
             foreach ($Companies as $k => $company) {
+                 $randlist = rand(0, 10);
 
                 $dat .= '<tr>
                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' . $Companies[$k]['Company'] . '</strong></td>
-                <td><span class="badge bg-label-danger me-1">' . $randomLimit . '</span></td>                
+                <td><span class="badge bg-label-danger me-1">' . $randlist . '</span></td>                
             </tr>';
-            date_default_timezone_set('Asia/Kolkata');
-            $now = date('Y-m-d H:i:s');
+                date_default_timezone_set('Asia/Kolkata');
+                $now = date('Y-m-d H:i:s');
                 $scan = [
                     'user_id' => $user_id,
                     'company'    => $Companies[$k]['Company'],
                     'scan_url'    => $Companies[$k]['Opt_out_url'],
                     'status'    => 'exposed',
-                    'scan_date' =>$now
+                    'scan_date' => $now
 
                 ];
-                $data['last_scan_date']= date('d M Y h:i A', strtotime($now));
+                $data['last_scan_date'] = date('d M Y h:i A', strtotime($now));
                 $builder = $this->db->table('dp_scan');
                 $builder->insert($scan);
 
-                $scanIds[]=$insertID = $this->db->insertID();
+                $scanIds[] = $insertID = $this->db->insertID();
 
-                $myList = ["Phone Number", "Email", "Physical Address","Date of Birth","Full Name"];
+                $myList = ["Contact No1", "Email", "Address", "Date of Birth", "Full Name", "Username", "Password", "Contact No2"];
                 // Shuffle the array for random order
                 shuffle($myList);
 
                 // Select the first 3 elements after shuffling (or any desired number)
                 $randomSubset = array_slice($myList, 0, 2);
                 foreach ($randomSubset as $value) {
-                   
+
                     $scandetails = [
                         'scan_id' => $insertID,
                         'exposed_data'    => $value,
@@ -254,40 +263,45 @@ $dat='';
 
 
 
-             $builder = $this->db->table('dp_scan_detail');
-        $builder->select("
+            $builder = $this->db->table('dp_scan_detail');
+            $builder->select("
             scan_id,
             SUM(CASE WHEN exposed_data = 'Email' AND status = 'exposed' THEN 1 ELSE 0 END) AS email_count,
-            SUM(CASE WHEN exposed_data = 'Phone Number' AND status = 'exposed' THEN 1 ELSE 0 END) AS phone_count,
-            SUM(CASE WHEN exposed_data = 'Physical Address' AND status = 'exposed' THEN 1 ELSE 0 END) AS address_count,
+            SUM(CASE WHEN exposed_data = 'Contact No1' AND status = 'exposed' THEN 1 ELSE 0 END) AS phone_count,
+            SUM(CASE WHEN exposed_data = 'Address' AND status = 'exposed' THEN 1 ELSE 0 END) AS address_count,
             SUM(CASE WHEN exposed_data = 'Date of Birth' AND status = 'exposed' THEN 1 ELSE 0 END) AS dob_count,
+            SUM(CASE WHEN exposed_data = 'Username' AND status = 'exposed' THEN 1 ELSE 0 END) AS username_count,
+            SUM(CASE WHEN exposed_data = 'Password' AND status = 'exposed' THEN 1 ELSE 0 END) AS password_count,
+            SUM(CASE WHEN exposed_data = 'Contact No2' AND status = 'exposed' THEN 1 ELSE 0 END) AS contact2_count,
             SUM(CASE WHEN exposed_data = 'Full Name' AND status = 'exposed' THEN 1 ELSE 0 END) AS name_count
 
         ");
-        $builder->whereIn('scan_id', $scanIds);
-        $builder->groupBy('scan_id');
-        $query = $builder->get();
-        $result = $query->getResultArray();
+            $builder->whereIn('scan_id', $scanIds);
+            $builder->groupBy('scan_id');
+            $query = $builder->get();
+            $result = $query->getResultArray();
 
 
 
-/* print_r($scanIds);
-die; */
+            /* print_r($scanIds);
+            die; */
 
-        $data['email_count']= array_sum(array_column($result, 'email_count'));
-        $data['phone_count']= array_sum(array_column($result, 'phone_count'));
-        $data['address_count']= array_sum(array_column($result, 'address_count'));
-        $data['dob_count']= array_sum(array_column($result, 'dob_count'));
-        $data['name_count']= array_sum(array_column($result, 'name_count'));
-        
+            $data['email_count'] = array_sum(array_column($result, 'email_count'));
+            $data['phone_count'] = array_sum(array_column($result, 'phone_count'));
+            $data['address_count'] = array_sum(array_column($result, 'address_count'));
+            $data['dob_count'] = array_sum(array_column($result, 'dob_count'));
+            $data['name_count'] = array_sum(array_column($result, 'name_count'));
+            $data['username_count'] = array_sum(array_column($result, 'username_count'));
+            $data['password_count'] = array_sum(array_column($result, 'password_count'));
+            $data['contact2_count'] = array_sum(array_column($result, 'contact2_count'));
         } else {
-             /* echo $this->db->getLastQuery();
+            /* echo $this->db->getLastQuery();
              die; */
             $data['redirectplans'] = 1;
         }
 
-        
-        
+
+
 
 
         return  json_encode($data);
