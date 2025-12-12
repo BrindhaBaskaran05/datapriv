@@ -646,7 +646,7 @@
   }
 
   function getcomapny(sids){
-    alert(sids);
+    //alert(sids);
     base_url = "<?php echo base_url(); ?>";
     $.ajax({
       url: base_url + "getcompany",

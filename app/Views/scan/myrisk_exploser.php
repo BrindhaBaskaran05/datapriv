@@ -467,7 +467,7 @@
   }
 
   function getcomapny(sids){
-    alert(sids);
+   // alert(sids);
     var risk='myrisk';
     base_url = "<?php echo base_url(); ?>";
     $.ajax({
