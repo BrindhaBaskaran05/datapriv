@@ -83,16 +83,22 @@ class Dashboard extends BaseController
         $latestScan = $query->getResultArray();
 
 
-       
+
         $dat = '';
         foreach ($latestScan as $k => $company) {
-        $randlist = rand(0, 10);
-        if($randlist==0){ $cls='bg-success'; $lbl='Safe'; }
-        if($randlist>0){ $cls='bg-danger'; $lbl='Exposed'; }
-        
+            $randlist = rand(0, 10);
+            if ($randlist == 0) {
+                $cls = 'bg-success';
+                $lbl = 'Safe';
+            }
+            if ($randlist > 0) {
+                $cls = 'bg-danger';
+                $lbl = 'Exposed';
+            }
+
             $dat .= '<tr>
                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' . $latestScan[$k]['company'] . '</strong></td>
-                <td><span class="badge rounded-pill '.$cls.'" style="text-transform: capitalize;">'.$lbl.'</span></td> 
+                <td><span class="badge rounded-pill ' . $cls . '" style="text-transform: capitalize;">' . $lbl . '</span></td> 
                 <td><span class="badge rounded-pill bg-label-secondary" style="text-transform: capitalize;">Review</span></td>                
             </tr>';
         }
@@ -121,15 +127,19 @@ class Dashboard extends BaseController
             SUM(CASE WHEN exposed_data = 'Password' AND status = 'exposed' THEN 1 ELSE 0 END) AS password_count,
             SUM(CASE WHEN exposed_data = 'Contact No2' AND status = 'exposed' THEN 1 ELSE 0 END) AS contact2_count,
             SUM(CASE WHEN exposed_data = 'Full Name' AND status = 'exposed' THEN 1 ELSE 0 END) AS name_count
-
         ");
         $builder->whereIn('scan_id', $scanIds);
         $builder->groupBy('scan_id');
         $query = $builder->get();
 
         $result = $query->getResultArray();
-        //  
 
+
+
+        /* echo '<pre>';
+                print_r($result);
+                die;   
+ */
 
 
 
@@ -141,12 +151,122 @@ class Dashboard extends BaseController
         $data['username_count'] = array_sum(array_column($result, 'username_count'));
         $data['password_count'] = array_sum(array_column($result, 'password_count'));
         $data['contact2_count'] = array_sum(array_column($result, 'contact2_count'));
+
+
+        $filterids = [
+            'email_sids'    => [],
+            'phone_sids'    => [],
+            'address_sids'  => [],
+            'dob_sids'      => [],
+            'username_sids' => [],
+            'password_sids' => [],
+            'contact2_sids' => [],
+            'name_sids'     => []
+        ];
+
+        $map = [
+            'email_sids'    => 'email_count',
+            'phone_sids'    => 'phone_count',
+            'address_sids'  => 'address_count',
+            'dob_sids'      => 'dob_count',
+            'username_sids' => 'username_count',
+            'password_sids' => 'password_count',
+            'contact2_sids' => 'contact2_count',
+            'name_sids'     => 'name_count'
+        ];
+
+        foreach ($result as $row) {
+            foreach ($map as $sidKey => $countKey) {
+                if ($row[$countKey] > 0) {
+                    $filterids[$sidKey][] = $row['scan_id'];
+                }
+            }
+        }
+
+        $data['sids'] = $filterids;
+
         /* echo '<pre>';
-            print_r($data);
-            die; */
+        print_r($data);
+        die; */
+
 
 
         return view('dashboard/home', $data);
+    }
+    public function getcompany()
+    {
+        $session = session();
+
+
+
+        $user_id = $session->get('user_id');
+        $scanids = $this->request->getVar('sids');
+        $page = $this->request->getVar('risk');
+        $scanIds = explode(',', rtrim($scanids, ','));
+
+        $builder1 = $this->db->table('dp_scan');
+
+        $builder1->select('id,user_id,company');
+        $builder1->where('user_id', $user_id);
+        $builder1->whereIn('id', $scanIds);
+
+        $query = $builder1->get();
+
+        $result = $query->getResultArray();
+
+        /* echo '<pre>';
+                print_r($result);
+                die; 
+
+        echo $this->db->getLastQuery();
+             die; */
+
+        $dat = '';
+        if ($page == 'myrisk') {
+            $dat = '<div class="row">';
+        }
+        foreach ($result as $k => $company) {
+            $randlist = rand(0, 10);
+            if ($randlist == 0) {
+                $cls = 'bg-success';
+                $lbl = 'Safe';
+            }
+            if ($randlist > 0) {
+                $cls = 'bg-danger';
+                $lbl = 'Exposed';
+            }
+
+            if ($page == 'myrisk') {
+
+                $dat .= ' <div class="col-md-4 mb-4">
+                  <div class="card icon-card cursor-pointer text-start">
+                      <div class="card-body">
+                                 
+                                <p class="icon-name fw-bold text-capitalize text-truncate mb-0"><img src="https://privacybee.com/cdn-cgi/image/fit=scale-down,width=25,height=25,quality=100/https://cdn.privacybee.com/company-logo/production/103081.png"> ' . $result[$k]['company'] . '</p>
+                                <p class="small">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' . $result[$k]['company'] . '.com</p>
+                                <hr>
+                                <a href="">Removal</a>
+                           
+                      </div>
+                  </div>
+                  
+                </div>';
+            } else {
+
+                $dat .= '<tr>
+                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' . $result[$k]['company'] . '</strong></td>
+                    <td><span class="badge rounded-pill ' . $cls . '" style="text-transform: capitalize;">' . $lbl . '</span></td> 
+                    <td><span class="badge rounded-pill bg-label-secondary" style="text-transform: capitalize;">Review</span></td>                
+                </tr>';
+            }
+        }
+
+        if ($page == 'myrisk') {
+            $dat .= '</div>';
+        }
+        $data['filtercomapany'] = $dat;
+
+        return  json_encode($data);
     }
 
     public function why_privacy()
@@ -216,7 +336,7 @@ class Dashboard extends BaseController
             die;*/
             $dat = '';
             foreach ($Companies as $k => $company) {
-                 $randlist = rand(0, 10);
+                $randlist = rand(0, 10);
 
                 $dat .= '<tr>
                 <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' . $Companies[$k]['Company'] . '</strong></td>

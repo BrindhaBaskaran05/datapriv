@@ -22,6 +22,8 @@ $routes->post('users/checkemail', 'Users::checkEmail');
 //Dashboard
 $routes->get('/dashboard', 'Dashboard::index');
 $routes->post('/scanresult', 'Dashboard::getscanresult');
+$routes->post('/getcompany', 'Dashboard::getcompany');
+
 
 //Scan
 $routes->get('/scan', 'Scan::index');

@@ -235,7 +235,7 @@
 
                           <div class="col-md-3 col-lg-3">
                             <div class="card icon-card cursor-pointer text-left mb-4 mx-4">
-                              <div class="card-body">
+                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['email_sids']) ?>')">
                                 <p><span id="email_count"><?= $email_count ?></span> <span class="badge <?=($email_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($email_count==0)?'Safe':'Fix';?></span></p>
                                 <p class="icon-name text-capitalize text-truncate mb-0">Emails ID</p>
                               </div>
@@ -244,7 +244,7 @@
 
                           <div class="col-md-3 col-lg-3">
                             <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body">
+                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['username_sids']) ?>')">
                                 <p><span id="username_count"><?= $username_count ?></span> <span class="badge <?=($username_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($username_count==0)?'Safe':'Fix';?></span></p>
                                 <p class="icon-name text-capitalize text-truncate mb-0">Username</p>
                               </div>
@@ -252,7 +252,7 @@
                           </div>
                           <div class="col-md-3 col-lg-3">
                             <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body">
+                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['password_sids']) ?>')">
                                 <p><span id="password_count"><?= $password_count ?></span> <span class="badge <?=($password_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($password_count==0)?'Safe':'Fix';?></span></p>
                                 <p class="icon-name text-capitalize text-truncate mb-0">Password</p>
                               </div>
@@ -260,7 +260,7 @@
                           </div>
                           <div class="col-md-3 col-lg-3">
                             <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body">
+                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['phone_sids']) ?>')">
                                 <p><span id="phone_count"><?= $phone_count ?></span> <span class="badge <?=($phone_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($phone_count==0)?'Safe':'Fix';?></span></p>
                                 <p class="icon-name text-capitalize text-truncate mb-0">Contact No 1</p>
                               </div>
@@ -274,7 +274,7 @@
 
                           <div class="col-md-3 col-lg-3">
                             <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body">
+                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['address_sids']) ?>')">
                                 <p><span id="address_count"><?= $address_count ?></span> <span class="badge <?=($address_count==0)?'bg-label-success':'bg-label-danger';?> me-1 " style="float: right;"><?=($address_count==0)?'Safe':'Fix';?></span></p>
                                 <p class="icon-name text-capitalize text-truncate mb-0">Addresses</p>
                               </div>
@@ -282,7 +282,7 @@
                           </div>
                           <div class="col-md-3 col-lg-3">
                             <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body">
+                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['name_sids']) ?>')">
                                 <p><span id="name_count"><?= $name_count ?></span> <span class="badge <?=($name_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($name_count==0)?'Safe':'Fix';?></span></p>
                                 <p class="icon-name text-capitalize text-truncate mb-0">Full Name</p>
                               </div>
@@ -290,7 +290,7 @@
                           </div>
                           <div class="col-md-3 col-lg-3">
                             <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body">
+                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['dob_sids']) ?>')">
                                 <p><span id="dob_count"><?= $dob_count ?></span> <span class="badge <?=($dob_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($dob_count==0)?'Safe':'Fix';?></span></p>
                                 <p class="icon-name text-capitalize text-truncate mb-0">Date of Birth</p>
                               </div>
@@ -298,7 +298,7 @@
                           </div>
                           <div class="col-md-3 col-lg-3">
                             <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body">
+                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['contact2_sids']) ?>')">
                                 <p><span id="contact2_count"><?= $contact2_count ?></span> <span class="badge <?=($contact2_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($contact2_count==0)?'Safe':'Fix';?></span></p>
                                 <p class="icon-name text-capitalize text-truncate mb-0">Contact No 2</p>
                               </div>
@@ -322,9 +322,9 @@
                         <div class="card">
                           <h5 class="card-header">Exposure Sources</h5>
                          
-
+                                  <div  id="companyid" >
                           <?php echo $data = ($companieslist) ? $companieslist : '<tr><td>No scan data found</tr></td>'; ?>
-
+                                  </div>
                             
                           
                         </div>
@@ -462,6 +462,27 @@
         progressBar.css("width", "100%");
         progressBar.attr("aria-valuenow", 100);
         console.error("Scan failed:", error);
+      }
+    });
+  }
+
+  function getcomapny(sids){
+    alert(sids);
+    var risk='myrisk';
+    base_url = "<?php echo base_url(); ?>";
+    $.ajax({
+      url: base_url + "getcompany",
+      method: "POST",
+      data: {
+        sids,risk
+      },
+      success: function(response) {
+        let res = JSON.parse(response);
+        $("#companyid").html(res.filtercomapany);
+      },
+      error: function(error) {
+        alert('error');
+        clearInterval(interval);
       }
     });
   }

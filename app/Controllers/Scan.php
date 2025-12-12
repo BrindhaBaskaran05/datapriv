@@ -103,9 +103,8 @@ class Scan extends BaseController
     $data['password_count'] = array_sum(array_column($result, 'password_count'));
     $data['contact2_count'] = array_sum(array_column($result, 'contact2_count'));
 
-    /*  echo '<pre>';
-        print_r($scanIds);
-        die; */
+
+     
 
     return view('scan/home', $data);
   }
@@ -311,6 +310,9 @@ countAllResults() → returns number of rows.
     print_r();
     die; */
 
+   /*  echo $last_query = $this->db->getLastQuery();  // get last executed query
+  die; */
+
     $data['email_count'] = array_sum(array_column($result, 'email_count'));
     $data['phone_count'] = array_sum(array_column($result, 'phone_count'));
     $data['address_count'] = array_sum(array_column($result, 'address_count'));
@@ -321,6 +323,43 @@ countAllResults() → returns number of rows.
     $data['contact2_count'] = array_sum(array_column($result, 'contact2_count'));
 
     $data['personal_info'] =array_unique(array_column($result, 'exposed_data'));
+
+
+    $filterids = [
+            'email_sids'    => [],
+            'phone_sids'    => [],
+            'address_sids'  => [],
+            'dob_sids'      => [],
+            'username_sids' => [],
+            'password_sids' => [],
+            'contact2_sids' => [],
+            'name_sids'     => []
+        ];
+
+        $map = [
+            'email_sids'    => 'email_count',
+            'phone_sids'    => 'phone_count',
+            'address_sids'  => 'address_count',
+            'dob_sids'      => 'dob_count',
+            'username_sids' => 'username_count',
+            'password_sids' => 'password_count',
+            'contact2_sids' => 'contact2_count',
+            'name_sids'     => 'name_count'
+        ];
+
+        foreach ($result as $row) {
+            foreach ($map as $sidKey => $countKey) {
+                if ($row[$countKey] > 0) {
+                    $filterids[$sidKey][] = $row['scan_id'];
+                }
+            }
+        }
+
+        $data['sids'] = $filterids;
+
+        /* echo '<pre>';
+        print_r($result);
+        die;  */
 
     return view('scan/myrisk_exploser', $data);
   }
