@@ -1,203 +1,365 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign Up</title>
+
+  <!-- Bootstrap & Select2 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
   <style>
-    body {
-      background-color: #E2EBE6;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+  box-shadow: 0 0 0 1000px #ffffff inset;
+  -webkit-text-fill-color: #0A2540;
+  transition: background-color 9999s ease-in-out 0s;
+}
+ body {
+background:
+    radial-gradient(circle at top left, rgba(59,110,165,0.12), transparent 40%),
+    linear-gradient(135deg, #F7FAFF, #EDF3FB);
+     min-height: 100vh;
+      display: flex;
+      align-items: center;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+    .signup-shell {
+      max-width: 1200px;
+      width: 100%;
+      margin: auto;
     }
 
-    .ErrorMsg {
-      color: red;
+    .signup-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
     }
 
-    .form-container {
-      background-color: #fff;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      max-width: 900px;
-      margin: 60px auto;
+    /* LEFT PANEL */
+    .signup-left {
+      background: linear-gradient(160deg, #0A2540, #3B6EA5);
+      color: #fff;
+      padding: 50px 45px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+     
     }
 
-    .form-title {
-      font-size: 30px;
-      font-weight: 600;
-      color: #2f4f4f;
+    .signup-left h1 {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 20px;
+    }
+
+    .signup-left p {
+      font-size: 16px;
+      opacity: 0.95;
       margin-bottom: 30px;
-      text-align: center;
+    }
+
+    .quote-box {
+      background: rgba(255, 255, 255, 0.15);
+      border-left: 4px solid #ffffff;
+      padding: 18px 20px;
+      border-radius: 10px;
+      font-style: italic;
+      font-size: 15px;
+    }
+
+    /* RIGHT PANEL */
+    .signup-wrapper {
+      padding: 35px 40px;
+    }
+
+    .signup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .signup-header h2 {
+      font-weight: 700;
+      color: #0A2540;
+      margin: 0;
+    }
+
+    .signup-header a {
+      font-size: 14px;
+      color: #3B6EA5;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #3B6EA5;
+      margin: 16px 0 8px;
+      text-transform: uppercase;
     }
 
     .form-label {
-      font-weight: 500;
+      font-size: 13px;
+      font-weight: 600;
+      color: #0A2540;
+      margin-bottom: 4px;
     }
 
     .form-control,
+    .form-select,
     .select2-container .select2-selection--single {
+      height: 36px;
       border-radius: 8px;
-      border: 1px solid #ced4da;
-      height: 38px;
+      font-size: 13px;
+      border: 1px solid #d6dce3;
     }
 
+    .form-control:focus,
+    .form-select:focus {
+      border-color: #3B6EA5;
+      box-shadow: 0 0 0 2px rgba(59, 110, 165, 0.15);
+    }
 
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
-      line-height: 36px;
-      padding-left: 12px;
+    .ErrorMsg {
+      font-size: 11px;
+      color: #dc3545;
     }
 
     .btn-primary {
-      background-color: #4a7c59;
-      border-color: #4a7c59;
-      border-radius: 8px;
-      padding: 10px 30px;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
+      background: linear-gradient(135deg, #0A2540, #3B6EA5);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 34px;
+      font-weight: 700;
+      font-size: 14px;
     }
 
-    .btn-primary:hover {
-      background-color: #3a6447;
-      border-color: #3a6447;
+    @media (max-width: 992px) {
+      .signup-left {
+        display: none;
+      }
+
+      body {
+        padding: 20px;
+        align-items: flex-start;
+      }
     }
+    .signup-shell {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: signupShellSlow 1.4s ease-out forwards;
+}
+
+/* Slow, elegant entrance */
+@keyframes signupShellSlow {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  70% {
+    opacity: 0.9;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.login-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #f1f5fb;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7c93;
+}
+
+.login-card a {
+  color: #0A2540;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.login-card a:hover {
+  color: #3B6EA5;
+}
+.form-check-label a {
+  color: #3B6EA5;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.form-check-label a:hover {
+  text-decoration: underline;
+}
+
   </style>
 </head>
 
 <body>
 
-  <?php $session = session();
-  if (session()->getFlashdata('msg')): ?>
-    <div class="alert alert-danger">
-      <?= session()->getFlashdata('msg') ?>
+<div class="signup-shell">
+  <div class="signup-card row g-0">
+
+    <!-- LEFT CARD -->
+    <div class="col-lg-4 signup-left">
+    <h1>Welcome 👋</h1>
+      <p>
+       Create your account and unlock access to secure your data and privacy
+      </p>
+      <!--p>
+        Secure, scalable, and built for growth.
+        Create your account and move forward with clarity.
+      </p>
+      <div class="quote-box">
+        “Success is the sum of small efforts repeated every day.”
+      </div-->
     </div>
-  <?php die;
-  endif; ?>
 
-  <div class="container">
-    <div class="form-container">
-      <div class="form-title">Signup Form <span style="float: right;font-size:14px;"> <a href="<?= base_url('/') ?>">Login</a></span></div>
+    <!-- RIGHT FORM -->
+    <div class="col-lg-8 signup-wrapper">
 
-      <form name='form2' id='form2' method='post'>
-        <!-- Row 1: Firstname, Middle Name, Last Name, DOB -->
-        <div class="row mb-4">
+      <div class="signup-header">
+        <h2>Create Account</h2>
+      <div class="login-card">
+  <span>Already have an account?</span>
+  <a href="<?= base_url('/') ?>">Sign in →</a>
+</div>
+      </div>
+
+      <form name="form2" id="form2" method="post" autocomplete="off">
+
+        <!-- PERSONAL INFO -->
+        <div class="section-title">Personal Information</div>
+        <div class="row g-3">
           <div class="col-md-3">
-            <label for="firstname" class="form-label">First Name*</label>
-            <input type="text" class="form-control" id="txt_name" name="name" placeholder="John" />
-            <span class='ErrorMsg' id='txt_name_Error'></span>
+            <label class="form-label">First Name*</label>
+            <input type="text" class="form-control" id="txt_name" name="name">
+            <span class="ErrorMsg" id="txt_name_Error"></span>
           </div>
           <div class="col-md-3">
-            <label for="middle_name" class="form-label">Middle Name</label>
-            <input type="text" class="form-control" id="txt_middle_name" name="middle_name" placeholder="A." />
+            <label class="form-label">Middle Name</label>
+            <input type="text" class="form-control" id="txt_middle_name" name="middle_name">
           </div>
           <div class="col-md-3">
-            <label for="last_name" class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="txt_last_name" name="last_name" placeholder="Doe" />
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="txt_last_name" name="last_name">
           </div>
           <div class="col-md-3">
-            <label for="dob" class="form-label">Date of Birth</label>
-            <input type="date" class="form-control" id="txt_dob" name="dob" />
-            <span class='ErrorMsg' id='txt_dob_Error'></span>
+            <label class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="txt_dob" name="dob">
+            <span class="ErrorMsg" id="txt_dob_Error"></span>
           </div>
         </div>
 
-        <!-- Email & Password -->
-        <div class="row mb-4">
+        <!-- ACCOUNT -->
+        <div class="section-title">Account Details</div>
+        <div class="row g-3">
           <div class="col-md-4">
-            <label for="email" class="form-label">Email*</label>
-            <input type="email" class="form-control" id="txt_email" name="email" onchange='fncheckEmail(this)' placeholder="you@example.com" />
-            <span class='ErrorMsg' id='txt_email_Error'></span>
+            <label class="form-label">Email*</label>
+            <input type="email" class="form-control" id="txt_email" name="email" onchange="fncheckEmail(this)" >
+            <span class="ErrorMsg" id="txt_email_Error"></span>
           </div>
           <div class="col-md-4">
-            <label for="password" class="form-label">Password*</label>
-            <input type="password" class="form-control" id="txt_password" name="password" placeholder="••••••••" />
-            <span class='ErrorMsg' id='txt_password_Error'></span>
+            <label class="form-label">Password*</label>
+            <input type="password" class="form-control" id="txt_password" name="password">
+            <span class="ErrorMsg" id="txt_password_Error"></span>
           </div>
           <div class="col-md-4">
-            <label for="password" class="form-label">Confirm Password*</label>
-            <input type="password" class="form-control" name="txt_confirm_password" id='txt_confirm_password' placeholder="••••••••" />
-            <span class='ErrorMsg' id='txt_confirm_Error'></span>
-          </div>
-        </div>
-
-        <!-- Address 1 -->
-        <div class="mb-4">
-          <label for="address" class="form-label">Address</label>
-          <input type="text" class="form-control" id="txt_address" name="address" placeholder="1234 Main St" />
-        </div>
-
-        <!-- Address 2 -->
-        <div class="mb-4">
-          <label for="address2" class="form-label">Address 2</label>
-          <input type="text" class="form-control" id="txt_address2" name="address2" placeholder="Apartment, suite, etc." />
-        </div>
-
-        <!-- City, State, Postal Code -->
-        <div class="row mb-4">
-          <div class="col-md-4">
-            <label for="city" class="form-label">City</label>
-            <input type="text" class="form-control" id="txt_city" name="city" />
-          </div>
-          <div class="col-md-4">
-            <label for="state" class="form-label">State</label>
-            <input type="text" class="form-control" id="txt_state" name="state" />
-          </div>
-          <div class="col-md-4">
-            <label for="postal_code" class="form-label">Postal Code</label>
-            <input type="number" class="form-control" id="txt_postal_code" name="postal_code" />
+            <label class="form-label">Confirm Password*</label>
+            <input type="password" class="form-control" id="txt_confirm_password" name="txt_confirm_password">
+            <span class="ErrorMsg" id="txt_confirm_Error"></span>
           </div>
         </div>
 
-        <!-- Country -->
-        <div class="row mb-4">
+        <!-- ADDRESS -->
+        <div class="section-title">Address</div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Address</label>
+            <input type="text" class="form-control" id="txt_address" name="address">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Address 2</label>
+            <input type="text" class="form-control" id="txt_address2" name="address2">
+          </div>
           <div class="col-md-4">
-            <label for="country" class="form-label">Country</label>
+            <label class="form-label">City</label>
+            <input type="text" class="form-control" id="txt_city" name="city">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">State</label>
+            <input type="text" class="form-control" id="txt_state" name="state">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Postal Code</label>
+            <input type="number" class="form-control" id="txt_postal_code"  maxlength='10' name="postal_code">
+          </div>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="section-title">Contact</div>
+        <div class="row g-3 align-items-end">
+          <div class="col-md-4">
+            <label class="form-label">Country</label>
             <select class="form-select" id="country" name="country">
-              <option value="">Select a country</option>
-
-              <?php
-              foreach ($countries as $country) { ?>
+              <option value=""></option>
+              <?php foreach ($countries as $country): ?>
                 <option value="<?= $country['country_id'] ?>"><?= $country['country_name'] ?></option>
-              <?php
-              }
-              ?>
-              <!-- Add more countries as needed -->
+              <?php endforeach; ?>
             </select>
           </div>
           <div class="col-md-4">
-            <label for="contact_number1" class="form-label">Contact 1*</label>
-            <input type="text" class="form-control" id="txt_contact_number1" name="contact_number1" />
-              <span class='ErrorMsg' id='txt_contact_number1_Error'></span>
+            <label class="form-label">Mobile Number *</label>
+            <input type="text" class="form-control" maxlength='15' id="txt_contact_number1" name="contact_number1">
+            <span class="ErrorMsg" id="txt_contact_number1_Error"></span>
           </div>
           <div class="col-md-4">
-            <label for="contact_number2" class="form-label">Contact 2</label>
-            <input type="text" class="form-control" id="txt_contact_number2" name="contact_number2" />
-             
+            <label class="form-label">Alternate Number </label>
+            <input type="text" class="form-control" maxlength='15' id="txt_contact_number2" name="contact_number2">
           </div>
         </div>
+       <div class="form-check mt-4">
+  <input class="form-check-input" type="checkbox" id="termsCheck" disabled>
+  <label class="form-check-label" for="termsCheck">
+     
+    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#termsModal">
+    I agree to Terms & Conditions
+    </a>
+  </label>
+</div>
 
-        <!-- Submit Button -->
-        <div class="text-end">
-          <button type="button" class="btn btn-primary" onclick='fnSignUp()'>Submit Form</button>
-        </div>
+
+
+        <!-- SUBMIT -->
+        
+     <div class="text-end mt-4" id="submitWrapper" style="display:none;">
+  <button type="button" class="btn btn-primary" onclick="fnSignUp()">
+    Create Account
+  </button>
+</div>
+
+
       </form>
     </div>
   </div>
+</div>
+<?= view('users/mdl_terms_conditions') ?>
 
-</body>
-
-<script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
-
-<!-- Then Select2 -->
+<script src="<?= base_url(); ?>assets/js/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<!-- Bootstrap (optional here since already loaded earlier) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
   $(document).ready(function() {
     $('#country').select2({
@@ -286,5 +448,37 @@
     document.querySelector('.cont').classList.toggle('s-signup')
   });
 </script>
+<script>
+  window.addEventListener('load', function () {
+    const inputs = document.querySelectorAll(
+      'input[type="text"], input[type="email"], input[type="password"], input[type="number"]'
+    );
 
+    inputs.forEach(input => {
+      input.value = '';
+    });
+  });
+</script>
+<script>
+  document.getElementById('agreeBtn').addEventListener('click', function () {
+    const checkbox = document.getElementById('termsCheck');
+    const submit = document.getElementById('submitWrapper');
+
+    checkbox.checked = true;
+    checkbox.disabled = false;
+    submit.style.display = 'block';
+
+    const modal = bootstrap.Modal.getInstance(
+      document.getElementById('termsModal')
+    );
+    modal.hide();
+
+    checkbox.addEventListener('change', function () {
+    submit.style.display = this.checked ? 'block' : 'none';
+  });
+  });
+</script>
+
+
+</body>
 </html>

@@ -220,4 +220,11 @@ class Users extends BaseController
 
 				return view('users/plans',$data);
 	}
+	public function forgotpassword()
+	{
+		$data['title'] = 'Sign In';
+
+
+		return view('users/forgotpassword', $data);
+	}
 }

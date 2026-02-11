@@ -1,6 +1,90 @@
 <!DOCTYPE html>
 
 <?= $this->include('includes/header') ?>
+<style>
+/* Page Background */
+.content-wrapper {
+    background: linear-gradient(135deg, #f4f7fb, #eef2f9);
+    padding: 40px 20px;
+}
+
+/* Pricing Title */
+.modal-title {
+    font-weight: 700;
+    font-size: 26px;
+    color: #0A2540;
+}
+
+/* Pricing Cards */
+.holographic-card {
+    border-radius: 18px;
+    border: none;
+    transition: all 0.35s ease;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+
+/* Gradient Background */
+.holographic-card {
+    background: linear-gradient(135deg, #2B9B8E, #3B6EA5);
+}
+
+/* Hover Effect */
+.holographic-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+
+/* Active Plan Highlight */
+.holographic-card.active-plan {
+    background: linear-gradient(135deg, #0A2540, #3B6EA5);
+    transform: scale(1.03);
+    box-shadow: 0 30px 60px rgba(10, 37, 64, 0.35);
+}
+
+/* Plan Title */
+.card-title {
+    font-size: 28px !important;
+    font-weight: 700;
+}
+
+/* Plan Price */
+.plan-price {
+    font-size: 30px;
+    font-weight: 800;
+    text-align: center;
+    margin: 15px 0;
+}
+
+/* Feature List */
+.plan-features {
+    font-size: 13px;
+    line-height: 1.8;
+    margin-top: 15px;
+}
+
+/* Tick icon */
+.plan-features img {
+    margin-right: 8px;
+}
+
+/* Proceed Button */
+#Buybutton {
+    background: linear-gradient(135deg, #0A2540, #3B6EA5);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 30px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+#Buybutton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(10, 37, 64, 0.3);
+}
+</style>
 
 <body>
    <!-- Layout wrapper -->
@@ -214,7 +298,7 @@
          });
       }
 
-      function fnchoose(Planid) {
+      function fnchoose_OLD(Planid) {
          checkplan(Planid);
          document.getElementById('Plan1').style.backgroundColor = "#2B9B8E";
          document.getElementById('Plan2').style.backgroundColor = "#2B9B8E";
@@ -225,6 +309,21 @@
          document.getElementById('plan_id').value = Planid;
 
       }
+      function fnchoose(Planid) {
+
+   checkplan(Planid);
+
+   // Remove active from all
+   document.querySelectorAll('.holographic-card').forEach(card => {
+      card.classList.remove('active-plan');
+   });
+
+   // Add active class
+   document.getElementById('Plan' + Planid).classList.add('active-plan');
+
+   document.getElementById('Buybutton').style.display = "inline-block";
+   document.getElementById('plan_id').value = Planid;
+}
 
       function fnProceed() {
          Planid = document.getElementById('plan_id').value;

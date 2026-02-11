@@ -11,12 +11,15 @@ $routes->get('/signupform', 'Users::signupform');
 
 //User
 $routes->get('/users/login', 'Users::login');
+$routes->get('/forgotpassword', 'Users::forgotpassword');
+
 $routes->post('/users/loginprocess', 'Users::loginprocess');
 $routes->post('/users/signup', 'Users::signup');
 $routes->get('/users/phpinfo', 'Users::phpinfo');
 $routes->get('/users/logout', 'Users::logout');
 $routes->get('/users/upgrade_plans', 'Users::plans');
 $routes->post('users/checkemail', 'Users::checkEmail');
+
 
 
 //Dashboard

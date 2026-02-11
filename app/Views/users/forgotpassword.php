@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login</title>
+  <title>Forgot Password</title>
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
   <style>
     body {
-    background:
+       background:
     radial-gradient(circle at top left, rgba(59,110,165,0.12), transparent 40%),
     linear-gradient(135deg, #F7FAFF, #EDF3FB);
       min-height: 100vh;
@@ -19,13 +19,13 @@
       font-family: 'Segoe UI', system-ui, sans-serif;
     }
 
-    .login-shell {
+    .auth-shell {
       max-width: 1100px;
       width: 100%;
       margin: auto;
     }
 
-    .login-card {
+    .auth-card {
       background: #fff;
       border-radius: 20px;
       box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25);
@@ -33,24 +33,24 @@
     }
 
     /* LEFT PANEL */
-    .login-left {
+    .auth-left {
       background: linear-gradient(160deg, #0A2540, #3B6EA5);
       color: #fff;
       padding: 60px 50px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-     
+      
     }
 
-    .login-left h1 {
+    .auth-left h1 {
       font-size: 38px;
       font-weight: 800;
       line-height: 1.25;
       margin-bottom: 20px;
     }
 
-    .login-left p {
+    .auth-left p {
       font-size: 16px;
       opacity: 0.95;
       margin-bottom: 30px;
@@ -66,7 +66,7 @@
     }
 
     /* RIGHT PANEL */
-    .login-wrapper {
+    .auth-wrapper {
       padding: 60px 70px;
       display: flex;
       flex-direction: column;
@@ -74,17 +74,17 @@
       height: 100%;
     }
 
-    .login-header {
+    .auth-header {
       margin-bottom: 25px;
     }
 
-    .login-header h2 {
+    .auth-header h2 {
       font-weight: 700;
       color: #0A2540;
       margin-bottom: 6px;
     }
 
-    .login-header p {
+    .auth-header p {
       font-size: 14px;
       color: #6c757d;
       margin: 0;
@@ -124,21 +124,20 @@
       width: 100%;
     }
 
-    .login-links {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
+    .auth-links {
+      margin-top: 18px;
+      text-align: center;
       font-size: 13px;
     }
 
-    .login-links a {
+    .auth-links a {
       color: #3B6EA5;
       text-decoration: none;
       font-weight: 600;
     }
 
     @media (max-width: 992px) {
-      .login-left {
+      .auth-left {
         display: none;
       }
 
@@ -147,13 +146,12 @@
         align-items: flex-start;
       }
 
-      .login-wrapper {
+      .auth-wrapper {
         padding: 40px 30px;
       }
     }
 
-
-    .login-shell {
+     .auth-shell {
   opacity: 0;
   transform: translateY(40px);
   animation: signupShellSlow 1.4s ease-out forwards;
@@ -179,60 +177,42 @@
 
 <body>
 
-<div class="login-shell">
-  <div class="login-card row g-0">
+<div class="auth-shell">
+  <div class="auth-card row g-0">
 
     <!-- LEFT CARD -->
-    <div class="col-lg-5 login-left">
-      <h1>Welcome back 👋</h1>
+    <div class="col-lg-5 auth-left">
+      <h1>Forgot your password? 🔐</h1>
       <p>
-        Log in to continue where you left off and manage everything in one place.
+        No worries. We’ll help you get back into your account safely and quickly.
       </p>
-      <!--div class="quote-box">
-        “Great things never come from comfort zones.”
-      </div-->
+      <div class="quote-box">
+        “Security is not a product, but a process.”
+      </div>
     </div>
 
     <!-- RIGHT FORM -->
-    <div class="col-lg-7 login-wrapper">
+    <div class="col-lg-7 auth-wrapper">
 
-      <div class="login-header">
-        <h2>Login</h2>
-        <p>Enter your credentials to continue</p>
+      <div class="auth-header">
+        <h2>Reset Password</h2>
+        <p>Enter your registered email to receive reset instructions</p>
       </div>
 
-  <form name='form1' id='form1' method='post'>
-        <div class="mb-3">
-          <label class="form-label">Email*</label>
-          <input type="email" class="form-control" id="username" name="username">
-          <span class="ErrorMsg" id="User_Error"></span>
-
-          
-        </div>
+      <form id="forgotPasswordForm" method="post">
 
         <div class="mb-3">
-          <label class="form-label">Password*</label>
-          <input type="password" class="form-control" id="password" name="password"  placeholder="••••••••">
-          <span class="ErrorMsg" id="Pass_Error"></span>
-
-
-
-           <?php  $session = session();
-              if (session()->getFlashdata('msg')): ?>
-              <span class='ErrorMsg' id='Pass_Error'>
-                <?= session()->getFlashdata('msg') ?>
-              </span>
-          <?php endif; ?>
+          <label class="form-label">Email Address*</label>
+          <input type="email" class="form-control" id="txt_email" name="email">
+          <span class="ErrorMsg" id="txt_email_Error"></span>
         </div>
 
-        <button type="button" class="btn btn-primary" onclick="fnLogin()">
-          Login
+        <button type="button" class="btn btn-primary" onclick="fnForgotPassword()">
+          Send Reset Link
         </button>
 
-        <div class="login-links">
-          <!--a href="<?= base_url('forgotpassword') ?>">Forgot password?</a-->
-           <a href="#">Forgot password?</a>
-          <a href="<?= base_url('signupform') ?>">Create account</a>
+        <div class="auth-links">
+          <a href="<?= base_url('/') ?>">Back to Login</a>
         </div>
 
       </form>
@@ -243,32 +223,6 @@
 
 <script src="<?= base_url(); ?>assets/js/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
-<script>  
 
-  function fnLogin() {
-  var action = 0;
-    document.getElementById("User_Error").innerHTML = "";
-    document.getElementById("Pass_Error").innerHTML = "";
-
-    if (document.getElementById("username").value == "") {
-      document.getElementById("User_Error").innerHTML = "Please enter emailid";
-       action = 1;
-    }
-    if (document.getElementById("password").value == "") {
-      document.getElementById("Pass_Error").innerHTML = "Please enter password";
-      action = 1;
-    }
-     if (action == 1) {
-      return false;
-    } else {
-    form1.action = "<?php echo base_url(); ?>users/loginprocess";
-    form1.submit();
-    }
-  }
-  document.querySelector('.img-btn').addEventListener('click', function() {
-    document.querySelector('.cont').classList.toggle('s-signup')
-  });
-</script>
 </body>
 </html>
