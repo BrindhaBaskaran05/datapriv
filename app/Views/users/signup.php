@@ -430,7 +430,7 @@ background:
       action = 1;
     }
      if (document.getElementById("txt_contact_number1").value =='') {
-      document.getElementById("txt_contact_number1_Error").innerHTML = "Please enter contact1";
+      document.getElementById("txt_contact_number1_Error").innerHTML = "Please enter Mobile Number";
       action = 1;
     }
         
