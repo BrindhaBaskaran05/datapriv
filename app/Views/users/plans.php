@@ -169,16 +169,23 @@
                                        $session = session();
                                            $PlanName = $session->get('PlanName');
 
-                                                   if ($i == 1 && $PlanName =='Basic') {
+                                                   if ($i == 1 && $PlanName =='Free') {
                                                       $bg='#0A2540;';
                                                    }
-                                                   else if ($i == 2 && $PlanName =='Standard') {
+                                                   else if ($i == 2 && $PlanName =='Basic') {
                                                       $bg='#0A2540;';
                                                    }
-                                                  else if ($i == 3 && $PlanName =='Premium') {
+                                                  else if ($i == 3 && $PlanName =='Pro') {
                                                       $bg='#0A2540;';
-                                                   }                                         
-                                                   else{$bg='#2B9B8E;';}
+                                                  /* }                                         
+                                                   else{$bg='#2B9B8E;';}*/
+												   } else if ($i == 4 && $PlanName == 'Elite') {
+														$bg = '#0A2540;';
+													} else if ($i == 5 && $PlanName == 'Pay-Per-Use Add-ons') {
+														$bg = '#0A2540;';
+													} else {
+														$bg = '#2B9B8E;';
+													}
 
                                           ?>
                                           <div class="col-md-6 col-lg-4 mb-3"
@@ -193,13 +200,13 @@
                               color: #ffffffb0 !important;
                            "><?= esc($plan['description']) ?></h6>
                                                    <br>
-                                                   <h3 style="
+                                                  <!-- <h3 style="
                               color: #fff;
                               font-weight: bold;
                               text-align: center;
-                           "><?= "&#8377; " . esc($PlanCost) . " / " . esc($plan['valid_days']) . " days"; ?></h3>
+                           "><?= "&#8377; " . esc($PlanCost) . " / " . esc($plan['valid_days']) . " days"; ?></h3>-->
                                                    <div style="
-                              font-size: 11px;
+                              font-size: 15px;
                               color: #ffffffe8;
                            ">
                                                       <?php
