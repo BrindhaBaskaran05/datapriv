@@ -1,17 +1,176 @@
 <!DOCTYPE html>
 <!-- =========================================================
 * Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================-->
+============================================================== -->
 <!-- beautify ignore:start -->
 <?= $this->include('includes/header') ?>
 <style>
+  .risk-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+  }
+  
+  .risk-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  
+  .risk-badge {
+    background-color: #dc3545;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  
+  .risk-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 20px 0;
+  }
+  
+  .stat-item {
+    font-size: 16px;
+  }
+  
+  .stat-item strong {
+    font-size: 20px;
+    margin-right: 5px;
+  }
+  
+  .breach-summary {
+    background: rgba(255,255,255,0.2);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-size: 16px;
+  }
+  
+  .section-header {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 25px 0 15px 0;
+    color: #333;
+  }
+  
+  .website-table {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+  }
+  
+  .website-table table {
+    width: 100%;
+  }
+  
+  .website-table th {
+    padding: 12px 0;
+    text-align: left;
+    border-bottom: 2px solid #eee;
+    font-weight: 600;
+    color: #555;
+  }
+  
+  .website-table td {
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .check-mark {
+    color: #28a745;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .action-buttons {
+    margin: 20px 0 30px 0;
+  }
+  
+  .btn-flush {
+    background-color: #6c5ce7;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .btn-flush:hover {
+    background-color: #5b4bc4;
+    color: white;
+  }
+  
+  .pii-table {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    overflow-x: auto;
+  }
+  
+  .pii-table table {
+    width: 100%;
+    min-width: 800px;
+  }
+  
+  .pii-table th {
+    padding: 12px 10px;
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 2px solid #dee2e6;
+  }
+  
+  .pii-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .category-header {
+    background-color: #e9ecef;
+    font-weight: 600;
+  }
+  
+  .badge-pii {
+    background-color: #dc3545;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+  
+  .pii-label {
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .website-note {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+  }
+  
+  .question-text {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 20px 0;
+    color: #444;
+  }
+  
+  /* Gauge styles */
   .custom-progress {
     height: 25px;
     background-color: #e9ecef;
@@ -34,7 +193,7 @@
 
   .progress-wrapper {
     width: 200px;
-    margin: auto;
+    margin: 0 auto;
     position: relative;
   }
 
@@ -67,6 +226,17 @@
     width: 90px;
     text-align: center;
   }
+  
+  /* Gauge container */
+  .gauge-container {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    text-align: center;
+    max-width: 300px;
+  }
 </style>
 
 <body>
@@ -91,412 +261,92 @@
         else $companieslist;
 
         ?>
-        <!-- Content wrapper -->
-        <div class="content-wrapper">
+     <!-- Content wrapper -->
+<div class="content-wrapper">
 
-          <!-- Content -->
+  <!-- Content -->
+  <div class="container-xxl flex-grow-1 container-p-y">
+    
+    <!-- Risk Exposure Card -->
+    <!-- Welcome message and SCAN NOW button in same row -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <span class="fs-4 fw-semibold">Welcome <?php echo $session->get('user_name'); ?></span>
+      
+<!-- SCAN NOW button  -->
+<div class="text-end">
+  <a href="javascript:;" class="btn btn-primary px-5 py-3 fw-bold fs-5" onclick="startScan()" style="background-color: #dc3545; border: none; border-radius: 8px;">SCAN NOW</a>
+  <div class="mt-2 text-muted" style="font-size: 14px;">Last Scan was on Monday<br>February 16, 14:23PST</div>
+</div></div>
 
-          <div class="container-xxl flex-grow-1 container-p-y">
-            <div class="row">
-              <div class="col-lg-8 mb-4 order-0">
-                <div class="card" style="    background-color: #0a2540;">
-                  <div class="d-flex align-items-end row">
-                    <div class="col-sm-7">
-                      <div class="card-body">
-                        <h5 class="card-title text-primary" style="    color: #fff !important;    font-size: 25px;">Information Security App </h5>
-                        <p class="mb-4" style="    color: #fff;">
-                          <!-- You have done <span class="fw-bold">72%</span> more sales today. Check your new badge in
-                            your profile.-->
-                          Your security in one glance
-
-                          <!-- <div class="progress">
-                          <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div> -->
-
-                        <div class="custom-progress" style="display:none;" id="Bar">
-                          <div class="progress-bar custom-progress-bar" id="myProgressBar" role="progressbar" style="width:0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                            0%
-                          </div>
-                        </div>
-
-                        </p>
-
-                        <div style="position: relative; width: 100%; height: 40px;">
-
-                          <!-- Left Button -->
-                          <div style="position: absolute; left: 0;">
-                            <a href="javascript:;" class="btn btn-sm btn-outline-primary" onclick="startScan();"
-                              style="background-color: #3b6ea5; color: #fff; border-color: #3b6ea5;">
-                              Start Scan
-                            </a>
-                            <div><small style="color: #fff;" id="last_scan_date">Last scan <?php if (isset($last_scan_date)) echo $last_scan_date; ?></small> </div>
-                          </div>
-
-                        </div>
-
-
-                        <!--  <span style="float: left;"><a href="javascript:;" class="btn btn-sm btn-outline-primary" style="   background-color: #3b6ea5;color: #fff;border-color: #3b6ea5;">Start Scan</a></span>
-                         <span style="text-align: center;"> <a href="javascript:;" class="btn btn-sm btn-outline-primary" style="   background-color: #3b6ea5;color: #fff;border-color: #3b6ea5;">Start Scan</a></span>
-                        <span style="float: right;"><a href="javascript:;" class="btn btn-sm btn-outline-primary" style="   background-color: #3b6ea5;color: #fff;border-color: #3b6ea5;">FLUSH PII</a></span>  
-                        -->
-                      </div>
-                    </div>
-                    <div class="col-sm-5 text-center text-sm-left">
-                      <div class="card-body pb-0 px-0 px-md-4">
-                        <img
-                          src="<?php echo base_url(); ?>web_assets/img/illustrations/man-with-laptop-light.png"
-                          height="140"
-                          alt="View Badge User"
-                          data-app-dark-img="illustrations/man-with-laptop-dark.png"
-                          data-app-light-img="illustrations/man-with-laptop-light.png" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6 col-xl-4">
-                <div class="card  text-white mb-3" style="background: #3b6ea5;">
-                  <div class="card-header">Welcome <?php echo  $session->get('user_name'); ?></div>
-                  <div class="card-body">
-                    <h5 class="card-title planbg" ><?php echo $PlanName; ?></h5>
-                    <p class="card-text"><?php if ($PlanExpDate > 0) { ?>Expire on <?php echo date('d M Y', strtotime($PlanExpDate)); ?> <?php } ?></p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Total Revenue -->
-              <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
-                <div class="card" style="
-                      background-color: #f4f6f8;
-                      box-shadow: none;
-                  ">
-                  <div class="row row-bordered g-0">
-
-                    <div class="col-md-4">
-                      <div class="card" style="
-                            margin-top: 25px;
-                            width: 90%;
-                            margin-left:5%
-                        ">
-                        <div class="card-body">
-                          <div class="text-center">
-                            <!--div class="dropdown">
-                              <button
-                                class="btn btn-sm btn-outline-primary dropdown-toggle"
-                                type="button"
-                                id="growthReportId"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                              >
-                                2022
-                              </button>
-                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">
-                                <a class="dropdown-item" href="javascript:void(0);">2021</a>
-                                <a class="dropdown-item" href="javascript:void(0);">2020</a>
-                                <a class="dropdown-item" href="javascript:void(0);">2019</a>
-                              </div>
-                            </div-->
-                            <!--  <div id="growthChart"></div> -->
-
-                            <div class="progress-wrapper">
-                              <svg width="200" height="100" viewBox="0 0 200 100">
-                                <defs>
-                                  <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="red" />
-                                    <stop offset="16.6%" stop-color="orange" />
-                                    <stop offset="33.3%" stop-color="yellow" />
-                                    <stop offset="50%" stop-color="green" />
-                                    <stop offset="66.6%" stop-color="blue" />
-                                    <stop offset="83.3%" stop-color="indigo" />
-                                    <stop offset="100%" stop-color="violet" />
-                                  </linearGradient>
-                                </defs>
-
-                                <!-- Cap-shaped semi-circle background -->
-                                <path class="track" d="M10,100 A90,90 0 0 1 190,100"
-                                  fill="none"
-                                  stroke-width="15" />
-
-                                <!-- Rainbow progress arc -->
-                                <path class="progress" d="M10,100 A90,90 0 0 1 190,100"
-                                  fill="none"
-                                  stroke-width="15"
-                                  stroke-dasharray="283"
-                                  stroke-dashoffset="283" />
-                              </svg>
-
-                              <div class="percentage" id="percentLabel"><?php echo $p; ?>%</div>
-                            </div>
-
-                            <div class="text-center fw-semibold pt-3 mb-2">Privacy Risk Score</div>
-                          </div>
-                        </div>
-                      </div>
-
-
-
-                    </div>
-
-                    <!-- <div class="col-lg-4 col-md-12 col-12 mb-12">
-                      <div class="card" style="
-                            margin-top: 25px;
-                            width: 90%;
-                            margin-left:5%
-                        ">
-                        <div class="card-body">
-                          <br>
-                          <div class="card-title d-flex align-items-start justify-content-between">
-                            <div class="avatar flex-shrink-0">
-                              <img
-                                src="<?php echo base_url(); ?>web_assets/img/icons/unicons/chart-success.png"
-                                alt="chart success"
-                                class="rounded" />
-                            </div>
-                            <div class="dropdown">
-                              <button
-                                class="btn p-0"
-                                type="button"
-                                id="cardOpt3"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                              </div>
-                            </div>
-                          </div>
-                          <span class="fw-semibold d-block mb-1">Data Breaches</span>
-                          <h3 class="card-title mb-2">4</h3>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-12 col-12 mb-12">
-                      <div class="card" style="
-                            margin-top: 25px;
-                            width: 90%;
-                            margin-left:5%
-                        ">
-                        <div class="card-body">
-                          <br>
-                          <div class="card-title d-flex align-items-start justify-content-between">
-                            <div class="avatar flex-shrink-0">
-                              <img
-                                src="<?php echo base_url(); ?>web_assets/img/icons/unicons/chart-success.png"
-                                alt="chart success"
-                                class="rounded" />
-                            </div>
-                            <div class="dropdown">
-                              <button
-                                class="btn p-0"
-                                type="button"
-                                id="cardOpt3"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                              </div>
-                            </div>
-                          </div>
-                          <span class="fw-semibold d-block mb-1">Pending Actions</span>
-                          <h3 class="card-title mb-2">2</h3>
-                        </div>
-                      </div>
-                    </div> -->
-
-                    <div class="col-md-4">
-                      <div class="card" style="
-                            margin-top: 25px;
-                            width: 90%;
-                            margin-left:5%
-                        ">
-                        <div class="card-body">
-                          <div class="text-center">
-                            <!-- Center Button -->
-                            <div>
-                              <a href="<?php echo base_url(); ?>scan/scan_schedule" class="btn btn-lg  btn-outline-primary"
-                                style="background-color: #3b6ea5; color: #fff; border-color: #3b6ea5;">
-                                Scan Schedule
-                              </a>
-
-
-                            </div>
-                            <div><br>
-                              <?php echo $d = (!empty($schedules['next_date'])) ? 'Your Next scan ' . date('d M Y', strtotime($schedules['next_date'])) : ''; ?>
-
-                            </div>
-                            <!-- <span class="fw-semibold d-block mb-1">Exposure Sources</span> -->
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-4">
-                      <div class="card" style="
-                            margin-top: 25px;
-                            width: 90%;
-                            margin-left:5%
-                        ">
-                        <div class="card-body">
-                          <div class="text-center">
-                            <!-- Center Button -->
-                            <div>
-                              <a href="javascript:;" class="btn btn-lg btn-outline-primary"
-                                style="background-color: #3b6ea5; color: #fff; border-color: #3b6ea5;">
-                                FLUSH PII
-                              </a>
-                            </div>
-                            <div><br>
-                              Last Flush 31 March 2025
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- swapna start -->
-                      
-                    <div>&nbsp; </div>
-                    <?php /* echo '<pre>';
-                    print_r($sids['email_sids']);
-                    echo 
-                    die; */ ?>
-                     <div class="col-md-12 col-lg-12 order-2 mb-4">
-
-                      <div class="card h-100">
-
-                        <div class="d-flex flex-wrap" id="icons-container">
-
-                          <div class="col-md-3 col-lg-3">
-                            <div class="card icon-card cursor-pointer text-left mb-4 mx-4">
-                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['email_sids']) ?>')">
-                                <p><span id="email_count"><?= $email_count ?></span> <span class="badge <?=($email_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($email_count==0)?'Safe':'Fix';?></span></p>
-                                <p class="icon-name text-capitalize text-truncate mb-0">Emails ID</p>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-md-3 col-lg-3">
-                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['username_sids']) ?>')">
-                                <p><span id="username_count"><?= $username_count ?></span> <span class="badge <?=($username_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($username_count==0)?'Safe':'Fix';?></span></p>
-                                <p class="icon-name text-capitalize text-truncate mb-0">Username</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-3 col-lg-3">
-                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['password_sids']) ?>')">
-                                <p><span id="password_count"><?= $password_count ?></span> <span class="badge <?=($password_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($password_count==0)?'Safe':'Fix';?></span></p>
-                                <p class="icon-name text-capitalize text-truncate mb-0">Password</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-3 col-lg-3">
-                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['phone_sids']) ?>')">
-                                <p><span id="phone_count"><?= $phone_count ?></span> <span class="badge <?=($phone_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($phone_count==0)?'Safe':'Fix';?></span></p>
-                                <p class="icon-name text-capitalize text-truncate mb-0">Contact No 1</p>
-                              </div>
-                            </div>
-                          </div>
-
-                        </div>
-
-
-                        <div class="d-flex flex-wrap" id="icons-container">
-
-                          <div class="col-md-3 col-lg-3">
-                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['address_sids']) ?>')">
-                                <p><span id="address_count"><?= $address_count ?></span> <span class="badge <?=($address_count==0)?'bg-label-success':'bg-label-danger';?> me-1 " style="float: right;"><?=($address_count==0)?'Safe':'Fix';?></span></p>
-                                <p class="icon-name text-capitalize text-truncate mb-0">Addresses</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-3 col-lg-3">
-                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['name_sids']) ?>')">
-                                <p><span id="name_count"><?= $name_count ?></span> <span class="badge <?=($name_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($name_count==0)?'Safe':'Fix';?></span></p>
-                                <p class="icon-name text-capitalize text-truncate mb-0">Full Name</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-3 col-lg-3">
-                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['dob_sids']) ?>')">
-                                <p><span id="dob_count"><?= $dob_count ?></span> <span class="badge <?=($dob_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($dob_count==0)?'Safe':'Fix';?></span></p>
-                                <p class="icon-name text-capitalize text-truncate mb-0">Date of Birth</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-3 col-lg-3">
-                            <div class="card icon-card cursor-pointer text-left mb-4 mx-2">
-                              <div class="card-body" onclick="getcomapny('<?= implode(',',$sids['contact2_sids']) ?>')">
-                                <p><span id="contact2_count"><?= $contact2_count ?></span> <span class="badge <?=($contact2_count==0)?'bg-label-success':'bg-label-danger';?> me-1" style="float: right;"><?=($contact2_count==0)?'Safe':'Fix';?></span></p>
-                                <p class="icon-name text-capitalize text-truncate mb-0">Contact No 2</p>
-                              </div>
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-                    <!-- swapna end -->
-
-                    <!-- Transactions -->
-                    <div class="col-md-12 col-lg-12 order-2 mb-4">
-                      <div class="card h-100">
-
-                        <!-- Basic Bootstrap Table -->
-                        <div class="card">
-                          <h5 class="card-header">Exposure Sources</h5>
-                          <div class="table-responsive text-nowrap">
-                            <table class="table">
-                              <thead>
-                                <tr>
-                                  <th>Company name</th>
-                                  <th>Status</th>
-                                  <th>Action</th>
-
-                                </tr>
-                              </thead>
-                              <tbody class="table-border-bottom-0" id="companyid">
-                                <?php echo $data = ($companieslist) ? $companieslist : '<tr><td>No scan data found</tr></td>'; ?>
-
-
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                        <!--/ Basic Bootstrap Table -->
-                      </div>
-                    </div>
-                    <!--/ Transactions -->
-                  </div>
-                </div>
-              </div>
-              <!--/ Total Revenue -->
-
-
-
-
-            </div>
-
-
+    <!-- Risk Exposure badge directly below without extra space -->
+    <div class="d-flex align-items-center gap-3 mb-3">
+      <span class="fs-4 fw-semibold">Risk Exposure:</span>
+      <span class="badge bg-danger px-3 py-2 fs-6">CRITICAL</span>
+    </div>
+    
+    <!-- Row for Gauge and Bullet points side by side -->
+    <div class="row mb-4">
+      <!-- Gauge column (left side) -->
+      <div class="col-md-4">
+        <div class="gauge-container">
+          <div class="progress-wrapper">
+            <svg width="200" height="100" viewBox="0 0 200 100">
+              <defs>
+                <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="red" />
+                  <stop offset="16.6%" stop-color="orange" />
+                  <stop offset="33.3%" stop-color="yellow" />
+                  <stop offset="50%" stop-color="green" />
+                  <stop offset="66.6%" stop-color="blue" />
+                  <stop offset="83.3%" stop-color="indigo" />
+                  <stop offset="100%" stop-color="violet" />
+                </linearGradient>
+              </defs>
+              <path class="track" d="M10,100 A90,90 0 0 1 190,100" fill="none" stroke-width="15" />
+              <path class="progress" d="M10,100 A90,90 0 0 1 190,100" fill="none" stroke-width="15" stroke-dasharray="283" stroke-dashoffset="283" />
+            </svg>
+            <div class="percentage" id="percentLabel"><?php echo $p; ?>%</div>
           </div>
-          <!-- / Content -->
+          <div class="text-center fw-semibold pt-3 mb-2">Total <?= ($email_count + $password_count + $phone_count + $address_count + 2) ?> Data Breaches found across 250+ sites, 3rd party apps and data broker</div>
+        </div>
+      </div>
+      
+      <!-- Bullet points column (right side) -->
+      <div class="col-md-8">
+        <ul class="list-unstyled mb-4">
+          <li class="mb-2"><span class="fw-bold me-2">&bull;</span> <span class="fw-bold"><?= $password_count ?></span> Password Leaks</li>
+          <li class="mb-2"><span class="fw-bold me-2">&bull;</span> <span class="fw-bold"><?= $email_count ?></span> Email Address</li>
+          <li class="mb-2"><span class="fw-bold me-2">&bull;</span> <span class="fw-bold">2</span> Passport details</li>
+          <li class="mb-2"><span class="fw-bold me-2">&bull;</span> <span class="fw-bold"><?= $phone_count ?></span> Phone Number</li>
+          <li class="mb-2"><span class="fw-bold me-2">&bull;</span> <span class="fw-bold"><?= $address_count ?></span> Address</li>
+        </ul>
+      </div>
+    </div>
 
+    <!-- Website Section -->                        
+    <div class="website-table">
+      <table>
+        <thead>
+          <tr>
+            <th>App name/Webpage</th>
+            <th>Have you whitelisted this App? <br>OR do you want to delete this data</th>
+            <th>Your PII details it holds</th>
+          </tr>
+        </thead>
+        <tbody id="companyid">
+          <?php 
+          if($companieslist) {
+            echo $companieslist;
+          } else {
+            echo '<tr><td colspan="3" class="text-center">No scan data found</td></tr>';
+          }
+          ?>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <!-- / Content -->
           <?= $this->include('includes/footer_section') ?>
 
           <div class="content-backdrop fade"></div>
@@ -511,23 +361,9 @@
   </div>
   <!-- / Layout wrapper -->
 
-
   <?= $this->include('includes/footer') ?>
 
 </body>
-
-<script>
-  /*  const percentage = 80; // Change this from 0 to 100
-
-  const circle = document.querySelector('.progress');
-  const label = document.getElementById('percentLabel');
-
-  const totalLength = 283; // semi-circle path length
-  const offset = totalLength - (percentage / 100 * totalLength);
-
-  circle.style.strokeDashoffset = offset;
-  label.textContent = `${percentage}%`; */
-</script>
 
 <script>
   // Pecentage circle start code
@@ -546,13 +382,9 @@
   circle.style.strokeDashoffset = offset;
   label.textContent = `${percentage}%`;
 
-
-
-  localStorage.setItem('last_scan_date', "<?php echo $last_scan_date; ?>");
+  localStorage.setItem('last_scan_date', "<?php echo isset($last_scan_date) ? $last_scan_date : ''; ?>");
   var last_scan_date = localStorage.getItem('last_scan_date');
   $('#last_scan_date').text(last_scan_date);
-
- // alert(label.textContent);
 
   if (last_scan_date) {
     $('#last_scan_date').show();
@@ -560,17 +392,13 @@
     $('#last_scan_date').hide();
   }
   //end code
+  
   function startScan() {
-
-
-
     const progressBar = $("#myProgressBar");
     let width = 0;
     $("#Bar").show();
     progressBar.css("width", "0%");
     progressBar.attr("aria-valuenow", 0);
-
-
 
     const interval = setInterval(() => {
       if (width < 95) {
@@ -579,6 +407,7 @@
         progressBar.attr("aria-valuenow", width);
       }
     }, 100);
+    
     base_url = "<?php echo base_url(); ?>";
     $.ajax({
       url: base_url + "scanresult",
@@ -595,12 +424,9 @@
         console.log("Scan complete:", response);
 
         if (res.redirectplans == 1) {
-          //alert('hi');
           window.location.href = base_url + "users/upgrade_plans";
           return false;
         } else {
-
-
           $("#companyid").html(res.companies);
 
           $("#email_count").html(res.email_count);
@@ -614,19 +440,15 @@
 
           $('#last_scan_date').text(res.last_scan_date);
 
-
-
           // Pecentage circle start code
-          const percentage = res.per; // Change this from 0 to 100
-
+          const percentage = res.per;
           const scanpercent = res.per;
           localStorage.setItem('scanpercent', scanpercent);
-
 
           const circle = document.querySelector('.progress');
           const label = document.getElementById('percentLabel');
 
-          const totalLength = 283; // semi-circle path length
+          const totalLength = 283;
           const offset = totalLength - (percentage / 100 * totalLength);
 
           circle.style.strokeDashoffset = offset;
@@ -646,13 +468,12 @@
   }
 
   function getcomapny(sids){
-    //alert(sids);
     base_url = "<?php echo base_url(); ?>";
     $.ajax({
       url: base_url + "getcompany",
       method: "POST",
       data: {
-        sids
+        sids: sids
       },
       success: function(response) {
         let res = JSON.parse(response);
@@ -660,9 +481,12 @@
       },
       error: function(error) {
         alert('error');
-        clearInterval(interval);
       }
     });
+  }
+  
+  function flushData() {
+    alert('Flush functionality to be implemented');
   }
 </script>
 

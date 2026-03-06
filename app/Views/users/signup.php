@@ -268,7 +268,7 @@ background:
         <div class="row g-3">
           <div class="col-md-4">
             <label class="form-label">Email*</label>
-            <input type="email" class="form-control" id="txt_email" name="email" onchange="fncheckEmail(this)" >
+            <input type="email" class="form-control" id="txt_email" name="email" onChange="fncheckEmail(this)" >
             <span class="ErrorMsg" id="txt_email_Error"></span>
           </div>
           <div class="col-md-4">
@@ -316,7 +316,7 @@ background:
             <select class="form-select" id="country" name="country">
               <option value=""></option>
               <?php foreach ($countries as $country): ?>
-                <option value="<?= $country['country_id'] ?>"><?= $country['country_name'] ?></option>
+                <option value="<?= $country['country_id'] ?>"><?= $country['country_name'] ?> (<?= $country['code'] ?>)</option>
               <?php endforeach; ?>
             </select>
           </div>
@@ -325,7 +325,7 @@ background:
             <input type="text" class="form-control" maxlength='15' id="txt_contact_number1" name="contact_number1">
             <span class="ErrorMsg" id="txt_contact_number1_Error"></span>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4" style="display:none">
             <label class="form-label">Alternate Number </label>
             <input type="text" class="form-control" maxlength='15' id="txt_contact_number2" name="contact_number2">
           </div>
@@ -345,7 +345,7 @@ background:
         <!-- SUBMIT -->
         
      <div class="text-end mt-4" id="submitWrapper" style="display:none;">
-  <button type="button" class="btn btn-primary" onclick="fnSignUp()">
+  <button type="button" class="btn btn-primary" onClick="fnSignUp()">
     Create Account
   </button>
 </div>

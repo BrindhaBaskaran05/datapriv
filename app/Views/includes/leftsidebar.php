@@ -104,42 +104,42 @@ $check = $Expurl[1] ?? '';
     </a>
 </li>
 
-<li class="menu-item <?= ($check == "scan") ? "active" : "" ?>">
-    <a href="<?= base_url() ?>scan" class="menu-link">
-        <i class="bx bx-cube-alt"></i>
-        <div>Start Scan</div>
-    </a>
-</li>
-
-
 
 <li class="menu-item <?= ($check == "profile") ? "active" : "" ?>">
     <a href="<?= base_url() ?>profile" class="menu-link">
         <i class="bx bx-user"></i>
-        <div>Profile</div>
+        <div>My Profile</div>
     </a>
 </li>
+
+<li class="menu-item <?= ($check == "scan") ? "active" : "" ?>">
+    <a href="<?= base_url() ?>scan" class="menu-link">
+        <i class="bx bx-cube-alt"></i>
+        <div>Scan Details</div>
+    </a>
+</li>
+
 
 <li class="menu-item <?= ($check == "risk_exposure") ? "active" : "" ?>">
     <a href="<?= base_url() ?>risk_exposure" class="menu-link">
         <i class="bx bx-copy"></i>
-        <div>My Risk Exposure</div>
+        <div>Cleanse Details</div>
     </a>
 </li>
 
 <li class="menu-item <?= ($check == "users/upgrade_plans") ? "active" : "" ?>">
     <a href="<?= base_url() ?>users/upgrade_plans" class="menu-link">
         <i class="bx bx-crown"></i>
-        <div>Upgrade Plans</div>
+        <div>My Plan</div>
     </a>
 </li>
 
-<li class="menu-item <?= ($check == "privacy") ? "active" : "" ?>">
+<!--<li class="menu-item <?= ($check == "privacy") ? "active" : "" ?>">
     <a href="#" class="menu-link">
         <i class="bx bx-shield-quarter"></i>
         <div>Take Care of Your Privacy</div>
     </a>
-</li>
+</li>-->
 
 <li class="menu-item <?= ($check == "scan/scan_schedule") ? "active" : "" ?>">
     <a href="<?= base_url() ?>scan/scan_schedule" class="menu-link">

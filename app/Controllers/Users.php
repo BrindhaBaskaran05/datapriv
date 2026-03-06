@@ -32,7 +32,7 @@ class Users extends BaseController
 		$data['title'] = 'Sign In';
 		//$this->load->view('users/login', $data);
 		$builder = $this->db->table('dp_countries');
-		$builder->select('country_id, country_name');
+		$builder->select('country_id, country_name, code');
 		$data['countries'] =  $builder->get()->getResultArray();
 		/* print_r($data);
 			die; */
