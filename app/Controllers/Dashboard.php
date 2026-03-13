@@ -34,7 +34,8 @@ class Dashboard extends BaseController
         $result = $query->getRowArray();
 
         if ($result['last_scan_date']) {
-            $formatted = date('d M Y h:i A', strtotime($result['last_scan_date']));
+            //$formatted = date('d M Y h:i A', strtotime($result['last_scan_date']));
+             $formatted= date("l F d, h:i A", strtotime($result['last_scan_date']));
             $data['last_scan_date'] = $formatted;
         }
 
@@ -70,7 +71,7 @@ class Dashboard extends BaseController
 
 
 
-        $subQuery = $this->db->table('dp_scan')
+       /* $subQuery = $this->db->table('dp_scan')
             ->select('user_id, MAX(scan_date) AS last_scan_date')
             ->where('user_id', $user_id)
             ->getCompiledSelect();
@@ -80,18 +81,31 @@ class Dashboard extends BaseController
         $builder->join("($subQuery) latest", 's.user_id = latest.user_id AND s.scan_date = latest.last_scan_date');
         $query = $builder->get();
 
-        $latestScan = $query->getResultArray();
+        $latestScan = $query->getResultArray();*/
+        $builder = $this->db->table('dp_scan a');
+
+$subQuery = "(SELECT 'EXPOSED'
+              FROM dp_scan_detail
+              WHERE user_id = '$user_id'
+              AND scan_id = a.id
+              AND status = 'exposed'
+              LIMIT 1)";
+
+$builder->select("a.id, a.id as scan_id,a.company, IFNULL($subQuery,'SAFE') as status");
+
+$query = $builder->get();
+$latestScan = $query->getResultArray();
 
 
 
         $dat = '';
         foreach ($latestScan as $k => $company) {
-            $randlist = rand(0, 10);
-            if ($randlist == 0) {
+          
+            if ($latestScan[$k]['status']=="SAFE") {
                 $cls = 'bg-success';
                 $lbl = 'Safe';
             }
-            if ($randlist > 0) {
+            if ($latestScan[$k]['status']=="EXPOSED") {
                 $cls = 'bg-danger';
                 $lbl = 'Exposed';
             }
@@ -115,7 +129,7 @@ class Dashboard extends BaseController
         // die;
 
 
-        $builder = $this->db->table('dp_scan_detail');
+        /*$builder = $this->db->table('dp_scan_detail');
 
         $builder->select("
             scan_id,
@@ -132,7 +146,28 @@ class Dashboard extends BaseController
         $builder->groupBy('scan_id');
         $query = $builder->get();
 
-        $result = $query->getResultArray();
+        $result = $query->getResultArray();*/
+
+        $builder = $this->db->table('dp_scan_detail a');
+           $builder->select("
+            exposed_data,
+            SUM(CASE WHEN exposed_data = 'Email' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS email_count,
+            SUM(CASE WHEN exposed_data = 'Contact No1' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS phone_count,
+            SUM(CASE WHEN exposed_data = 'Address' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS address_count,
+            SUM(CASE WHEN exposed_data = 'Date of Birth' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS dob_count,
+            SUM(CASE WHEN exposed_data = 'Username' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS username_count,
+            SUM(CASE WHEN exposed_data = 'Password' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS password_count,
+            SUM(CASE WHEN exposed_data = 'Contact No2' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS contact2_count,
+            SUM(CASE WHEN exposed_data = 'Full Name' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS name_count
+
+        ");
+        
+        $builder->join('dp_scan s', 's.id = a.scan_id', 'left');
+            $builder->where('s.user_id', $user_id);
+           // $builder->groupBy('scan_id');
+            $builder->groupBy('a.exposed_data');
+            $query = $builder->get();
+            $result = $query->getResultArray();
 
 
 
@@ -178,7 +213,7 @@ class Dashboard extends BaseController
         foreach ($result as $row) {
             foreach ($map as $sidKey => $countKey) {
                 if ($row[$countKey] > 0) {
-                    $filterids[$sidKey][] = $row['scan_id'];
+                   // $filterids[$sidKey][] = $row['scan_id'];
                 }
             }
         }
@@ -189,7 +224,17 @@ class Dashboard extends BaseController
         print_r($data);
         die; */
 
+        $builder = $this->db->table('dp_scan_detail a');
 
+$builder->select("CEIL((SUM(IF(a.status='exposed',1,0))/COUNT(1))*100) AS percentage");
+$builder->join('dp_scan b', 'a.scan_id = b.id');
+$builder->where('b.user_id', $user_id);
+
+$query = $builder->get();
+$percentage = $query->getRow()->percentage;
+
+if($percentage=="") {$percentage=0;}
+ $data['percentage'] = $percentage;
 
         return view('dashboard/home', $data);
     }
@@ -320,84 +365,45 @@ class Dashboard extends BaseController
 
 
         if ($Plandata != NULL) {
-            $percent = rand(30, 100);
-            $session->set('percent', $percent);
-            $randomLimit = rand(3, 10);
 
-            $builder = $this->db->table('dp_data_brokers_list');
-            $builder->select('id, Company,Opt_out_url');
-            $builder->orderBy('RAND()'); // For MySQL
-            $builder->limit($randomLimit); // Use the random number as limit
-            $Companies = $builder->get()->getResultArray();
+            $ScanDet=$this->do_scan($user_id);
 
-            /*  echo '<pre>';
-            print_r($Companies);
-              echo $Companies[0]['Company'];
-            die;*/
-            $dat = '';
-            foreach ($Companies as $k => $company) {
-                $randlist = rand(0, 10);
-
-                $dat .= '<tr>
-                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' . $Companies[$k]['Company'] . '</strong></td>
-                <td><span class="badge bg-label-danger me-1">' . $randlist . '</span></td>                
-            </tr>';
-                date_default_timezone_set('Asia/Kolkata');
-                $now = date('Y-m-d H:i:s');
-                $scan = [
-                    'user_id' => $user_id,
-                    'company'    => $Companies[$k]['Company'],
-                    'scan_url'    => $Companies[$k]['Opt_out_url'],
-                    'status'    => 'exposed',
-                    'scan_date' => $now
-
-                ];
-                $data['last_scan_date'] = date('d M Y h:i A', strtotime($now));
-                $builder = $this->db->table('dp_scan');
-                $builder->insert($scan);
-
-                $scanIds[] = $insertID = $this->db->insertID();
-
-                $myList = ["Contact No1", "Email", "Address", "Date of Birth", "Full Name", "Username", "Password", "Contact No2"];
-                // Shuffle the array for random order
-                shuffle($myList);
-
-                // Select the first 3 elements after shuffling (or any desired number)
-                $randomSubset = array_slice($myList, 0, 2);
-                foreach ($randomSubset as $value) {
-
-                    $scandetails = [
-                        'scan_id' => $insertID,
-                        'exposed_data'    => $value,
-                        'status'    => 'exposed'
-                    ];
-
-                    $scandt = $this->db->table('dp_scan_detail');
-                    $scandt->insert($scandetails);
-                }
-            }
-            $session->set('companies', $dat);
-            $data['companies'] = $dat;
-            $data['per'] = $percent;
+           // $session->set('companies', $dat);
+            //$data['companies'] = $dat;
+            //$data['per'] = $percent;
             $data['redirectplans'] = 0;
 
 
 
-            $builder = $this->db->table('dp_scan_detail');
+            $builder = $this->db->table('dp_scan_detail a');
             $builder->select("
             scan_id,
-            SUM(CASE WHEN exposed_data = 'Email' AND status = 'exposed' THEN 1 ELSE 0 END) AS email_count,
-            SUM(CASE WHEN exposed_data = 'Contact No1' AND status = 'exposed' THEN 1 ELSE 0 END) AS phone_count,
-            SUM(CASE WHEN exposed_data = 'Address' AND status = 'exposed' THEN 1 ELSE 0 END) AS address_count,
-            SUM(CASE WHEN exposed_data = 'Date of Birth' AND status = 'exposed' THEN 1 ELSE 0 END) AS dob_count,
-            SUM(CASE WHEN exposed_data = 'Username' AND status = 'exposed' THEN 1 ELSE 0 END) AS username_count,
-            SUM(CASE WHEN exposed_data = 'Password' AND status = 'exposed' THEN 1 ELSE 0 END) AS password_count,
-            SUM(CASE WHEN exposed_data = 'Contact No2' AND status = 'exposed' THEN 1 ELSE 0 END) AS contact2_count,
-            SUM(CASE WHEN exposed_data = 'Full Name' AND status = 'exposed' THEN 1 ELSE 0 END) AS name_count
+            SUM(CASE WHEN exposed_data = 'Email' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS email_count,
+            SUM(CASE WHEN exposed_data = 'Contact No1' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS phone_count,
+            SUM(CASE WHEN exposed_data = 'Address' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS address_count,
+            SUM(CASE WHEN exposed_data = 'Date of Birth' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS dob_count,
+            SUM(CASE WHEN exposed_data = 'Username' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS username_count,
+            SUM(CASE WHEN exposed_data = 'Password' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS password_count,
+            SUM(CASE WHEN exposed_data = 'Contact No2' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS contact2_count,
+            SUM(CASE WHEN exposed_data = 'Full Name' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS name_count
 
         ");
-            $builder->whereIn('scan_id', $scanIds);
-            $builder->groupBy('scan_id');
+         $builder->select("
+            exposed_data,
+            SUM(CASE WHEN exposed_data = 'Email' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS email_count,
+            SUM(CASE WHEN exposed_data = 'Contact No1' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS phone_count,
+            SUM(CASE WHEN exposed_data = 'Address' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS address_count,
+            SUM(CASE WHEN exposed_data = 'Date of Birth' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS dob_count,
+            SUM(CASE WHEN exposed_data = 'Username' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS username_count,
+            SUM(CASE WHEN exposed_data = 'Password' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS password_count,
+            SUM(CASE WHEN exposed_data = 'Contact No2' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS contact2_count,
+            SUM(CASE WHEN exposed_data = 'Full Name' AND a.status = 'exposed' THEN 1 ELSE 0 END) AS name_count
+
+        ");
+        $builder->join('dp_scan s', 's.id = a.scan_id', 'left');
+            $builder->where('s.user_id', $user_id);
+           // $builder->groupBy('scan_id');
+            $builder->groupBy('a.exposed_data');
             $query = $builder->get();
             $result = $query->getResultArray();
 
@@ -425,5 +431,99 @@ class Dashboard extends BaseController
 
 
         return  json_encode($data);
+    }
+   public function do_scan($user_id){
+         $session = session();
+            $percent = rand(30, 100);
+            $session->set('percent', $percent);
+            $randomLimit = rand(3, 10);
+
+            $builder = $this->db->table('dp_data_brokers_list');
+            $builder->select('id, Company,Opt_out_url');
+            $builder->orderBy('RAND()'); // For MySQL
+            $builder->limit($randomLimit); // Use the random number as limit
+            $Companies = $builder->get()->getResultArray();
+
+            /*  echo '<pre>';
+            print_r($Companies);
+              echo $Companies[0]['Company'];
+            die;*/
+            $dat = '';
+            foreach ($Companies as $k => $company) {
+
+             $builder = $this->db->table('dp_scan');
+            $builder->select('id');
+            $builder->where('user_id', $user_id);
+            $builder->where('scan_url', $Companies[$k]['Opt_out_url']);
+            //$Todayscancount = $builder->get()->getResultArray();
+            $result = $builder->get()->getRow();
+            $ScanId = $result->id ?? NULL;
+
+                $randlist = rand(0, 10);
+
+                $dat .= '<tr>
+                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' . $Companies[$k]['Company'] . '</strong></td>
+                <td><span class="badge bg-label-danger me-1">' . $randlist . '</span></td>                
+            </tr>';
+                date_default_timezone_set('Asia/Kolkata');
+                $now = date('Y-m-d H:i:s');
+                if($ScanId==NULL){
+                     $scan = [
+                    'user_id' => $user_id,
+                    'company'    => $Companies[$k]['Company'],
+                    'scan_url'    => $Companies[$k]['Opt_out_url'],
+                    'status'    => 'exposed',
+                    'scan_date' => $now
+
+                ];
+                $data['last_scan_date'] = date('d M Y h:i A', strtotime($now));
+                $builder = $this->db->table('dp_scan');
+                $builder->insert($scan);
+
+                $scanIds[] = $insertID = $this->db->insertID();
+                }else{
+ $builder->where('id', $ScanId);
+    $builder->update([
+        'scan_date' => $now
+    ]);
+    $insertID=$ScanId;
+                }
+               
+
+                $myList = ["Contact No1", "Email", "Address", "Date of Birth", "Full Name", "Username", "Password", "Contact No2"];
+                // Shuffle the array for random order
+                shuffle($myList);
+
+                // Select the first 3 elements after shuffling (or any desired number)
+                $randomSubset = array_slice($myList, 0, 2);
+                foreach ($randomSubset as $value) {
+
+                 $builder = $this->db->table('dp_scan_detail');
+            $builder->select('id');
+            $builder->where('scan_id', $insertID);
+            $builder->where('exposed_data', $value);
+            //$Todayscancount = $builder->get()->getResultArray();
+            $result = $builder->get()->getRow();
+             $ScanDetId = $result->id ?? NULL;
+ if($ScanDetId==NULL){
+                    $scandetails = [
+                        'scan_id' => $insertID,
+                        'exposed_data'    => $value,
+                        'status'    => 'exposed'
+                    ];
+
+                    $scandt = $this->db->table('dp_scan_detail');
+                    $scandt->insert($scandetails);
+ }else{
+     $scandt = $this->db->table('dp_scan_detail');
+
+    $scandt->where('id', $ScanDetId);
+    $scandt->update([
+        'status' => 'exposed'
+    ]);
+
+ }
+                }
+            }
     }
 }

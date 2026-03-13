@@ -18,7 +18,9 @@
     font-weight: 600;
     margin-bottom: 15px;
   }
-  
+  .bg-orange {
+    background-color: #fd7e14;
+}
   .risk-badge {
     background-color: #dc3545;
     color: white;
@@ -250,13 +252,15 @@
         <?= $this->include('includes/header_section') ?>
 
         <?php
+
         $session = session();
         $username = $session->get('user_name');
         $PlanName = $session->get('PlanName');
         $PlanExpDate = $session->get('PlanExpDate');
 
-        if ($session->get('percent')) $p = $session->get('percent');
-        else $p = '0';
+      /*  if ($session->get('percent')) $p = $session->get('percent');
+        else $p = '0';*/
+     
         if ($session->get('companies')) $companieslist = $session->get('companies');
         else $companieslist;
 
@@ -275,15 +279,33 @@
 <!-- SCAN NOW button  -->
 <div class="text-end">
   <a href="javascript:;" class="btn btn-primary px-5 py-3 fw-bold fs-5" onclick="startScan()" style="background-color: #dc3545; border: none; border-radius: 8px;">SCAN NOW</a>
-  <div class="mt-2 text-muted" style="font-size: 14px;">Last Scan was on Monday<br>February 16, 14:23PST</div>
+  <div class="mt-2 text-muted" style="font-size: 14px;">Last Scan was on <?php echo $last_scan_date; ?></div>
 </div></div>
 
     <!-- Risk Exposure badge directly below without extra space -->
     <div class="d-flex align-items-center gap-3 mb-3">
       <span class="fs-4 fw-semibold">Risk Exposure:</span>
-      <span class="badge bg-danger px-3 py-2 fs-6">CRITICAL</span>
-    </div>
-    
+     <?php
+$Clss = "bg-success";
+
+if ($percentage < 20) {
+    $sts = "NORMAL";
+    $Clss = "bg-success";
+} elseif ($percentage < 50) {
+    $sts = "MEDIUM";
+    $Clss = "bg-warning text-dark";
+} elseif ($percentage < 75) {
+    $sts = "HIGH";
+    $Clss = "bg-orange text-white";
+} else {
+    $sts = "CRITICAL";
+    $Clss = "bg-danger";
+}
+?>
+<span class="badge <?= $Clss ?> px-3 py-2 fs-6 shadow-sm">
+    <?= $sts ?> 
+</span>    </div>
+   
     <!-- Row for Gauge and Bullet points side by side -->
     <div class="row mb-4">
       <!-- Gauge column (left side) -->
@@ -305,7 +327,7 @@
               <path class="track" d="M10,100 A90,90 0 0 1 190,100" fill="none" stroke-width="15" />
               <path class="progress" d="M10,100 A90,90 0 0 1 190,100" fill="none" stroke-width="15" stroke-dasharray="283" stroke-dashoffset="283" />
             </svg>
-            <div class="percentage" id="percentLabel"><?php echo $p; ?>%</div>
+            <div class="percentage" id="percentLabel"><?php echo $percentage; ?>%</div>
           </div>
           <div class="text-center fw-semibold pt-3 mb-2">Total <?= ($email_count + $password_count + $phone_count + $address_count + 2) ?> Data Breaches found across 250+ sites, 3rd party apps and data broker</div>
         </div>
@@ -368,7 +390,7 @@
 <script>
   // Pecentage circle start code
   const storedUserId = localStorage.getItem('scanpercent');
-  var percentage = storedUserId; // Change this from 0 to 100
+  var percentage = <?php echo $percentage?>; // Change this from 0 to 100
 
   const circle = document.querySelector('.progress');
   const label = document.getElementById('percentLabel');
@@ -427,6 +449,8 @@
           window.location.href = base_url + "users/upgrade_plans";
           return false;
         } else {
+         window.location.href = base_url + "dashboard";
+         return false;
           $("#companyid").html(res.companies);
 
           $("#email_count").html(res.email_count);
