@@ -497,6 +497,8 @@ if($percentage=="") {$percentage=0;}
                 // Select the first 3 elements after shuffling (or any desired number)
                 $randomSubset = array_slice($myList, 0, 2);
                 foreach ($randomSubset as $value) {
+                    $StsArray=array("exposed","safe");
+                $randomValue = $StsArray[array_rand($StsArray)];
 
                  $builder = $this->db->table('dp_scan_detail');
             $builder->select('id');
@@ -509,7 +511,7 @@ if($percentage=="") {$percentage=0;}
                     $scandetails = [
                         'scan_id' => $insertID,
                         'exposed_data'    => $value,
-                        'status'    => 'exposed'
+                        'status'    => $randomValue
                     ];
 
                     $scandt = $this->db->table('dp_scan_detail');
