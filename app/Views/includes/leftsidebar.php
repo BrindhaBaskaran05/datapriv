@@ -133,6 +133,12 @@ $check = $Expurl[1] ?? '';
         <div>My Plan</div>
     </a>
 </li>
+<li class="menu-item <?= ($check == "users/logout") ? "active" : "" ?>">
+    <a href="<?= base_url() ?>users/logout" class="menu-link">
+        <i class="bx bx-power-off me-2"></i>
+        <div>Logout</div>
+    </a>
+</li>
 
 <!--<li class="menu-item <?= ($check == "privacy") ? "active" : "" ?>">
     <a href="#" class="menu-link">

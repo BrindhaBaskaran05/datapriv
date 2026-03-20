@@ -231,10 +231,16 @@ $builder->join('dp_scan b', 'a.scan_id = b.id');
 $builder->where('b.user_id', $user_id);
 
 $query = $builder->get();
-$percentage = $query->getRow()->percentage;
+$row = $query->getRow();
+$percentage=0;
+if($row){
+  $percentage=$row->percentage;
 
-if($percentage=="") {$percentage=0;}
+}
+if($percentage==NULL){ $percentage=0;}
+
  $data['percentage'] = $percentage;
+//var_dump($data);exit();
 
         return view('dashboard/home', $data);
     }

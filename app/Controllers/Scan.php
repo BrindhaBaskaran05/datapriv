@@ -218,16 +218,24 @@ $builder->select("
     SUM(IF(status = 0, 1, 0)) AS unanswered,
     '0' AS validation,
     '0' AS Avgtime,
-    '0' AS inrpogress
+    '0' AS inprogress
 ");
 $builder->where('user_id', $user_id);
 $builder->groupBy('user_id');
-$row = $builder->get()->getRow();   
-$data['unanswered']  = $row->unanswered;
-$data['validation']  = $row->validation;
-$data['Avgtime']     = $row->Avgtime;
-$data['inprogress']  = $row->inrpogress;
+//$count = $builder->countAllResults();
+$row = $builder->get()->getRow();
 
+$data['unanswered'] = 0;
+$data['validation'] = 0;
+$data['Avgtime']    = 0;
+$data['inprogress'] = 0;
+
+if ($row) {
+    $data['unanswered'] = $row->unanswered;
+    $data['validation'] = $row->validation;
+    $data['Avgtime']    = $row->Avgtime;
+    $data['inprogress'] = $row->inprogress;
+}
 
   $builder = $this->db->table('dp_scan a');
 $builder->select("a.*,b.data_removed
@@ -494,7 +502,7 @@ $Msg="Hello Sir,<br>";
        $scan = [
                     'user_id' => $user_id,
                     'scan_id'=>$ScanId,
-                    'databroker_emailid'    => NULL,
+                    'databroker_emailid'    => $Email,
                     'email_datetime'    => $FlushDt,
                     'email_message'=>$Msg                  
                 ];
