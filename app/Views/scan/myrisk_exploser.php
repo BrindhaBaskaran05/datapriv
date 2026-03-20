@@ -228,28 +228,28 @@
               <!-- Card 1 - Red -->
               <div class="bg-white p-4 rounded-3 shadow-sm text-center" style="flex: 1 1 200px;">
                 <div class="text-dark text-uppercase small fw-medium mb-2">UNANSWERED REQUESTS</div>
-                <div><span class="display-4 fw-semibold text-danger">0</span></div>
+                <div><span class="display-4 fw-semibold text-danger"><?php echo $unanswered; ?></span></div>
                 <div class="bg-danger text-white rounded-pill px-3 py-1 d-inline-block mt-2 small fw-medium">Unanswered</div>
               </div>
               
               <!-- Card 2 - Green -->
               <div class="bg-white p-4 rounded-3 shadow-sm text-center" style="flex: 1 1 200px;">
                 <div class="text-dark text-uppercase small fw-medium mb-2">UNANSWERED REQUESTS</div>
-                <div><span class="display-4 fw-semibold text-success">0</span></div>
+                <div><span class="display-4 fw-semibold text-success"><?php echo $validation; ?></span></div>
                 <div class="bg-success text-white rounded-pill px-3 py-1 d-inline-block mt-2 small fw-medium">In Validation</div>
               </div>
               
               <!-- Card 3 - Orange -->
               <div class="bg-white p-4 rounded-3 shadow-sm text-center" style="flex: 1 1 200px;">
                 <div class="text-dark text-uppercase small fw-medium mb-2">UNANSWERED REQUESTS</div>
-                <div><span class="display-4 fw-semibold text-warning">0</span></div>
+                <div><span class="display-4 fw-semibold text-warning"><?php echo $Avgtime; ?></span></div>
                 <div class="bg-warning text-white rounded-pill px-3 py-1 d-inline-block mt-2 small fw-medium">Avg Time to Close</div>
               </div>
               
               <!-- Card 4 - Blue -->
               <div class="bg-white p-4 rounded-3 shadow-sm text-center" style="flex: 1 1 200px;">
                 <div class="text-dark text-uppercase small fw-medium mb-2">IN PROGRESS</div>
-                <div><span class="display-4 fw-semibold text-primary">0</span></div>
+                <div><span class="display-4 fw-semibold text-primary"><?php echo $inprogress; ?></span></div>
                 <div class="bg-primary text-white rounded-pill px-3 py-1 d-inline-block mt-2 small fw-medium">In Progress</div>
               </div>
             </div>
@@ -269,94 +269,56 @@
           </tr>
         </thead>
         <tbody>
-        <!-- people -->
+<?php
+   foreach ($results as $key => $row) {
+    $id=$row['id'];
+     $ExposedData=$row['exposed_data'];
+    $data_removed=$row['data_removed'];
+    ?>
+   <!-- people -->
         <tr>
-          <td class="fw-bold" style="background-color: #f8f9fa; vertical-align: middle; padding: 10px 8px;">people</td>
+          <td class="fw-bold" style="background-color: #f8f9fa; vertical-align: middle; padding: 10px 8px;"><?php echo $row['company']; ?></td>
           <td style="padding: 8px;">
             <div class="row g-1">
               <div class="col-6">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_name" checked>
+               <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="people_username" <?php if(in_array("Username",$ExposedData)){ echo "checked";} ?>>
+                  <label class="form-check-label" for="people_username">Username</label>
+                </div>
+
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="people_name" <?php if(in_array("Full Name",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_name">Name</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_phone">
+                  <input class="form-check-input" type="checkbox" id="people_phone" <?php if(in_array("Contact No1",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_phone">Phone</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_email" checked>
+                  <input class="form-check-input" type="checkbox" id="people_email" <?php if(in_array("Email",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_email">Email</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_other" checked>
+                  <input class="form-check-input" type="checkbox" id="people_other" <?php if(in_array("Other",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_other">Other</label>
                 </div>
               </div>
               <div class="col-6">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_address" checked>
+                  <input class="form-check-input" type="checkbox" id="people_address" <?php if(in_array("Address",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_address">Address</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_city">
+                  <input class="form-check-input" type="checkbox" id="people_city" <?php if(in_array("Other",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_city">City, State</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_photos" checked>
+                  <input class="form-check-input" type="checkbox" id="people_photos" <?php if(in_array("Other",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_photos">Photos</label>
                 </div>
-              </div>
-            </div>
-          </td>
-          <td class="text-center" style="vertical-align: middle;">
-            <div class="d-flex justify-content-center gap-3">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="people_delete" id="people_yes">
-                <label class="form-check-label" for="people_yes">Yes</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="people_delete" id="people_no" checked>
-                <label class="form-check-label" for="people_no">No</label>
-              </div>
-            </div>
-          </td>
-        </tr>
-        
-        <!-- mylife -->
-        <tr>
-          <td class="fw-bold" style="background-color: #f8f9fa; vertical-align: middle; padding: 10px 8px;">mylife</td>
-          <td style="padding: 8px;">
-            <div class="row g-1">
-              <div class="col-6">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="mylife_name" checked>
-                  <label class="form-check-label" for="mylife_name">Name</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="mylife_phone">
-                  <label class="form-check-label" for="mylife_phone">Phone</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="mylife_email" checked>
-                  <label class="form-check-label" for="mylife_email">Email</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="mylife_other">
-                  <label class="form-check-label" for="mylife_other">Age, past add</label>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="mylife_address">
-                  <label class="form-check-label" for="mylife_address">Address</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="mylife_city" checked>
-                  <label class="form-check-label" for="mylife_city">City, State</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="mylife_photos">
-                  <label class="form-check-label" for="mylife_photos">Photos</label>
+                  <input class="form-check-input" type="checkbox" id="people_dob" <?php if(in_array("Date of Birth",$ExposedData)){ echo "checked";} ?>>
+                  <label class="form-check-label" for="people_dob">DOB</label>
                 </div>
               </div>
             </div>
@@ -364,122 +326,18 @@
           <td class="text-center" style="vertical-align: middle;">
             <div class="d-flex justify-content-center gap-3">
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="mylife_delete" id="mylife_yes">
-                <label class="form-check-label" for="mylife_yes">Yes</label>
+                <input class="form-check-input" type="radio" name="people_delete<?php echo $id; ?>" id="people_yes<?php echo $id; ?>" <?php if($data_removed==1) { echo "checked";} ?>>
+                <label class="form-check-label" for="people_yes<?php echo $id; ?>">Yes</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="mylife_delete" id="mylife_no" checked>
-                <label class="form-check-label" for="mylife_no">No</label>
+                <input class="form-check-input" type="radio" name="people_delete<?php echo $id; ?>" id="people_no<?php echo $id; ?>" <?php if($data_removed==0) { echo "checked";} ?>>
+                <label class="form-check-label" for="people_no<?php echo $id; ?>">No</label>
               </div>
             </div>
           </td>
         </tr>
-        
-        <!-- spokeo -->
-        <tr>
-          <td class="fw-bold" style="background-color: #f8f9fa; vertical-align: middle; padding: 10px 8px;">spokeo</td>
-          <td style="padding: 8px;">
-            <div class="row g-1">
-              <div class="col-6">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="spokeo_name" checked>
-                  <label class="form-check-label" for="spokeo_name">Name</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="spokeo_phone">
-                  <label class="form-check-label" for="spokeo_phone">Phone</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="spokeo_email" >
-                  <label class="form-check-label" for="spokeo_email">Email</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="spokeo_other" checked>
-                  <label class="form-check-label" for="spokeo_other">Hobbies, net worth</label>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="spokeo_address">
-                  <label class="form-check-label" for="spokeo_address">Address</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="spokeo_city">
-                  <label class="form-check-label" for="spokeo_city">City, State</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="spokeo_photos" checked>
-                  <label class="form-check-label" for="spokeo_photos">Photos</label>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="text-center" style="vertical-align: middle;">
-            <div class="d-flex justify-content-center gap-3">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="spokeo_delete" id="spokeo_yes" checked>
-                <label class="form-check-label" for="spokeo_yes">Yes</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="spokeo_delete" id="spokeo_no" >
-                <label class="form-check-label" for="spokeo_no">No</label>
-              </div>
-            </div>
-          </td>
-        </tr>
-        
-        <!-- USSEARCH -->
-        <tr>
-          <td class="fw-bold" style="background-color: #f8f9fa; vertical-align: middle; padding: 10px 8px;">USSEARCH</td>
-          <td style="padding: 8px;">
-            <div class="row g-1">
-              <div class="col-6">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="ussearch_name" checked>
-                  <label class="form-check-label" for="ussearch_name">Name</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="ussearch_phone">
-                  <label class="form-check-label" for="ussearch_phone">Phone</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="ussearch_email" >
-                  <label class="form-check-label" for="ussearch_email">Email</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="ussearch_other" checked>
-                  <label class="form-check-label" for="ussearch_other">Age, family</label>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="ussearch_address">
-                  <label class="form-check-label" for="ussearch_address">Address</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="ussearch_city" checked>
-                  <label class="form-check-label" for="ussearch_city">City, State</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="ussearch_photos">
-                  <label class="form-check-label" for="ussearch_photos">Photos</label>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="text-center" style="vertical-align: middle;">
-            <div class="d-flex justify-content-center gap-3">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="ussearch_delete" id="ussearch_yes">
-                <label class="form-check-label" for="ussearch_yes">Yes</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="ussearch_delete" id="ussearch_no" checked>
-                <label class="form-check-label" for="ussearch_no">No</label>
-              </div>
-            </div>
-          </td>
-        </tr>
+   <?php }
+?>
       </tbody>
     </table>
   </div>

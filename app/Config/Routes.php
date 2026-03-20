@@ -24,6 +24,7 @@ $routes->post('users/checkemail', 'Users::checkEmail');
 
 //Dashboard
 $routes->get('/dashboard', 'Dashboard::index');
+$routes->get('dashboard/do_scan/(:any)', 'Dashboard::do_scan/$1');
 $routes->post('/scanresult', 'Dashboard::getscanresult');
 $routes->post('/getcompany', 'Dashboard::getcompany');
 
@@ -46,4 +47,5 @@ $routes->post('/profile/changepassword', 'Profile::changepassword');
 
 $routes->get('/plans/plan_expair', 'Plans::plan_expair');
 
+$routes->get('/scan/flush', 'Scan::do_flush');
 
