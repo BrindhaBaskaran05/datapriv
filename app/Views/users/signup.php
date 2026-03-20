@@ -1,372 +1,440 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sign Up</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+<title>Sign Up</title>
 
-  <!-- Bootstrap & Select2 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <style>
-    input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
-  box-shadow: 0 0 0 1000px #ffffff inset;
-  -webkit-text-fill-color: #0A2540;
-  transition: background-color 9999s ease-in-out 0s;
-}
- body {
-background:
-    radial-gradient(circle at top left, rgba(59,110,165,0.12), transparent 40%),
-    linear-gradient(135deg, #F7FAFF, #EDF3FB);
-     min-height: 100vh;
-      display: flex;
-      align-items: center;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-    }
-    .signup-shell {
-      max-width: 1200px;
-      width: 100%;
-      margin: auto;
-    }
-
-    .signup-card {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25);
-      overflow: hidden;
-    }
-
-    /* LEFT PANEL */
-    .signup-left {
-      background: linear-gradient(160deg, #0A2540, #3B6EA5);
-      color: #fff;
-      padding: 50px 45px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-     
-    }
-
-    .signup-left h1 {
-      font-size: 36px;
-      font-weight: 800;
-      line-height: 1.25;
-      margin-bottom: 20px;
-    }
-
-    .signup-left p {
-      font-size: 16px;
-      opacity: 0.95;
-      margin-bottom: 30px;
-    }
-
-    .quote-box {
-      background: rgba(255, 255, 255, 0.15);
-      border-left: 4px solid #ffffff;
-      padding: 18px 20px;
-      border-radius: 10px;
-      font-style: italic;
-      font-size: 15px;
-    }
-
-    /* RIGHT PANEL */
-    .signup-wrapper {
-      padding: 35px 40px;
-    }
-
-    .signup-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .signup-header h2 {
-      font-weight: 700;
-      color: #0A2540;
-      margin: 0;
-    }
-
-    .signup-header a {
-      font-size: 14px;
-      color: #3B6EA5;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .section-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: #3B6EA5;
-      margin: 16px 0 8px;
-      text-transform: uppercase;
-    }
-
-    .form-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #0A2540;
-      margin-bottom: 4px;
-    }
-
-    .form-control,
-    .form-select,
-    .select2-container .select2-selection--single {
-      height: 36px;
-      border-radius: 8px;
-      font-size: 13px;
-      border: 1px solid #d6dce3;
-    }
-
-    .form-control:focus,
-    .form-select:focus {
-      border-color: #3B6EA5;
-      box-shadow: 0 0 0 2px rgba(59, 110, 165, 0.15);
-    }
-
-    .ErrorMsg {
-      font-size: 11px;
-      color: #dc3545;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #0A2540, #3B6EA5);
-      border: none;
-      border-radius: 10px;
-      padding: 10px 34px;
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    @media (max-width: 992px) {
-      .signup-left {
-        display: none;
-      }
-
-      body {
-        padding: 20px;
-        align-items: flex-start;
-      }
-    }
-    .signup-shell {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: signupShellSlow 1.4s ease-out forwards;
+<style>
+body {
+  background: url('<?php echo base_url(); ?>web_assets/img/bg.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+  flex-direction: column;
+  padding: 20px;
+  position: relative;
 }
 
-/* Slow, elegant entrance */
-@keyframes signupShellSlow {
-  0% {
+/* Dark overlay for better text readability on mobile */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 0;
+}
+
+/* Logo responsive */
+.position-absolute {
+  z-index: 10;
+}
+
+.position-absolute img {
+  max-height: 80px;
+  width: auto;
+}
+
+/* Welcome text responsive */
+.text-center.mb-4 h1 {
+  font-size: clamp(1.2rem, 5vw, 2rem);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+/* Card - fully responsive */
+.signup-card {
+  width: 100%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.98);
+  padding: 30px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  position: relative;
+  z-index: 1;
+}
+
+/* Title */
+.signup-title {
+  text-align: center;
+  font-weight: 600;
+  font-size: clamp(18px, 5vw, 22px);
+  margin-bottom: 20px;
+}
+
+.signup-title h2 {
+  font-size: inherit;
+}
+
+/* Input */
+.form-control {
+  height: 42px;
+  border-radius: 8px;
+  font-size: clamp(13px, 4vw, 14px);
+}
+
+/* Row spacing */
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+/* Gender */
+.gender-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: clamp(13px, 4vw, 14px);
+}
+
+/* Button */
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #4e6f95;
+  color: #fff;
+  font-weight: 600;
+  font-size: clamp(14px, 4vw, 16px);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-submit:hover {
+  background: #2f4f73;
+}
+
+.btn-submit:active {
+  transform: scale(0.98);
+}
+
+/* Terms */
+.terms {
+  font-size: clamp(12px, 3.5vw, 13px);
+}
+
+/* Error messages */
+.ErrorMsg {
+  font-size: 11px;
+  color: #dc3545;
+  margin-top: 5px;
+  display: block;
+}
+
+/* Logo container - responsive */
+    .logo-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+
+    .logo-container img {
+      max-height: 80px;
+      width: auto;
+    }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+    align-items: flex-start;
+    padding-top: 100px;
+  }
+  
+  .position-absolute {
+    top: 10px !important;
+    left: 10px !important;
+    padding: 10px !important;
+  }
+  
+  .position-absolute img {
+    max-height: 60px;
+  }
+  
+  .text-center.mb-4 {
+    margin-bottom: 20px !important;
+  }
+  
+  .signup-card {
+    padding: 20px;
+  }
+  
+  /* Make all columns stack on mobile */
+  .row {
+    flex-direction: column;
+  }
+  
+  .row > [class*="col-"] {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .row > [class*="col-"]:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Adjust spacing */
+  .mb-15 {
+    margin-bottom: 12px;
+  }
+  
+  .gender-group {
+    gap: 12px;
+  }
+}
+
+.logo-container {
+        top: 15px;
+        left: 15px;
+      }
+
+      .logo-container img {
+        max-height: 60px;
+      }
+	  
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+    padding-top: 85px;
+  }
+  
+  .position-absolute img {
+    max-height: 50px;
+  }
+  
+  .signup-card {
+    padding: 18px;
+  }
+  
+  .form-control {
+    height: 40px;
+  }
+  
+  .btn-submit {
+    padding: 10px;
+  }
+  .logo-container img {
+        max-height: 50px;
+      }
+}
+
+/* Landscape mode for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  body {
+    padding-top: 70px;
+  }
+  
+  .signup-card {
+    padding: 15px;
+  }
+  
+  .mb-15 {
+    margin-bottom: 10px;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .signup-card {
+    max-width: 550px;
+  }
+}
+
+/* Better touch targets for mobile */
+@media (max-width: 768px) {
+  button, 
+  input, 
+  select, 
+  .btn-submit,
+  a {
+    touch-action: manipulation;
+  }
+  
+  input, select {
+    font-size: 16px !important; /* Prevents zoom on focus in iOS */
+  }
+  
+  .form-check-input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+}
+
+/* Ensure content stays above overlay */
+.signup-card,
+.text-center.mb-4,
+.position-absolute {
+  position: relative;
+  z-index: 1;
+}
+
+/* Smooth transitions */
+.signup-card {
+  transition: all 0.3s ease;
+}
+
+/* Animation for card */
+@keyframes fadeInUp {
+  from {
     opacity: 0;
     transform: translateY(20px);
   }
-  70% {
-    opacity: 0.9;
-    transform: translateY(6px);
-  }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
-.login-card {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: #f1f5fb;
-  padding: 10px 16px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #6b7c93;
-}
 
-.login-card a {
-  color: #0A2540;
-  font-weight: 700;
-  text-decoration: none;
+.signup-card {
+  animation: fadeInUp 0.4s ease-out;
 }
-
-.login-card a:hover {
-  color: #3B6EA5;
-}
-.form-check-label a {
-  color: #3B6EA5;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.form-check-label a:hover {
-  text-decoration: underline;
-}
-
-  </style>
+</style>
 </head>
 
 <body>
 
-<div class="signup-shell">
-  <div class="signup-card row g-0">
-
-    <!-- LEFT CARD -->
-    <div class="col-lg-4 signup-left">
-    <h1>Welcome 👋</h1>
-      <p>
-       Create your account and unlock access to secure your data and privacy
-      </p>
-      <!--p>
-        Secure, scalable, and built for growth.
-        Create your account and move forward with clarity.
-      </p>
-      <div class="quote-box">
-        “Success is the sum of small efforts repeated every day.”
-      </div-->
-    </div>
-
-    <!-- RIGHT FORM -->
-    <div class="col-lg-8 signup-wrapper">
-
-      <div class="signup-header">
-        <h2>Create Account</h2>
-      <div class="login-card">
-  <span>Already have an account?</span>
-  <a href="<?= base_url('/') ?>">Sign in →</a>
+<!-- Logo -->
+<!--<div class="position-absolute top-0 start-0 p-3">
+  <img src="<?php echo base_url(); ?>web_assets/img/logo.jpg" style="max-height:100px;">
+</div>-->
+<div class="logo-container">
+  <img src="<?php echo base_url(); ?>web_assets/img/logo.jpg" alt="Logo" class="img-fluid">
 </div>
+
+<div class="text-center mb-4">
+  <h1 class="fw-bold text-white">Reclaim your privacy—get started.</h1>
+</div>
+
+<div class="signup-card mx-auto">
+
+  <div class="signup-title"><h2>Registration Form</h2></div>
+
+  <form name="form2" id="form2" method="post" autocomplete="off">
+
+    <!-- Name -->
+    <div class="mb-15">
+      <label style="font-weight: bold;">Full Name</label>
+      <input type="text" class="form-control" id="txt_name" name="name" placeholder="Enter full name">
+      <span class="ErrorMsg" id="txt_name_Error"></span>
+    </div>
+   
+    <!-- Email -->
+    <div class="mb-15">
+      <label style="font-weight: bold;">Email Address</label>
+      <input type="email" class="form-control" id="txt_email" name="email" onChange="fncheckEmail(this)" placeholder="Enter email address">
+      <span class="ErrorMsg" id="txt_email_Error"></span>
+    </div>
+    
+     <!-- Password -->
+    <div class="row mb-15">
+      <div class="col-6">
+        <label style="font-weight: bold;">Password</label>
+        <input type="password" class="form-control" id="txt_password" name="password" placeholder="Password">
+        <span class="ErrorMsg" id="txt_password_Error"></span>
       </div>
-
-      <form name="form2" id="form2" method="post" autocomplete="off">
-
-        <!-- PERSONAL INFO -->
-        <div class="section-title">Personal Information</div>
-        <div class="row g-3">
-          <div class="col-md-3">
-            <label class="form-label">First Name*</label>
-            <input type="text" class="form-control" id="txt_name" name="name">
-            <span class="ErrorMsg" id="txt_name_Error"></span>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">Middle Name</label>
-            <input type="text" class="form-control" id="txt_middle_name" name="middle_name">
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="txt_last_name" name="last_name">
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">Date of Birth</label>
-            <input type="date" class="form-control" id="txt_dob" name="dob">
-            <span class="ErrorMsg" id="txt_dob_Error"></span>
-          </div>
-        </div>
-
-        <!-- ACCOUNT -->
-        <div class="section-title">Account Details</div>
-        <div class="row g-3">
-          <div class="col-md-4">
-            <label class="form-label">Email*</label>
-            <input type="email" class="form-control" id="txt_email" name="email" onChange="fncheckEmail(this)" >
-            <span class="ErrorMsg" id="txt_email_Error"></span>
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Password*</label>
-            <input type="password" class="form-control" id="txt_password" name="password">
-            <span class="ErrorMsg" id="txt_password_Error"></span>
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Confirm Password*</label>
-            <input type="password" class="form-control" id="txt_confirm_password" name="txt_confirm_password">
+      
+      <div class="col-6">
+        <label style="font-weight: bold;">Confirm Password</label>
+        <input type="password" class="form-control" id="txt_confirm_password" name="txt_confirm_password" placeholder="Confirm Password">
             <span class="ErrorMsg" id="txt_confirm_Error"></span>
-          </div>
-        </div>
-
-        <!-- ADDRESS -->
-        <div class="section-title">Address</div>
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label">Address</label>
-            <input type="text" class="form-control" id="txt_address" name="address">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Address 2</label>
-            <input type="text" class="form-control" id="txt_address2" name="address2">
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">City</label>
-            <input type="text" class="form-control" id="txt_city" name="city">
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">State</label>
-            <input type="text" class="form-control" id="txt_state" name="state">
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Postal Code</label>
-            <input type="number" class="form-control" id="txt_postal_code"  maxlength='10' name="postal_code">
-          </div>
-        </div>
-
-        <!-- CONTACT -->
-        <div class="section-title">Contact</div>
-        <div class="row g-3 align-items-end">
-          <div class="col-md-4">
-            <label class="form-label">Country</label>
-            <select class="form-select" id="country" name="country">
-              <option value=""></option>
-              <?php foreach ($countries as $country): ?>
-                <option value="<?= $country['country_id'] ?>"><?= $country['country_name'] ?> (<?= $country['code'] ?>)</option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-          <div class="col-md-4">
-            <label class="form-label">Mobile Number *</label>
-            <input type="text" class="form-control" maxlength='15' id="txt_contact_number1" name="contact_number1">
-            <span class="ErrorMsg" id="txt_contact_number1_Error"></span>
-          </div>
-          <div class="col-md-4" style="display:none">
-            <label class="form-label">Alternate Number </label>
-            <input type="text" class="form-control" maxlength='15' id="txt_contact_number2" name="contact_number2">
-          </div>
-        </div>
-       <div class="form-check mt-4">
-  <input class="form-check-input" type="checkbox" id="termsCheck" disabled>
-  <label class="form-check-label" for="termsCheck">
-     
-    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#termsModal">
-    I agree to Terms & Conditions
-    </a>
-  </label>
-</div>
-
-
-
-        <!-- SUBMIT -->
-        
-     <div class="text-end mt-4" id="submitWrapper" style="display:none;">
-  <button type="button" class="btn btn-primary" onClick="fnSignUp()">
-    Create Account
-  </button>
-</div>
-
-
-      </form>
+      </div>      
     </div>
-  </div>
+
+    <!-- Mobile + DOB -->
+    <div class="row mb-15">
+      <div class="col-6">
+        <label style="font-weight: bold;">Mobile Number</label>
+        <input type="text" class="form-control" maxlength='15' id="txt_contact_number1" name="contact_number1" placeholder="Enter mobile number">
+        <span class="ErrorMsg" id="txt_contact_number1_Error"></span>
+      </div>
+      
+      <div class="col-6">
+        <label style="font-weight: bold;">Birth Date</label>
+        <input type="date" class="form-control" id="txt_dob" name="dob">
+        <span class="ErrorMsg" id="txt_dob_Error"></span>
+      </div>
+      
+    </div>
+
+    <!-- Gender -->
+    <div class="mb-15">
+      <label style="font-weight: bold;">Gender</label>
+      <div class="gender-group mt-1">
+        <label><input type="radio" name="gender" value="Male"> Male</label>
+        <label><input type="radio" name="gender" value="Female"> Female</label>
+        <label><input type="radio" name="gender" value="Prefer not to say"> Prefer not to say</label>
+      </div>
+    </div>
+
+    <!-- Address -->
+    <div class="mb-15">
+      <label style="font-weight: bold;">Address</label>
+      <input type="text" name="address" class="form-control" id="txt_address" placeholder="Enter address">
+    </div>
+
+    <!-- Country + Postal -->
+    <div class="row mb-15">
+     <div class="col-6">
+        <select class="form-control" id="country" name="country">
+          <option value="" disabled selected>Country</option>
+          <?php foreach ($countries as $country): ?>
+            <option value="<?= $country['country_id'] ?>">
+              <?= $country['country_name'] ?> (<?= $country['code'] ?>)
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      
+      <div class="col-6">
+        <input type="number" class="form-control" id="txt_postal_code"  maxlength='10' name="postal_code" placeholder="Enter postal code">
+      </div>
+      
+    </div>
+
+    <!-- Terms -->
+    <div class="form-check terms mb-15">
+      <input class="form-check-input" type="checkbox" id="termsCheck" disabled>
+      <label class="form-check-label" for="termsCheck">
+        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#termsModal">
+    I agree to Terms of Use and privacy policy
+    </a>
+      </label>
+    </div>
+    
+    <!-- Button -->
+    <div id="submitWrapper" style="display:none;">
+    <button type="button" class="btn-submit" onClick="fnSignUp()">Submit</button>
+    </div>
+    
+    
+
+
+  </form>
 </div>
+
+
 <?= view('users/mdl_terms_conditions') ?>
 
 <script src="<?= base_url(); ?>assets/js/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  $(document).ready(function() {
+  /*$(document).ready(function() {
     $('#country').select2({
       placeholder: "Select a country",
       allowClear: true
     });
-  });
+  });*/
 </script>
 
 <script>

@@ -51,7 +51,7 @@
                                          <input type="text" required name="name" class="form-control" id="basic-default-name" placeholder="John Doe" value="<?php echo isset($_POST['name']) && $_POST['name'] !== '' ? htmlspecialchars($_POST['name']) : $name; ?>" />
                                       </div>
                                    </div>
-                                   <div class="row mb-3">
+                                   <div class="row mb-3" style="display:none">
                                       <label class="col-sm-4 col-form-label" for="basic-default-company">Middle Name</label>
                                       <div class="col-sm-8">
                                          <input
@@ -63,7 +63,7 @@
                                              />
                                       </div>
                                    </div>
-                                   <div class="row mb-3">
+                                   <div class="row mb-3" style="display:none">
                                       <label class="col-sm-4 col-form-label" for="basic-default-company">Last Name</label>
                                       <div class="col-sm-8">
                                          <input
@@ -105,7 +105,7 @@
                                          
                                       </div>
                                    </div>
-                                   <div class="row mb-3">
+                                   <div class="row mb-3" style="display:none">
                                       <label class="col-sm-4 col-form-label" for="basic-default-phone">City</label>
                                       <div class="col-sm-8">
                                          <input
@@ -118,7 +118,7 @@
                                             />
                                       </div>
                                    </div>
-                                   <div class="row mb-3">
+                                   <div class="row mb-3" style="display:none">
                                       <label class="col-sm-4 col-form-label" for="basic-default-phone">State</label>
                                       <div class="col-sm-8">
                                          <input
@@ -159,7 +159,7 @@
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-4 col-form-label" for="basic-default-message">Address1</label>
+                                      <label class="col-sm-4 col-form-label" for="basic-default-message">Address</label>
                                       <div class="col-sm-8">
                                          <textarea
                                             name="address"
@@ -168,7 +168,7 @@
                                             ><?php echo $address1;?></textarea>
                                       </div>
                                    </div>
-                                   <div class="row mb-3">
+                                   <div class="row mb-3" style="display:none">
                                       <label class="col-sm-4 col-form-label" for="basic-default-message">Address2</label>
                                       <div class="col-sm-8">
                                          <textarea
@@ -179,7 +179,7 @@
                                       </div>
                                    </div>
                                    <div class="row mb-3">
-                                      <label class="col-sm-4 col-form-label" for="contact_number1">Contact 1*</label>
+                                      <label class="col-sm-4 col-form-label" for="contact_number1">Contact*</label>
                                       <div class="col-sm-8">
                                          <input
                                             type="text" required
@@ -191,7 +191,7 @@
                                              />
                                       </div>
                                    </div>
-                                   <div class="row mb-3">
+                                   <div class="row mb-3" style="display:none">
                                       <label class="col-sm-4 col-form-label" for="contact_number2">Contact 2</label>
                                       <div class="col-sm-8">
                                          <input

@@ -141,12 +141,12 @@ $check = $Expurl[1] ?? '';
     </a>
 </li>-->
 
-<li class="menu-item <?= ($check == "scan/scan_schedule") ? "active" : "" ?>">
+<!--<li class="menu-item <?= ($check == "scan/scan_schedule") ? "active" : "" ?>">
     <a href="<?= base_url() ?>scan/scan_schedule" class="menu-link">
         <i class="bx bx-time"></i>
         <div>Scan Schedule</div>
     </a>
-</li>
+</li>-->
 
 </ul>
 </aside>

@@ -22,6 +22,7 @@ class Profile extends BaseController
         $data['last_name']    = $session->get('last_name');
         $data['user_email']   = $session->get('user_email');
         $data['dob']    = $session->get('dob');
+		$data['gender']    = $session->get('gender');
         $data['address1']    = $session->get('address');
         $data['address2']    = $session->get('address2');
         $data['city']  = $session->get('city');
@@ -65,6 +66,7 @@ class Profile extends BaseController
         $session->setFlashdata('success', 'Profile updated successfully.');
         return redirect()->to('/profile');
     }
+	
 
     public function changepassword()
     {

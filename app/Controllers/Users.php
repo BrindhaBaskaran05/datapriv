@@ -123,17 +123,18 @@ class Users extends BaseController
 			$user_data = [
 				'name' => $this->request->getPost('name'),
 				'email'    => $this->request->getPost('email'),
-				'middle_name'    => $this->request->getPost('middle_name'),
-				'last_name'    => $this->request->getPost('last_name'),
+				//'middle_name'    => $this->request->getPost('middle_name'),
+				//'last_name'    => $this->request->getPost('last_name'),
 				'dob'    => $this->request->getPost('dob'),
-				'city'    => $this->request->getPost('city'),
-				'state'    => $this->request->getPost('state'),
+				'gender' => $this->request->getPost('gender'),
+				//'city'    => $this->request->getPost('city'),
+				//'state'    => $this->request->getPost('state'),
 				'country'    => $this->request->getPost('country'),
 				'address'    => $this->request->getPost('address'),
-				'address2'    => $this->request->getPost('address2'),
+				//'address2'    => $this->request->getPost('address2'),
 				'postal_code'    => $this->request->getPost('postal_code'),
 				'contact_number1' => $this->request->getPost('contact_number1'),
-				'contact_number2' => $this->request->getPost('contact_number2'),
+				//'contact_number2' => $this->request->getPost('contact_number2'),
 				'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
 				// Add other fields as needed
 			];
@@ -148,7 +149,6 @@ class Users extends BaseController
 			return redirect()->to('/');
 		}
 	}
-
 
 	public function checkEmail()
 {

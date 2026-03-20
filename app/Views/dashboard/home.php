@@ -239,6 +239,9 @@
     text-align: center;
     max-width: 300px;
   }
+  .navbar {
+    display: none !important;
+}
 </style>
 
 <body>
@@ -278,7 +281,7 @@
       
 <!-- SCAN NOW button  -->
 <div class="text-end">
-  <a href="javascript:;" class="btn btn-primary px-5 py-3 fw-bold fs-5" onclick="startScan()" style="background-color: #dc3545; border: none; border-radius: 8px;">SCAN NOW</a>
+  <a href="javascript:;" class="btn btn-primary px-5 py-3 fw-bold fs-5" onClick="startScan()" style="background-color: #dc3545; border: none; border-radius: 8px;">SCAN NOW</a>
   <div class="mt-2 text-muted" style="font-size: 14px;">Last Scan was on <?php echo $last_scan_date; ?></div>
 </div></div>
 
