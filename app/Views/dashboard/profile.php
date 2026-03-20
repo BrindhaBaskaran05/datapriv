@@ -3,9 +3,9 @@
    label {
       text-transform: capitalize !important;
    }
-   .navbar {
+/*   .navbar {
     display: none !important;
-}
+}*/
 .content-footer {
     display: none !important;
 }

@@ -237,9 +237,9 @@
     stroke-linecap: round;
     transition: stroke-dashoffset 1s ease;
   }
-  .navbar {
+  /*.navbar {
     display: none !important;
-}
+}*/
 .content-footer {
     display: none !important;
 }

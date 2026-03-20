@@ -32,19 +32,19 @@
               </div>-->
               <!-- /Search -->
 
-              <ul class="navbar-nav flex-row align-items-center ms-auto">
+             <!-- <ul class="navbar-nav flex-row align-items-center ms-auto">
                
                 
 
                 <!-- User -->
-                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <!--<li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
                       <img src="<?php echo base_url(); ?>web_assets/img/avatars/1.jpg" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
+                  <!--<ul class="dropdown-menu dropdown-menu-end">
+                    <!--<li>
                       <a class="dropdown-item" href="<?php echo base_url().'profile';?>">
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
@@ -58,29 +58,29 @@
                           </div>
                         </div>
                       </a>
-                    </li>
-                     <li>
+                    </li>-->
+                    <!-- <li>
                       <div class="dropdown-divider"></div>
-                    </li>
-                     <li>
+                    </li>-->
+                     <!--<li>
                       <?php $ln=($PlanName=='Guest') ? base_url().'users/upgrade_plans': base_url().'users/upgrade_plans';?>
                       <a class="dropdown-item" href="<?php echo $ln; ?>">
                         <i class="bx bx-box me-2"></i>
                         <span class="align-middle"><?php echo $PlanName; ?></span><br>
                         <?php if($PlanExpDate>0) { ?><small class="text-muted">Expire on <?php echo $PlanExpDate; ?></small> <?php } ?>
                       </a>
-                    </li>
+                    </li>-->
                    
-                    <li>
+                    <!--<li>
                       <a class="dropdown-item" href="<?php echo base_url()."/users/logout"; ?>">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>
-                    </li>
-                  </ul>
+                    </li>--
+                  </ul>--
                 </li>
-                <!--/ User -->
-              </ul>
+                <!--/ User --
+              </ul>-->
             </div> 
           </nav>
 

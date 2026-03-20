@@ -239,12 +239,13 @@
     text-align: center;
     max-width: 300px;
   }
-  .navbar {
+/*  .navbar {
     display: none !important;
-}
+}*/
 .content-footer {
     display: none !important;
 }
+
 </style>
 
 <body>
