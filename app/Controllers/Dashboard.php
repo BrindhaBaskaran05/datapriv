@@ -432,6 +432,105 @@ if($percentage=="") {$percentage=0;}
 
         return  json_encode($data);
     }
+    public function do_scan_new($user_id){ // pending
+
+     $builder = $this->db->table('dp_user');
+            $builder->select('user_id,name,email,contact_number1,contact_number2,dob,address,address2');
+         $builder->where('user_id ', $user_id);
+            $builder->limit(5); // Use the random number as limit
+            $userData = $builder->get()->getRowArray();
+            //var_dump($userData);exit();
+
+        
+            $builder = $this->db->table('dp_data_brokers_list');
+            $builder->select('id, Company,Opt_out_url');
+            //$builder->orderBy('RAND()'); // For MySQL
+            $builder->limit(5); // Use the random number as limit
+            $Companies = $builder->get()->getResultArray();
+
+
+            foreach ($Companies as $k => $company) {
+$url=$Companies[$k]['Opt_out_url'];
+             $builder = $this->db->table('dp_scan');
+            $builder->select('id');
+            $builder->where('user_id', $user_id);
+            $builder->where('scan_url',$url );
+            //$Todayscancount = $builder->get()->getResultArray();
+            $result = $builder->get()->getRow();
+            $ScanId = $result->id ?? NULL;
+
+           $exposure= $this->checkExposure($url, $userData);
+            var_dump($exposure);exit();
+
+                $randlist = rand(0, 10);
+
+                $dat .= '<tr>
+                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' . $Companies[$k]['Company'] . '</strong></td>
+                <td><span class="badge bg-label-danger me-1">' . $randlist . '</span></td>                
+            </tr>';
+                date_default_timezone_set('Asia/Kolkata');
+                $now = date('Y-m-d H:i:s');
+                if($ScanId==NULL){
+                     $scan = [
+                    'user_id' => $user_id,
+                    'company'    => $Companies[$k]['Company'],
+                    'scan_url'    => $Companies[$k]['Opt_out_url'],
+                    'status'    => 'exposed',
+                    'scan_date' => $now
+
+                ];
+                $data['last_scan_date'] = date('d M Y h:i A', strtotime($now));
+                $builder = $this->db->table('dp_scan');
+                $builder->insert($scan);
+
+                $scanIds[] = $insertID = $this->db->insertID();
+                }else{
+ $builder->where('id', $ScanId);
+    $builder->update([
+        'scan_date' => $now
+    ]);
+    $insertID=$ScanId;
+                }
+               
+
+                $myList = ["Contact No1", "Email", "Address", "Date of Birth", "Full Name", "Username", "Password", "Contact No2"];
+                // Shuffle the array for random order
+                shuffle($myList);
+
+                // Select the first 3 elements after shuffling (or any desired number)
+                $randomSubset = array_slice($myList, 0, 2);
+                foreach ($randomSubset as $value) {
+                    $StsArray=array("exposed","safe");
+                $randomValue = $StsArray[array_rand($StsArray)];
+
+                 $builder = $this->db->table('dp_scan_detail');
+            $builder->select('id');
+            $builder->where('scan_id', $insertID);
+            $builder->where('exposed_data', $value);
+            //$Todayscancount = $builder->get()->getResultArray();
+            $result = $builder->get()->getRow();
+             $ScanDetId = $result->id ?? NULL;
+ if($ScanDetId==NULL){
+                    $scandetails = [
+                        'scan_id' => $insertID,
+                        'exposed_data'    => $value,
+                        'status'    => $randomValue
+                    ];
+
+                    $scandt = $this->db->table('dp_scan_detail');
+                    $scandt->insert($scandetails);
+ }else{
+     $scandt = $this->db->table('dp_scan_detail');
+
+    $scandt->where('id', $ScanDetId);
+    $scandt->update([
+        'status' => 'exposed'
+    ]);
+
+ }
+                }
+            }
+    }
    public function do_scan($user_id){
          $session = session();
             $percent = rand(30, 100);
@@ -528,4 +627,58 @@ if($percentage=="") {$percentage=0;}
                 }
             }
     }
+    function checkExposure($url, $userData)
+{
+    // 1. Skip useless URLs
+    if (preg_match('/privacy|policy|terms|legal/i', $url)) {
+        return ['status' => 'skipped', 'exposed' => []];
+    }
+
+    // 2. Fetch page
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_TIMEOUT => 15,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_USERAGENT => 'Mozilla/5.0'
+    ]);
+
+    $html = curl_exec($ch);
+    curl_close($ch);
+
+    if (!$html) {
+        return ['status' => 'failed', 'exposed' => []];
+    }
+
+    // 3. Extract text
+   $doc = new \DOMDocument();
+    @$doc->loadHTML($html);
+    $text = strtolower($doc->textContent);
+    $text = preg_replace('/\s+/', ' ', $text);
+
+    // 4. Check exposure
+    $exposed = [];
+
+    foreach ($userData as $type => $value) {
+
+        if (empty($value)) continue;
+
+        // Normalize
+        $value = strtolower(trim($value));
+
+        // Escape special chars for regex
+        $safeValue = preg_quote($value, '/');
+
+        if (preg_match("/$safeValue/", $text)) {
+            $exposed[] = $type;
+        }
+    }
+
+    return [
+        'status'  => 'success',
+        'exposed' => array_unique($exposed)
+    ];
+}
 }

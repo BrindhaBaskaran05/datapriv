@@ -210,6 +210,55 @@ countAllResults() → returns number of rows.
 
   public function Myriskexploser()
   {
+     $session = session();
+       $user_id = $session->get('user_id');
+      $builder = $this->db->table('dp_flush_details');
+$builder->select("
+    user_id,
+    SUM(IF(status = 0, 1, 0)) AS unanswered,
+    '0' AS validation,
+    '0' AS Avgtime,
+    '0' AS inrpogress
+");
+$builder->where('user_id', $user_id);
+$builder->groupBy('user_id');
+$row = $builder->get()->getRow();   
+$data['unanswered']  = $row->unanswered;
+$data['validation']  = $row->validation;
+$data['Avgtime']     = $row->Avgtime;
+$data['inprogress']  = $row->inrpogress;
+
+
+  $builder = $this->db->table('dp_scan a');
+$builder->select("a.*,b.data_removed
+");
+  $builder->join('dp_flush_details b', 'a.id = b.scan_id', 'left'); 
+$builder->where('a.user_id', $user_id);
+$result = $builder->get()->getResultArray();  
+
+
+    foreach ($result as $key => $row) {
+      $Scanid=$row['id'];
+        $builder2 = $this->db->table('dp_scan_detail');
+$builder2->select("exposed_data
+");
+$builder2->where('status', 'exposed');
+$builder2->where('scan_id', $Scanid);
+
+    $result1 = $builder2->get()->getResultArray();
+
+    $exposed_dataarray = array_column($result1, 'exposed_data');
+
+    $result[$key]['exposed_data'] = $exposed_dataarray;
+
+    }
+    $data['results']=$result;
+    //var_dump($result);exit();
+
+     return view('scan/myrisk_exploser', $data);
+  }
+  public function Myriskexploser_OLD()
+  {
 
     $data['plans'] = 'Myriskexploser';
 
@@ -413,4 +462,50 @@ countAllResults() → returns number of rows.
 
     return redirect()->back()->with('success', 'Scan Schedule Added successfully.');
   }
+  public function do_flush()
+  {
+    $session = session();
+    $user_id = $session->get('user_id');
+    $FlushDt=date("Y-m-d H:i:s");
+    $builder = $this->db->table('dp_scan a ');
+    $builder->select('a.id as scanid,a.user_id, a.company,a.scan_url,b.Contact');
+    $builder->join('dp_data_brokers_list b', 'a.scan_url = b.Opt_out_url', 'left'); 
+    $builder->where('a.user_id', $user_id);
+    $builder->where("a.id NOT IN (SELECT scan_id FROM dp_flush_details where status IN(0))", NULL, FALSE);
+
+    $Result = $builder->get()->getResultArray();
+    foreach ($Result as $k => $row) {
+        $ScanId=$row['scanid'];
+         $Email=$row['Contact'];
+
+          $builder = $this->db->table('dp_scan_detail a ');
+    $builder->select('a.exposed_data');
+     $builder->where('a.scan_id', $ScanId);
+     $builder->where('a.status', "exposed");
+    $Result1 = $builder->get()->getResultArray();
+    $count = $builder->countAllResults();
+    if($count>0){
+$Msg="Hello Sir,<br>";
+     foreach ($Result1 as $j => $row1) {
+      // $ScanId=$row1['scanid'];
+        $Exposed_data=$row1['exposed_data'];
+        $Msg.=$Exposed_data."<br>";
+     }
+       $scan = [
+                    'user_id' => $user_id,
+                    'scan_id'=>$ScanId,
+                    'databroker_emailid'    => NULL,
+                    'email_datetime'    => $FlushDt,
+                    'email_message'=>$Msg                  
+                ];
+                $builder = $this->db->table('dp_flush_details');
+                $builder->insert($scan);
+    }
+      
+
+
+    }
+ return redirect()->to('/scan');
+  }
+  
 }
