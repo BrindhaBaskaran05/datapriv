@@ -127,6 +127,130 @@
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(10,37,64,0.3);
 }
+.navbar {
+    display: none !important;
+}
+/* ================= MOBILE RESPONSIVE FIX ================= */
+
+/* General spacing fix */
+@media (max-width: 768px) {
+    .content-wrapper {
+        padding: 15px !important;
+    }
+
+    .modal-dialog {
+        margin: 10px !important;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+    }
+}
+
+/* Plan cards responsive */
+@media (max-width: 768px) {
+    .col-md-6,
+    .col-lg-4 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+    }
+
+    .holographic-card {
+        margin-bottom: 15px;
+    }
+
+    .card-title {
+        font-size: 20px !important;
+    }
+
+    .card-subtitle {
+        font-size: 13px !important;
+    }
+}
+
+/* Feature list scaling */
+@media (max-width: 768px) {
+    .card-body div {
+        font-size: 13px !important;
+    }
+
+    .card-body img {
+        height: 18px !important;
+    }
+}
+
+/* Header section fix */
+@media (max-width: 576px) {
+    .modal-title {
+        font-size: 18px !important;
+        text-align: center;
+    }
+
+    .modal-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+
+    .modal-header span {
+        margin-top: 5px;
+        font-size: 12px !important;
+    }
+}
+
+/* Current plan banner responsive */
+@media (max-width: 768px) {
+    .alert {
+        padding: 12px !important;
+    }
+
+    .alert .d-flex {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px;
+    }
+
+    .alert .badge {
+        font-size: 12px !important;
+        padding: 6px 10px !important;
+    }
+}
+
+/* Buttons responsive */
+@media (max-width: 768px) {
+    #Buybutton {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+}
+
+/* Upgrade text */
+@media (max-width: 576px) {
+    .upgrade-prompt {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+/* Fix modal height scrolling */
+@media (max-width: 768px) {
+    .modal-body {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+}
+
+/* Fix badge positioning on small screens */
+@media (max-width: 576px) {
+    .current-plan-badge,
+    .upgrade-badge {
+        top: 8px;
+        right: 8px;
+        font-size: 10px;
+        padding: 4px 10px;
+    }
+}
 </style>
 
 <body>

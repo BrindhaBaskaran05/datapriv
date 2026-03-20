@@ -242,6 +242,9 @@
   .navbar {
     display: none !important;
 }
+.content-footer {
+    display: none !important;
+}
 </style>
 
 <body>

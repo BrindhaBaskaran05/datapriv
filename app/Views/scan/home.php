@@ -237,6 +237,12 @@
     stroke-linecap: round;
     transition: stroke-dashoffset 1s ease;
   }
+  .navbar {
+    display: none !important;
+}
+.content-footer {
+    display: none !important;
+}
 </style>
 
 <!-- Gradient Def -->
@@ -269,8 +275,8 @@
             <div class="text-center mb-4">
               <h3 class="fw-bold">Your Security in One Glance</h3>
               <p class="text-muted" id="ltxt">Last Scan <b id="last_scan_date"> </b></p>
-              <a href="javascript:;" class="btn btn-scan" onclick="startScan();">Start Scan</a>
-              <a href="javascript:;" class="btn btn-scan" onclick="do_flush();">Flush</a>
+              <a href="javascript:;" class="btn btn-scan" onClick="startScan();">Start Scan</a>
+              <a href="javascript:;" class="btn btn-scan" onClick="do_flush();">Flush</a>
             </div>
 
             <div class="custom-progress" style="display:none;" id="Bar">
