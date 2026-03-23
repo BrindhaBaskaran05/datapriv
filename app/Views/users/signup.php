@@ -298,6 +298,29 @@ body::before {
 .signup-card {
   animation: fadeInUp 0.4s ease-out;
 }
+.login-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #f1f5fb;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7c93;
+  float: right;
+}
+
+.login-card a {
+  color: #0A2540;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.login-card a:hover {
+  color: #3B6EA5;
+}
+
 </style>
 </head>
 
@@ -317,7 +340,12 @@ body::before {
 
 <div class="signup-card mx-auto">
 
-  <div class="signup-title"><h2>Registration Form</h2></div>
+
+  <div class="signup-title"><h2><strong>Registration Form</strong></h2></div>
+   <div class="login-card">
+  <span>Already have an account?</span>
+  <a href="<?= base_url('/') ?>">Sign in →</a>
+ </div><br><br>
 
   <form name="form2" id="form2" method="post" autocomplete="off">
 
@@ -364,6 +392,7 @@ body::before {
         <span class="ErrorMsg" id="txt_dob_Error"></span>
       </div>
       
+
     </div>
 
     <!-- Gender -->
@@ -402,23 +431,26 @@ body::before {
     </div>
 
     <!-- Terms -->
-    <div class="form-check terms mb-15">
+<!-- <div class="form-check terms mb-15">
       <input class="form-check-input" type="checkbox" id="termsCheck" disabled>
       <label class="form-check-label" for="termsCheck">
         <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#termsModal">
     I agree to Terms of Use and privacy policy
     </a>
       </label>
-    </div>
+    </div>-->
+<div class="form-check terms mb-15">
+  <input class="form-check-input" type="checkbox" id="termsCheck">
+  <label class="form-check-label" for="termsCheck">
+    <a href="javascript:void(0)" id="termsLink">I agree to Terms of Use and privacy policy</a>
+  </label>
+</div>
     
     <!-- Button -->
     <div id="submitWrapper" style="display:none;">
     <button type="button" class="btn-submit" onClick="fnSignUp()">Submit</button>
     </div>
     
-    
-
-
   </form>
 </div>
 
@@ -528,7 +560,7 @@ body::before {
   });
 </script>
 <script>
-  document.getElementById('agreeBtn').addEventListener('click', function () {
+  /*document.getElementById('agreeBtn').addEventListener('click', function () {
     const checkbox = document.getElementById('termsCheck');
     const submit = document.getElementById('submitWrapper');
 
@@ -544,6 +576,42 @@ body::before {
     checkbox.addEventListener('change', function () {
     submit.style.display = this.checked ? 'block' : 'none';
   });
+  });*/
+</script>
+<script>
+  // Show terms modal when checkbox is clicked
+  document.getElementById('termsCheck').addEventListener('click', function(e) {
+    if (this.checked) {
+      e.preventDefault();
+      var termsModal = new bootstrap.Modal(document.getElementById('termsModal'));
+      termsModal.show();
+    }
+  });
+
+  //Updated agree button handler
+  document.getElementById('agreeBtn').addEventListener('click', function() {
+    const checkbox = document.getElementById('termsCheck');
+    const submit = document.getElementById('submitWrapper');
+    checkbox.checked = true;
+    submit.style.display = 'block';
+    const modal = bootstrap.Modal.getInstance(document.getElementById('termsModal'));
+    modal.hide();
+  });
+
+  // Added new modal close handler
+  document.getElementById('termsModal').addEventListener('hidden.bs.modal', function() {
+    const checkbox = document.getElementById('termsCheck');
+    const submit = document.getElementById('submitWrapper');
+    if (!checkbox.checked) {
+      submit.style.display = 'none';
+    }
+  });
+
+  //Added link click handler
+  document.getElementById('termsLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    var termsModal = new bootstrap.Modal(document.getElementById('termsModal'));
+    termsModal.show();
   });
 </script>
 

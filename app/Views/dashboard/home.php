@@ -246,6 +246,31 @@
     display: none !important;
 }
 
+.hidden-row {
+  display: none;
+}
+
+#loadMoreBtn {
+  transition: all 0.3s ease;
+  font-size: clamp(14px, 4vw, 16px);
+}
+
+#loadMoreBtn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+  #loadMoreBtn {
+    padding: 10px 20px !important;
+    width: 100% !important;
+    max-width: 200px;
+  }
+  
+  #loadMoreWrapper {
+    margin-top: 15px !important;
+  }
+}
+
 </style>
 
 <body>
@@ -372,6 +397,15 @@ if ($percentage < 20) {
           ?>
         </tbody>
       </table>
+            
+      <!--Added Load More button after table -->
+<div id="loadMoreWrapper" style="text-align: center; margin-top: 20px; display: none;">
+  <button id="loadMoreBtn" class="btn btn-primary" style="background-color: #6c5ce7; border: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; width: auto; min-width: 150px;">
+    Load More
+  </button>
+</div>
+      
+      
     </div>
 
   </div>
@@ -519,6 +553,82 @@ if ($percentage < 20) {
   function flushData() {
     alert('Flush functionality to be implemented');
   }
+</script>
+
+<script>
+// Load More functionality for mobile responsive
+$(document).ready(function() {
+  const ROWS_TO_SHOW = 5; // Show 5 records on desktop
+  let currentRows = ROWS_TO_SHOW;
+  let totalRows = 0;
+  
+  // Adjust rows based on screen size
+  function getRowsToShow() {
+    return window.innerWidth <= 768 ? 3 : 5; // Show 3 on mobile, 5 on desktop
+  }
+  
+  function initLoadMore() {
+    const tableRows = $('#companyid tr');
+    totalRows = tableRows.length;
+    const showCount = getRowsToShow();
+    
+    if (totalRows > showCount) {
+      // Hide rows beyond the limit
+      tableRows.each(function(index) {
+        if (index >= showCount) {
+          $(this).addClass('hidden-row');
+        } else {
+          $(this).removeClass('hidden-row');
+        }
+      });
+      
+      currentRows = showCount;
+      $('#loadMoreWrapper').show();
+      
+      // Update button text with remaining count
+      const remaining = totalRows - currentRows;
+      $('#loadMoreBtn').text(`Load More (${remaining})`);
+    } else {
+      $('#loadMoreWrapper').hide();
+    }
+  }
+  
+  // Load more button click handler
+  $('#loadMoreBtn').on('click', function() {
+    const hiddenRows = $('.hidden-row');
+    const showCount = getRowsToShow();
+    const nextRows = hiddenRows.slice(0, showCount);
+    
+    nextRows.removeClass('hidden-row');
+    currentRows += nextRows.length;
+    
+    // Update button text
+    const remaining = $('.hidden-row').length;
+    if (remaining > 0) {
+      $('#loadMoreBtn').text(`Load More (${remaining})`);
+    } else {
+      $('#loadMoreWrapper').hide();
+    }
+  });
+  
+  // Reinitialize on window resize (mobile to desktop)
+  let resizeTimer;
+  $(window).on('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      initLoadMore();
+    }, 250);
+  });
+  
+  initLoadMore();
+  
+  // For AJAX loaded content
+  $(document).ajaxComplete(function() {
+    setTimeout(function() {
+      initLoadMore();
+    }, 100);
+  });
+});
 </script>
 
 </html>

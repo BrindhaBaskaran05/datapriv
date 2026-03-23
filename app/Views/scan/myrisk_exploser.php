@@ -198,6 +198,38 @@
   .full-width {
     grid-column: span 2;
   }
+  /*  .navbar {
+    display: none !important;
+}*/
+.content-footer {
+    display: none !important;
+}
+
+.hidden-row {
+  display: none;
+}
+
+#loadMoreBtn {
+  transition: all 0.3s ease;
+  font-size: clamp(14px, 4vw, 16px);
+}
+
+#loadMoreBtn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+  #loadMoreBtn {
+    padding: 10px 20px !important;
+    width: 100% !important;
+    max-width: 200px;
+  }
+  
+  #loadMoreWrapper {
+    margin-top: 15px !important;
+    margin-bottom: 20px !important;
+  }
+}
 </style>
 
 <body>
@@ -340,6 +372,14 @@
 ?>
       </tbody>
     </table>
+    
+    <!--Added Load More button after table -->
+<div id="loadMoreWrapper" style="text-align: center; margin-top: 20px; display: none;">
+  <button id="loadMoreBtn" class="btn btn-primary" style="background-color: #6c5ce7; border: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; width: auto; min-width: 150px;">
+    Load More
+  </button>
+</div>
+    
   </div>
 </div>
               <!--Compact Cards -->
@@ -484,5 +524,76 @@
 
   <?= $this->include('includes/footer') ?>
 </body>
+
+<script>
+// Load More functionality for People Search Overview table
+$(document).ready(function() {
+  const ROWS_TO_SHOW_DESKTOP = 3; // Show 3 records on desktop
+  const ROWS_TO_SHOW_MOBILE = 2;   // Show 2 records on mobile
+  let currentRows = 0;
+  let totalRows = 0;
+  
+  // Get rows to show based on screen size
+  function getRowsToShow() {
+    return window.innerWidth <= 768 ? ROWS_TO_SHOW_MOBILE : ROWS_TO_SHOW_DESKTOP;
+  }
+  
+  function initLoadMore() {
+    const tableRows = $('.table tbody tr');
+    totalRows = tableRows.length;
+    const showCount = getRowsToShow();
+    
+    if (totalRows > showCount) {
+      // Reset all rows visibility first
+      tableRows.removeClass('hidden-row').show();
+      
+      // Hide rows beyond the limit
+      tableRows.each(function(index) {
+        if (index >= showCount) {
+          $(this).addClass('hidden-row').hide();
+        }
+      });
+      
+      currentRows = showCount;
+      $('#loadMoreWrapper').show();
+      
+      // Update button text with remaining count
+      const remaining = totalRows - currentRows;
+      $('#loadMoreBtn').text(`Load More (${remaining})`);
+    } else {
+      $('#loadMoreWrapper').hide();
+    }
+  }
+  
+  // Load more button click handler
+  $('#loadMoreBtn').on('click', function() {
+    const hiddenRows = $('.hidden-row');
+    const showCount = getRowsToShow();
+    const nextRows = hiddenRows.slice(0, showCount);
+    
+    nextRows.show().removeClass('hidden-row');
+    currentRows += nextRows.length;
+    
+    // Update button text
+    const remaining = $('.hidden-row').length;
+    if (remaining > 0) {
+      $('#loadMoreBtn').text(`Load More (${remaining})`);
+    } else {
+      $('#loadMoreWrapper').fadeOut();
+    }
+  });
+  
+  // Reinitialize on window resize (mobile to desktop)
+  let resizeTimer;
+  $(window).on('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      initLoadMore();
+    }, 250);
+  });
+  
+  initLoadMore();
+});
+</script>
 
 </html>
