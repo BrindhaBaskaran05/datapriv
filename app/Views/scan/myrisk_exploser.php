@@ -314,20 +314,20 @@
             <div class="row g-1">
               <div class="col-6">
                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_username" <?php if(in_array("Username",$ExposedData)){ echo "checked";} ?>>
+                  <input class="form-check-input" type="checkbox" id="people_username" <?php if(in_array("name",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_username">Username</label>
                 </div>
 
               <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_name" <?php if(in_array("Full Name",$ExposedData)){ echo "checked";} ?>>
+                  <input class="form-check-input" type="checkbox" id="people_name" <?php if(in_array("name",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_name">Name</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_phone" <?php if(in_array("Contact No1",$ExposedData)){ echo "checked";} ?>>
+                  <input class="form-check-input" type="checkbox" id="people_phone" <?php if(in_array("contact_number1",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_phone">Phone</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_email" <?php if(in_array("Email",$ExposedData)){ echo "checked";} ?>>
+                  <input class="form-check-input" type="checkbox" id="people_email" <?php if(in_array("email",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_email">Email</label>
                 </div>
                 <div class="form-check">
@@ -337,7 +337,7 @@
               </div>
               <div class="col-6">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_address" <?php if(in_array("Address",$ExposedData)){ echo "checked";} ?>>
+                  <input class="form-check-input" type="checkbox" id="people_address" <?php if(in_array("address",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_address">Address</label>
                 </div>
                 <div class="form-check">
@@ -349,7 +349,7 @@
                   <label class="form-check-label" for="people_photos">Photos</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="people_dob" <?php if(in_array("Date of Birth",$ExposedData)){ echo "checked";} ?>>
+                  <input class="form-check-input" type="checkbox" id="people_dob" <?php if(in_array("dob",$ExposedData)){ echo "checked";} ?>>
                   <label class="form-check-label" for="people_dob">DOB</label>
                 </div>
               </div>

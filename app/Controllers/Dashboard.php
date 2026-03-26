@@ -92,7 +92,7 @@ $subQuery = "(SELECT 'EXPOSED'
               LIMIT 1)";
 
 $builder->select("a.id, a.id as scan_id,a.company, IFNULL($subQuery,'SAFE') as status");
-
+   $builder->where('a.user_id', $user_id);
 $query = $builder->get();
 $latestScan = $query->getResultArray();
 
@@ -438,12 +438,12 @@ if($percentage==NULL){ $percentage=0;}
 
         return  json_encode($data);
     }
-    public function do_scan_new($user_id){ // pending
+    public function do_scan($user_id){ // pending
 
      $builder = $this->db->table('dp_user');
-            $builder->select('user_id,name,email,contact_number1,contact_number2,dob,address,address2');
+            $builder->select('name,email,contact_number1,contact_number2,dob,address,address2');
          $builder->where('user_id ', $user_id);
-            $builder->limit(5); // Use the random number as limit
+            //$builder->limit(5); // Use the random number as limit
             $userData = $builder->get()->getRowArray();
             //var_dump($userData);exit();
 
@@ -451,12 +451,14 @@ if($percentage==NULL){ $percentage=0;}
             $builder = $this->db->table('dp_data_brokers_list');
             $builder->select('id, Company,Opt_out_url');
             //$builder->orderBy('RAND()'); // For MySQL
-            $builder->limit(5); // Use the random number as limit
+           // $builder->limit(5); // Use the random number as limit
             $Companies = $builder->get()->getResultArray();
 
 
             foreach ($Companies as $k => $company) {
+               // echo "<br><br>";
 $url=$Companies[$k]['Opt_out_url'];
+$scanDetIds=array();
              $builder = $this->db->table('dp_scan');
             $builder->select('id');
             $builder->where('user_id', $user_id);
@@ -464,16 +466,14 @@ $url=$Companies[$k]['Opt_out_url'];
             //$Todayscancount = $builder->get()->getResultArray();
             $result = $builder->get()->getRow();
             $ScanId = $result->id ?? NULL;
-
+//echo $this->db->getLastQuery()."<br>";
            $exposure= $this->checkExposure($url, $userData);
-            var_dump($exposure);exit();
+          // var_dump($exposure);
+            $exposedFields = $exposure['exposed'];
 
                 $randlist = rand(0, 10);
 
-                $dat .= '<tr>
-                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' . $Companies[$k]['Company'] . '</strong></td>
-                <td><span class="badge bg-label-danger me-1">' . $randlist . '</span></td>                
-            </tr>';
+              
                 date_default_timezone_set('Asia/Kolkata');
                 $now = date('Y-m-d H:i:s');
                 if($ScanId==NULL){
@@ -489,55 +489,82 @@ $url=$Companies[$k]['Opt_out_url'];
                 $builder = $this->db->table('dp_scan');
                 $builder->insert($scan);
 
-                $scanIds[] = $insertID = $this->db->insertID();
+                $insertID = $this->db->insertID();
+        //  echo $this->db->getLastQuery()."<br>";
+
                 }else{
+                   
+                    if(sizeof($exposedFields)>0){
+                        $status="exposed";
+                       
+
+                    }else{
+                         $status="safe";
+                          $builder1 = $this->db->table('dp_flush_details'); 
+ $builder1->where('scan_id', $ScanId);
+    $builder1->update([
+        'data_removed' => 1
+    ]);
+
+                    }
+                     $builder = $this->db->table('dp_scan'); 
  $builder->where('id', $ScanId);
     $builder->update([
-        'scan_date' => $now
+        'scan_date' => $now,'status'=>$status
     ]);
     $insertID=$ScanId;
+   // echo $this->db->getLastQuery()."<br>";
                 }
-               
-
-                $myList = ["Contact No1", "Email", "Address", "Date of Birth", "Full Name", "Username", "Password", "Contact No2"];
-                // Shuffle the array for random order
-                shuffle($myList);
-
-                // Select the first 3 elements after shuffling (or any desired number)
-                $randomSubset = array_slice($myList, 0, 2);
-                foreach ($randomSubset as $value) {
-                    $StsArray=array("exposed","safe");
-                $randomValue = $StsArray[array_rand($StsArray)];
-
-                 $builder = $this->db->table('dp_scan_detail');
+                      if ($exposure['status'] === 'success') {
+    foreach ($exposedFields as $field) {
+        //echo $field . "<br>";
+        $value=$field;
+           $builder = $this->db->table('dp_scan_detail');
             $builder->select('id');
             $builder->where('scan_id', $insertID);
             $builder->where('exposed_data', $value);
             //$Todayscancount = $builder->get()->getResultArray();
             $result = $builder->get()->getRow();
+           // echo $this->db->getLastQuery()."<br>";
              $ScanDetId = $result->id ?? NULL;
  if($ScanDetId==NULL){
                     $scandetails = [
                         'scan_id' => $insertID,
                         'exposed_data'    => $value,
-                        'status'    => $randomValue
+                        'status'    => 'exposed'
                     ];
 
                     $scandt = $this->db->table('dp_scan_detail');
                     $scandt->insert($scandetails);
+                    $ScanDetId = $this->db->insertID();
+                    //$scanDetIds.=$ScanDetId.",";
+                     array_push($scanDetIds,$ScanDetId);
  }else{
      $scandt = $this->db->table('dp_scan_detail');
-
     $scandt->where('id', $ScanDetId);
     $scandt->update([
         'status' => 'exposed'
     ]);
-
+    
+    array_push($scanDetIds,$ScanDetId);
  }
-                }
+ }
+}
+  // echo $this->db->getLastQuery()."<br>";
+ $scandt = $this->db->table('dp_scan_detail');
+ if(sizeof($scanDetIds)>0){
+  $scandt->whereNotIn('id', $scanDetIds);
+ }
+     $scandt->where('scan_id', $insertID);
+    $scandt->update([
+        'status' => 'safe'
+    ]);
+//exit();
+            //   echo $this->db->getLastQuery()."<br>";
+              
             }
     }
-   public function do_scan($user_id){
+   public function do_scan_old($user_id){
          $session = session();
             $percent = rand(30, 100);
             $session->set('percent', $percent);
@@ -637,7 +664,7 @@ $url=$Companies[$k]['Opt_out_url'];
 {
     // 1. Skip useless URLs
     if (preg_match('/privacy|policy|terms|legal/i', $url)) {
-        return ['status' => 'skipped', 'exposed' => []];
+       // return ['status' => 'skipped', 'exposed' => []];
     }
 
     // 2. Fetch page

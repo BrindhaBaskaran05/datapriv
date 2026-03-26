@@ -75,14 +75,14 @@ class Scan extends BaseController
 
     $builder->select("
             scan_id,
-            SUM(CASE WHEN exposed_data = 'Email' AND status = 'exposed' THEN 1 ELSE 0 END) AS email_count,
-            SUM(CASE WHEN exposed_data = 'Contact No1' AND status = 'exposed' THEN 1 ELSE 0 END) AS phone_count,
-            SUM(CASE WHEN exposed_data = 'Address' AND status = 'exposed' THEN 1 ELSE 0 END) AS address_count,
+            SUM(CASE WHEN exposed_data = 'email' AND status = 'exposed' THEN 1 ELSE 0 END) AS email_count,
+            SUM(CASE WHEN exposed_data = 'contact_number1' AND status = 'exposed' THEN 1 ELSE 0 END) AS phone_count,
+            SUM(CASE WHEN exposed_data = 'address' AND status = 'exposed' THEN 1 ELSE 0 END) AS address_count,
             SUM(CASE WHEN exposed_data = 'Date of Birth' AND status = 'exposed' THEN 1 ELSE 0 END) AS dob_count,
-            SUM(CASE WHEN exposed_data = 'Username' AND status = 'exposed' THEN 1 ELSE 0 END) AS username_count,
+            SUM(CASE WHEN exposed_data = 'name' AND status = 'exposed' THEN 1 ELSE 0 END) AS username_count,
             SUM(CASE WHEN exposed_data = 'Password' AND status = 'exposed' THEN 1 ELSE 0 END) AS password_count,
-            SUM(CASE WHEN exposed_data = 'Contact No2' AND status = 'exposed' THEN 1 ELSE 0 END) AS contact2_count,
-            SUM(CASE WHEN exposed_data = 'Full Name' AND status = 'exposed' THEN 1 ELSE 0 END) AS name_count
+            SUM(CASE WHEN exposed_data = 'contact_number2' AND status = 'exposed' THEN 1 ELSE 0 END) AS contact2_count,
+            SUM(CASE WHEN exposed_data = 'name' AND status = 'exposed' THEN 1 ELSE 0 END) AS name_count
 
         ");
     $builder->whereIn('scan_id', $scanIds);
