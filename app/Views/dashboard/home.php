@@ -316,9 +316,9 @@
 
     <!-- Risk Exposure badge directly below without extra space -->
     <div class="d-flex align-items-center gap-3 mb-3">
-      <span class="fs-4 fw-semibold">Risk Exposure:</span>
+      <span class="fs-4 fw-semibold">Risk Exposure :</span>
      <?php
-$Clss = "bg-success";
+/*$Clss = "bg-success";
 
 if ($percentage < 20) {
     $sts = "NORMAL";
@@ -336,7 +336,27 @@ if ($percentage < 20) {
 ?>
 <span class="badge <?= $Clss ?> px-3 py-2 fs-6 shadow-sm">
     <?= $sts ?> 
-</span>    </div>
+</span>*/    
+
+if ($percentage < 20) {
+    $sts = "NORMAL";
+    $color = "green";
+} elseif ($percentage < 50) {
+    $sts = "MEDIUM";
+    $color = "#ffc107";  // Yellow/Orange
+} elseif ($percentage < 75) {
+    $sts = "HIGH";
+    $color = "#fd7e14";  // Orange
+} else {
+    $sts = "CRITICAL";
+    $color = "#dc3545";  // Red
+}
+?>
+<span style="color: <?= $color ?>; font-weight: bold; font-size: 22px;">
+    <?= $sts ?>
+</span>
+
+</div>
    
     <!-- Row for Gauge and Bullet points side by side -->
     <div class="row mb-4">
@@ -345,7 +365,7 @@ if ($percentage < 20) {
         <div class="gauge-container">
           <div class="progress-wrapper">
             <svg width="200" height="100" viewBox="0 0 200 100">
-              <defs>
+              <!--<defs>
                 <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stop-color="red" />
                   <stop offset="16.6%" stop-color="orange" />
@@ -357,7 +377,20 @@ if ($percentage < 20) {
                 </linearGradient>
               </defs>
               <path class="track" d="M10,100 A90,90 0 0 1 190,100" fill="none" stroke-width="15" />
-              <path class="progress" d="M10,100 A90,90 0 0 1 190,100" fill="none" stroke-width="15" stroke-dasharray="283" stroke-dashoffset="283" />
+              <path class="progress" d="M10,100 A90,90 0 0 1 190,100" fill="none" stroke-width="15" stroke-dasharray="283" stroke-dashoffset="283" />-->
+              <defs>
+  <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#2ECC71" />     <!-- Bright Green -->
+    <stop offset="16.6%" stop-color="#D4E157" />  <!-- Lime Green -->
+    <stop offset="33.3%" stop-color="#FFD54F" />  <!-- Golden Yellow -->
+    <stop offset="50%" stop-color="#FFB74D" />    <!-- Orange -->
+    <stop offset="66.6%" stop-color="#FF7043" />  <!-- Deep Orange -->
+    <stop offset="83.3%" stop-color="#F44336" />  <!-- Bright Red -->
+    <stop offset="100%" stop-color="#D32F2F" />   <!-- Dark Red -->
+  </linearGradient>
+</defs>
+<path class="track" d="M10,100 A90,90 0 0 1 190,100" fill="none" stroke="#E9ECEF" stroke-width="15" />
+<path class="progress" d="M10,100 A90,90 0 0 1 190,100" fill="none" stroke-width="15" stroke-dasharray="283" stroke-dashoffset="283" stroke="url(#rainbowGradient)" />
             </svg>
             <div class="percentage" id="percentLabel"><?php echo $percentage; ?>%</div>
           </div>
