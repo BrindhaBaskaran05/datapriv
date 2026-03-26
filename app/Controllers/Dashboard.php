@@ -497,7 +497,11 @@ $scanDetIds=array();
                     if(sizeof($exposedFields)>0){
                         $status="exposed";
                        
-
+  $builder1 = $this->db->table('dp_flush_details'); 
+ $builder1->where('scan_id', $ScanId);
+    $builder1->update([
+        'data_removed' => 0
+    ]);
                     }else{
                          $status="safe";
                           $builder1 = $this->db->table('dp_flush_details'); 
@@ -704,7 +708,7 @@ $scanDetIds=array();
         // Escape special chars for regex
         $safeValue = preg_quote($value, '/');
 
-        if (preg_match("/$safeValue/", $text)) {
+        if (preg_match("/$safeValue/", $text) || true) {
             $exposed[] = $type;
         }
     }

@@ -38,6 +38,27 @@ class Profile extends BaseController
 		$builder->select('country_id, country_name');
 		$data['countries'] =  $builder->get()->getResultArray();
 
+ $userId = $session->get('user_id');
+            $builder = $this->db->table('dp_user');
+		$builder->select('*');
+         $builder->where('user_id', $userId);
+		
+         $result = $builder->get()->getRow();
+           $data['user_name']    = $result->name;
+        $data['name']    = $result->name;
+        $data['middle_name']    = $result->middle_name;
+        $data['last_name']    = $result->last_name;
+        $data['user_email']   = $result->email;
+        $data['dob']    = $result->dob;
+		$data['gender']    =$result->gender;
+        $data['address1']    = $result->address;
+        $data['address2']    = $result->address2;
+        $data['city']  = $result->city;
+        $data['state']    = $result->state;
+        $data['postal_code']    = $result->postal_code;
+        $data['country']   =$result->country;
+        $data['contact_number1']   = $result->contact_number1;
+        $data['contact_number2']   = $result->contact_number2;
        /*  print_r($data);
         die; */
         return view('dashboard/profile', $data);
