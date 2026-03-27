@@ -242,6 +242,7 @@ $builder->select("a.*,b.data_removed
 ");
   $builder->join('dp_flush_details b', 'a.id = b.scan_id', 'left'); 
 $builder->where('a.user_id', $user_id);
+$builder->where('a.status', 'exposed');
 $result = $builder->get()->getResultArray();  
 
 

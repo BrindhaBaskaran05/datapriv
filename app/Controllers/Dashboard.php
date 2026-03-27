@@ -224,11 +224,11 @@ $latestScan = $query->getResultArray();
         print_r($data);
         die; */
 
-        $builder = $this->db->table('dp_scan_detail a');
+        $builder = $this->db->table('dp_scan a');
 
 $builder->select("CEIL((SUM(IF(a.status='exposed',1,0))/COUNT(1))*100) AS percentage");
-$builder->join('dp_scan b', 'a.scan_id = b.id');
-$builder->where('b.user_id', $user_id);
+//$builder->join('dp_scan b', 'a.scan_id = b.id');
+$builder->where('a.user_id', $user_id);
 
 $query = $builder->get();
 $row = $query->getRow();
@@ -477,11 +477,16 @@ $scanDetIds=array();
                 date_default_timezone_set('Asia/Kolkata');
                 $now = date('Y-m-d H:i:s');
                 if($ScanId==NULL){
+                     if(sizeof($exposedFields)>0){
+                        $status="exposed";
+                     }else{
+                        $status="safe";
+                     }
                      $scan = [
                     'user_id' => $user_id,
                     'company'    => $Companies[$k]['Company'],
                     'scan_url'    => $Companies[$k]['Opt_out_url'],
-                    'status'    => 'exposed',
+                    'status'    => $status,
                     'scan_date' => $now
 
                 ];
@@ -493,7 +498,7 @@ $scanDetIds=array();
         //  echo $this->db->getLastQuery()."<br>";
 
                 }else{
-                   
+                   continue;
                     if(sizeof($exposedFields)>0){
                         $status="exposed";
                        
@@ -504,6 +509,7 @@ $scanDetIds=array();
     ]);
                     }else{
                          $status="safe";
+                           //$status="exposed";
                           $builder1 = $this->db->table('dp_flush_details'); 
  $builder1->where('scan_id', $ScanId);
     $builder1->update([
@@ -697,7 +703,7 @@ $scanDetIds=array();
 
     // 4. Check exposure
     $exposed = [];
-
+ $rand=rand(1,100);
     foreach ($userData as $type => $value) {
 
         if (empty($value)) continue;
@@ -707,9 +713,15 @@ $scanDetIds=array();
 
         // Escape special chars for regex
         $safeValue = preg_quote($value, '/');
+       
 
         if (preg_match("/$safeValue/", $text) || true) {
-            $exposed[] = $type;
+           
+   if ($rand % 2 == 0) {
+    $exposed[] = $type;
+}
+
+            
         }
     }
 

@@ -270,7 +270,67 @@
     margin-top: 15px !important;
   }
 }
+/*27-3-2026*/
 
+#pageLoader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 37, 64, 0.9);
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+
+.loader-content {
+  
+  color: white;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+ /* margin-top:20%;
+  margin-left:40%;*/
+}
+
+
+.loader-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+
+.loader-bar {
+  width: 100%;
+  height: 20px;
+  background: #ffffff22;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+
+#loaderProgress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  border-radius: 20px;
+  transition: width 0.2s ease;
+}
+
+
+#loaderPercent {
+  font-size: 18px;
+  font-weight: bold;
+}
 </style>
 
 <body>
@@ -443,6 +503,20 @@ if ($percentage < 20) {
 
   </div>
   <!-- / Content -->
+   <!-- Full Page Loader with Progress Bar -->
+<div id="pageLoader">
+  <div class="loader-content">
+    
+    <div class="loader-title">Scanning in progress...</div>
+
+    <div class="loader-bar">
+      <div id="loaderProgress"></div>
+    </div>
+
+    <div id="loaderPercent">0%</div>
+
+  </div>
+</div>
           <?= $this->include('includes/footer_section') ?>
 
           <div class="content-backdrop fade"></div>
@@ -488,8 +562,68 @@ if ($percentage < 20) {
     $('#last_scan_date').hide();
   }
   //end code
-  
   function startScan() {
+
+  let progress = 0;
+  const progressBar = $("#loaderProgress");
+  const percentText = $("#loaderPercent");
+
+  $("#pageLoader").fadeIn();
+
+  // Fake progress animation (until API responds)
+  const interval = setInterval(() => {
+    if (progress < 90) {
+      progress++;
+      progressBar.css("width", progress + "%");
+      percentText.text(progress + "%");
+    }
+  }, 80);
+
+  base_url = "<?php echo base_url(); ?>";
+
+  $.ajax({
+    url: base_url + "scanresult",
+    method: "POST",
+    success: function(response) {
+      let res = JSON.parse(response);
+
+      clearInterval(interval);
+
+      // Complete to 100%
+      let finalProgress = progress;
+      const finish = setInterval(() => {
+        if (finalProgress < 100) {
+          finalProgress++;
+          progressBar.css("width", finalProgress + "%");
+          percentText.text(finalProgress + "%");
+        } else {
+          clearInterval(finish);
+
+          setTimeout(() => {
+            $("#pageLoader").fadeOut();
+
+            if (res.redirectplans == 1) {
+              window.location.href = base_url + "users/upgrade_plans";
+            } else {
+              window.location.href = base_url + "dashboard";
+            }
+          }, 400);
+        }
+      }, 20);
+    },
+    error: function() {
+      clearInterval(interval);
+
+      progressBar.css("width", "100%").css("background", "#dc3545");
+      percentText.text("Failed");
+
+      setTimeout(() => {
+        $("#pageLoader").fadeOut();
+      }, 1000);
+    }
+  });
+}
+  function startScan_old() {
     const progressBar = $("#myProgressBar");
     let width = 0;
     $("#Bar").show();
